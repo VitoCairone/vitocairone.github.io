@@ -567,82 +567,84 @@ Game = new function () {
   //   // el.classList.remove('wizard');
   // }
 
-  // function findWinners() {
-  //   var gestalt = [];
-  //   var score = 0;
-  //   var topScore = 0;
-  //   var topScoreNums = [];
-  //   for (var i = 1; i <= 8; i++) {
-  //     if (game.players[i].folded) {
-  //       continue;
-  //     }
-  //     var player = game.players[i];
-  //     var gestalt = getCommonCards().concat(getPlayerCards(i));
-  //     player.gestalt = gestalt;
-  //     score = gestaltRank(gestalt);
-  //     console.log(player.name + ' has ' + gestalt + ' worth ' + score);
-  //     // game.players[i].score = score;
+  // START ORANGE ZONE
 
-  //     if (score > topScore) {
-  //       topScore = score;
-  //       topScoreNums = [i];
-  //     } else if (score == topScore) {
-  //       topScoreNums.push(i);
-  //     }
-  //   }
+  function findWinners() {
+    var gestalt = [];
+    var score = 0;
+    var topScore = 0;
+    var topScoreNums = [];
+    for (var i = 1; i <= 8; i++) {
+      if (game.players[i].folded) {
+        continue;
+      }
+      var player = game.players[i];
+      var gestalt = getCommonCards().concat(getPlayerCards(i));
+      player.gestalt = gestalt;
+      score = gestaltRank(gestalt);
+      console.log(player.name + ' has ' + gestalt + ' worth ' + score);
+      // game.players[i].score = score;
 
-  //   return topScoreNums;
-  // }
+      if (score > topScore) {
+        topScore = score;
+        topScoreNums = [i];
+      } else if (score == topScore) {
+        topScoreNums.push(i);
+      }
+    }
 
-  // function gestaltRank(gestalt) {
-  //   var score = 0;
-  //   var hashEls = {};
-  //   var presentEls = [];
+    return topScoreNums;
+  }
 
-  //   for (var i = 0; i < gestalt.length; i++) {
-  //     var el = gestalt[i];
-  //     if (el in hashEls) {
-  //       hashEls[el] += 1;
-  //     } else {
-  //       hashEls[el] = 1;
-  //       presentEls.push(el);
-  //     }
-  //   }
+  function gestaltRank(gestalt) {
+    var score = 0;
+    var hashEls = {};
+    var presentEls = [];
 
-  //   countsArr = [0, 0, 0, 0, 0, 0, 0, 0];
-  //   for (var i = 0; i < presentEls.length; i++) {
-  //     var el = presentEls[i];
-  //     countsArr[hashEls[el]] += 1;
-  //   }
+    for (var i = 0; i < gestalt.length; i++) {
+      var el = gestalt[i];
+      if (el in hashEls) {
+        hashEls[el] += 1;
+      } else {
+        hashEls[el] = 1;
+        presentEls.push(el);
+      }
+    }
 
-  //   var pow10 = 1;
-  //   for (var i = 1; i <= 7; i++) {
-  //     var multiple = countsArr[i];
-  //     score += multiple * pow10;
-  //     pow10 *= 10;
-  //   }
+    countsArr = [0, 0, 0, 0, 0, 0, 0, 0];
+    for (var i = 0; i < presentEls.length; i++) {
+      var el = presentEls[i];
+      countsArr[hashEls[el]] += 1;
+    }
 
-  //   if ('gold' in hashEls) {
-  //     score += 1;
-  //   }
+    var pow10 = 1;
+    for (var i = 1; i <= 7; i++) {
+      var multiple = countsArr[i];
+      score += multiple * pow10;
+      pow10 *= 10;
+    }
 
-  //   if ('void' in hashEls && hashEls['void'] == 2) {
-  //     score += 1000000000;
-  //   }
+    if ('gold' in hashEls) {
+      score += 1;
+    }
 
-  //   return score;
-  // }
+    if ('void' in hashEls && hashEls['void'] == 2) {
+      score += 1000000000;
+    }
 
-  // function checkForFaint(pNum) {
-  //   var player = game.players[pNum];
-  //   if (player.hp <= 0 && !player.ghost) {
-  //     console.log(player.name + ' has fainted!');
-  //     player.hp = 0;
-  //     player.ghost = true;
-  //     faintSprite(pNum);
-  //     // alert('faint');
-  //   }
-  // }
+    return score;
+  }
+
+  function checkForFaint(pNum) {
+    var player = game.players[pNum];
+    if (player.hp <= 0 && !player.ghost) {
+      console.log(player.name + ' has fainted!');
+      player.hp = 0;
+      player.ghost = true;
+      faintSprite(pNum);
+      // alert('faint');
+    }
+  }
 
   // END RED ZONE
 
