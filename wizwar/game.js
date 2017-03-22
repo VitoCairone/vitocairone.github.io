@@ -457,12 +457,12 @@ Game = new function () {
         startBetStage();
         window.setTimeout(endBetStage, betStageTime);
         break;
-      case 4:
-        //showdown
-        showContestCards();
-        //showWinners();
-        showdown();
-        break;
+      // case 4:
+      //   //showdown
+      //   showContestCards();
+      //   //showWinners();
+      //   showdown();
+      //   break;
       // case 5:
       //   //casting
       //   spellLocking();
