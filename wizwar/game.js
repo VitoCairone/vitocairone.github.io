@@ -650,114 +650,114 @@ Game = new function () {
 
   // // END RED ZONE
 
-  // function pickTargetNum(pNum) {
-  //   var targetPriorities = [
-  //     null,
-  //     [5, 6, 7, 8],
-  //     [6, 5, 7, 8],
-  //     [7, 8, 6, 5],
-  //     [8, 7, 6, 5],
-  //     [1, 2, 3, 4],
-  //     [2, 1, 3, 4],
-  //     [3, 4, 2, 1],
-  //     [4, 3, 2, 1]
-  //   ];
+  function pickTargetNum(pNum) {
+    var targetPriorities = [
+      null,
+      [5, 6, 7, 8],
+      [6, 5, 7, 8],
+      [7, 8, 6, 5],
+      [8, 7, 6, 5],
+      [1, 2, 3, 4],
+      [2, 1, 3, 4],
+      [3, 4, 2, 1],
+      [4, 3, 2, 1]
+    ];
 
-  //   var targets = targetPriorities[pNum];
-  //   for (var i = 0; i < 4; i++) {
-  //     if (!game.players[targets[i]].ghost) {
-  //       return targets[i];
-  //     }
-  //   }
+    var targets = targetPriorities[pNum];
+    for (var i = 0; i < 4; i++) {
+      if (!game.players[targets[i]].ghost) {
+        return targets[i];
+      }
+    }
 
-  //   // guess the game is over! just return normal target
-  //   return targets[0];
-  // }
+    // guess the game is over! just return normal target
+    return targets[0];
+  }
 
-  // function reviveSprite(pNum) {
-  //   var el = document.getElementById('sprite' + pNum);
-  //   // el.classList.add('wizard');
-  //   el.classList.remove('fainted');
-  // }
+  function reviveSprite(pNum) {
+    var el = document.getElementById('sprite' + pNum);
+    // el.classList.add('wizard');
+    el.classList.remove('fainted');
+  }
 
-  // function showdown() {
+  function showdown() {
 
-  //   console.log('showdown');
+    console.log('showdown');
 
-  //   var winners = findWinners();
-  //   game.winners = winners;
+    var winners = findWinners();
+    game.winners = winners;
 
-  //   if (winners.length < 1) {
-  //     console.log("ERROR: no winners");
-  //     return;
-  //   }
+    if (winners.length < 1) {
+      console.log("ERROR: no winners");
+      return;
+    }
 
-  //   var counterSync = Math.floor(Math.random() * winners.length);
-  //   Magnetic.distributeParticles(0, winners, counterSync);
-  //   console.log('sent particles');
+    var counterSync = Math.floor(Math.random() * winners.length);
+    Magnetic.distributeParticles(0, winners, counterSync);
+    console.log('sent particles');
 
-  //   // distribute motes evenly to winners
-  //   var count = counterSync;
-  //   while (game.warpMotes.length > 0) {
-  //     var mote = game.warpMotes.pop();
-  //     game.players[winners[count]].motes.push(mote);
-  //     count = (count + 1) % winners.length;
-  //   }
+    // distribute motes evenly to winners
+    var count = counterSync;
+    while (game.warpMotes.length > 0) {
+      var mote = game.warpMotes.pop();
+      game.players[winners[count]].motes.push(mote);
+      count = (count + 1) % winners.length;
+    }
 
-  //   var showdownTime = 2500;
-  //   window.setTimeout(advanceStage, showdownTime);
-  // }
+    var showdownTime = 2500;
+    window.setTimeout(advanceStage, showdownTime);
+  }
 
-  // function spellCast(pNum) {
-  //   alert('spellcast by ' + pNum);
-  //   var player = game.players[pNum];
+  function spellCast(pNum) {
+    alert('spellcast by ' + pNum);
+    var player = game.players[pNum];
 
-  //   var targNum = pickTargetNum(pNum);
-  //   var target = game.players[targNum];
+    var targNum = pickTargetNum(pNum);
+    var target = game.players[targNum];
 
-  //   var moteSpend = 0;
-  //   var spellName = null;
+    var moteSpend = 0;
+    var spellName = null;
 
-  //   var reviveCost = 700; // 70;
-  //   var baseDamageMod = 62.5; //6.25
+    var reviveCost = 700; // 70;
+    var baseDamageMod = 62.5; //6.25
 
-  //   if (player.ghost && player.motes.length >= reviveCost) {
-  //     spellName = 'Revive';
-  //     console.log(player.name + ' cast Revive.');
-  //     console.log(player.name + ' has revived with 500 hp.');
-  //     moteSpend = reviveCost;
-  //     player.hp = 500;
-  //     player.ghost = false;
-  //     reviveSprite(pNum);
-  //   } else if (player.ghost) {
-  //     spellName = 'Boo!';
-  //     manaSpend = 0;
-  //     console.log(player.name + ' cast Boo!')
-  //   } else {
-  //     spellName = 'Force Blast';
-  //     moteSpend = Math.ceil(player.motes.length * 0.3);
+    if (player.ghost && player.motes.length >= reviveCost) {
+      spellName = 'Revive';
+      console.log(player.name + ' cast Revive.');
+      console.log(player.name + ' has revived with 500 hp.');
+      moteSpend = reviveCost;
+      player.hp = 500;
+      player.ghost = false;
+      reviveSprite(pNum);
+    } else if (player.ghost) {
+      spellName = 'Boo!';
+      manaSpend = 0;
+      console.log(player.name + ' cast Boo!')
+    } else {
+      spellName = 'Force Blast';
+      moteSpend = Math.ceil(player.motes.length * 0.3);
 
-  //     var dam = Math.ceil(baseDamageMod * moteSpend);
-  //     if (target.ghost) {
-  //       dam = 0;
-  //     }
-  //     target.hp -= dam;
+      var dam = Math.ceil(baseDamageMod * moteSpend);
+      if (target.ghost) {
+        dam = 0;
+      }
+      target.hp -= dam;
 
-  //     console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
-  //     console.log(target.name + ' has ' + target.hp + ' health remaining.');
+      console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
+      console.log(target.name + ' has ' + target.hp + ' health remaining.');
 
-  //     checkForFaint(targNum);
-  //   }
+      checkForFaint(targNum);
+    }
 
-  //   if (spellName == 'Force Blast') {
-  //     animateForceBlast(pNum);
-  //   }
+    if (spellName == 'Force Blast') {
+      animateForceBlast(pNum);
+    }
 
-  //   player.motes = player.motes.slice(moteSpend, player.motes.length);
-  //   Magnetic.destructParticles(pNum, moteSpend);
-  // }
+    player.motes = player.motes.slice(moteSpend, player.motes.length);
+    Magnetic.destructParticles(pNum, moteSpend);
+  }
 }
 
 Game.init();
 
-alert('finished game.js read');
+alert('finished game.js read revision Alpha');
