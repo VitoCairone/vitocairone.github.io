@@ -500,254 +500,254 @@ Game = new function () {
 
   // WORKING-BREAKPOINT
 
-  function showContestCards() {
-    var contestNums = [];
-    for (var i = 1; i <= 8; i++) {
-      var player = game.players[i];
-      if (!player.folded) {
-        contestNums.push(i);
-      }
-    }
-    showPersonalCardsFor(contestNums);
-  }
+  // function showContestCards() {
+  //   var contestNums = [];
+  //   for (var i = 1; i <= 8; i++) {
+  //     var player = game.players[i];
+  //     if (!player.folded) {
+  //       contestNums.push(i);
+  //     }
+  //   }
+  //   showPersonalCardsFor(contestNums);
+  // }
 
-  function detectWinCondition() {
-    var teamAlive = false;
-    for (var i = 1; i <= 4 && teamAlive == false; i++) {
-      if (!game.players[i].ghost) {
-        teamAlive = true;
-      }
-    }
+  // function detectWinCondition() {
+  //   var teamAlive = false;
+  //   for (var i = 1; i <= 4 && teamAlive == false; i++) {
+  //     if (!game.players[i].ghost) {
+  //       teamAlive = true;
+  //     }
+  //   }
 
-    if (teamAlive) {
-      teamAlive = false;
-      for (var i = 5; i <= 8 && teamAlive == false; i++) {
-        if (!game.players[i].ghost) {
-          teamAlive = true;
-        }
-      }
-    }
+  //   if (teamAlive) {
+  //     teamAlive = false;
+  //     for (var i = 5; i <= 8 && teamAlive == false; i++) {
+  //       if (!game.players[i].ghost) {
+  //         teamAlive = true;
+  //       }
+  //     }
+  //   }
 
-    if (!teamAlive) {
-      var elapsed = new Date().getTime() - game.startTime;
-      var message = 'game ended in ' + (elapsed / (60 * 1000)) + ' min';
-      console.log(message);
-      alert(message);
-      return true;
-    }
+  //   if (!teamAlive) {
+  //     var elapsed = new Date().getTime() - game.startTime;
+  //     var message = 'game ended in ' + (elapsed / (60 * 1000)) + ' min';
+  //     console.log(message);
+  //     alert(message);
+  //     return true;
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
-  function spellLocking() {
-    var winners = game.winners;
+  // function spellLocking() {
+  //   var winners = game.winners;
 
-    console.log("Total mana before casting = " + totalMana());
+  //   console.log("Total mana before casting = " + totalMana());
 
-    winners.forEach(winnerIdx => {
-      spellCast(winnerIdx);
-    });
+  //   winners.forEach(winnerIdx => {
+  //     spellCast(winnerIdx);
+  //   });
 
-    console.log("Total mana after casting = " + totalMana());
+  //   console.log("Total mana after casting = " + totalMana());
 
-    updateHealthReadout();
+  //   updateHealthReadout();
 
-    var spellCastingTime = 1000;
+  //   var spellCastingTime = 1000;
 
-    if (!detectWinCondition()) {
-      window.setTimeout(advanceStage, spellCastingTime);
-    }
-  }
+  //   if (!detectWinCondition()) {
+  //     window.setTimeout(advanceStage, spellCastingTime);
+  //   }
+  // }
 
-  function faintSprite(pNum) {
-    var el = document.getElementById('sprite' + pNum);
-    el.classList.add('fainted');
-    // el.classList.remove('wizard');
-  }
+  // function faintSprite(pNum) {
+  //   var el = document.getElementById('sprite' + pNum);
+  //   el.classList.add('fainted');
+  //   // el.classList.remove('wizard');
+  // }
 
-  function findWinners() {
-    var gestalt = [];
-    var score = 0;
-    var topScore = 0;
-    var topScoreNums = [];
-    for (var i = 1; i <= 8; i++) {
-      if (game.players[i].folded) {
-        continue;
-      }
-      var player = game.players[i];
-      var gestalt = getCommonCards().concat(getPlayerCards(i));
-      player.gestalt = gestalt;
-      score = gestaltRank(gestalt);
-      console.log(player.name + ' has ' + gestalt + ' worth ' + score);
-      // game.players[i].score = score;
+  // function findWinners() {
+  //   var gestalt = [];
+  //   var score = 0;
+  //   var topScore = 0;
+  //   var topScoreNums = [];
+  //   for (var i = 1; i <= 8; i++) {
+  //     if (game.players[i].folded) {
+  //       continue;
+  //     }
+  //     var player = game.players[i];
+  //     var gestalt = getCommonCards().concat(getPlayerCards(i));
+  //     player.gestalt = gestalt;
+  //     score = gestaltRank(gestalt);
+  //     console.log(player.name + ' has ' + gestalt + ' worth ' + score);
+  //     // game.players[i].score = score;
 
-      if (score > topScore) {
-        topScore = score;
-        topScoreNums = [i];
-      } else if (score == topScore) {
-        topScoreNums.push(i);
-      }
-    }
+  //     if (score > topScore) {
+  //       topScore = score;
+  //       topScoreNums = [i];
+  //     } else if (score == topScore) {
+  //       topScoreNums.push(i);
+  //     }
+  //   }
 
-    return topScoreNums;
-  }
+  //   return topScoreNums;
+  // }
 
-  function gestaltRank(gestalt) {
-    var score = 0;
-    var hashEls = {};
-    var presentEls = [];
+  // function gestaltRank(gestalt) {
+  //   var score = 0;
+  //   var hashEls = {};
+  //   var presentEls = [];
 
-    for (var i = 0; i < gestalt.length; i++) {
-      var el = gestalt[i];
-      if (el in hashEls) {
-        hashEls[el] += 1;
-      } else {
-        hashEls[el] = 1;
-        presentEls.push(el);
-      }
-    }
+  //   for (var i = 0; i < gestalt.length; i++) {
+  //     var el = gestalt[i];
+  //     if (el in hashEls) {
+  //       hashEls[el] += 1;
+  //     } else {
+  //       hashEls[el] = 1;
+  //       presentEls.push(el);
+  //     }
+  //   }
 
-    countsArr = [0, 0, 0, 0, 0, 0, 0, 0];
-    for (var i = 0; i < presentEls.length; i++) {
-      var el = presentEls[i];
-      countsArr[hashEls[el]] += 1;
-    }
+  //   countsArr = [0, 0, 0, 0, 0, 0, 0, 0];
+  //   for (var i = 0; i < presentEls.length; i++) {
+  //     var el = presentEls[i];
+  //     countsArr[hashEls[el]] += 1;
+  //   }
 
-    var pow10 = 1;
-    for (var i = 1; i <= 7; i++) {
-      var multiple = countsArr[i];
-      score += multiple * pow10;
-      pow10 *= 10;
-    }
+  //   var pow10 = 1;
+  //   for (var i = 1; i <= 7; i++) {
+  //     var multiple = countsArr[i];
+  //     score += multiple * pow10;
+  //     pow10 *= 10;
+  //   }
 
-    if ('gold' in hashEls) {
-      score += 1;
-    }
+  //   if ('gold' in hashEls) {
+  //     score += 1;
+  //   }
 
-    if ('void' in hashEls && hashEls['void'] == 2) {
-      score += 1000000000;
-    }
+  //   if ('void' in hashEls && hashEls['void'] == 2) {
+  //     score += 1000000000;
+  //   }
 
-    return score;
-  }
+  //   return score;
+  // }
 
-  function checkForFaint(pNum) {
-    var player = game.players[pNum];
-    if (player.hp <= 0 && !player.ghost) {
-      console.log(player.name + ' has fainted!');
-      player.hp = 0;
-      player.ghost = true;
-      faintSprite(pNum);
-      // alert('faint');
-    }
-  }
+  // function checkForFaint(pNum) {
+  //   var player = game.players[pNum];
+  //   if (player.hp <= 0 && !player.ghost) {
+  //     console.log(player.name + ' has fainted!');
+  //     player.hp = 0;
+  //     player.ghost = true;
+  //     faintSprite(pNum);
+  //     // alert('faint');
+  //   }
+  // }
 
-  function pickTargetNum(pNum) {
-    var targetPriorities = [
-      null,
-      [5, 6, 7, 8],
-      [6, 5, 7, 8],
-      [7, 8, 6, 5],
-      [8, 7, 6, 5],
-      [1, 2, 3, 4],
-      [2, 1, 3, 4],
-      [3, 4, 2, 1],
-      [4, 3, 2, 1]
-    ];
+  // function pickTargetNum(pNum) {
+  //   var targetPriorities = [
+  //     null,
+  //     [5, 6, 7, 8],
+  //     [6, 5, 7, 8],
+  //     [7, 8, 6, 5],
+  //     [8, 7, 6, 5],
+  //     [1, 2, 3, 4],
+  //     [2, 1, 3, 4],
+  //     [3, 4, 2, 1],
+  //     [4, 3, 2, 1]
+  //   ];
 
-    var targets = targetPriorities[pNum];
-    for (var i = 0; i < 4; i++) {
-      if (!game.players[targets[i]].ghost) {
-        return targets[i];
-      }
-    }
+  //   var targets = targetPriorities[pNum];
+  //   for (var i = 0; i < 4; i++) {
+  //     if (!game.players[targets[i]].ghost) {
+  //       return targets[i];
+  //     }
+  //   }
 
-    // guess the game is over! just return normal target
-    return targets[0];
-  }
+  //   // guess the game is over! just return normal target
+  //   return targets[0];
+  // }
 
-  function reviveSprite(pNum) {
-    var el = document.getElementById('sprite' + pNum);
-    // el.classList.add('wizard');
-    el.classList.remove('fainted');
-  }
+  // function reviveSprite(pNum) {
+  //   var el = document.getElementById('sprite' + pNum);
+  //   // el.classList.add('wizard');
+  //   el.classList.remove('fainted');
+  // }
 
-  function showdown() {
+  // function showdown() {
 
-    console.log('showdown');
+  //   console.log('showdown');
 
-    var winners = findWinners();
-    game.winners = winners;
+  //   var winners = findWinners();
+  //   game.winners = winners;
 
-    if (winners.length < 1) {
-      console.log("ERROR: no winners");
-      return;
-    }
+  //   if (winners.length < 1) {
+  //     console.log("ERROR: no winners");
+  //     return;
+  //   }
 
-    var counterSync = Math.floor(Math.random() * winners.length);
-    Magnetic.distributeParticles(0, winners, counterSync);
-    console.log('sent particles');
+  //   var counterSync = Math.floor(Math.random() * winners.length);
+  //   Magnetic.distributeParticles(0, winners, counterSync);
+  //   console.log('sent particles');
 
-    // distribute motes evenly to winners
-    var count = counterSync;
-    while (game.warpMotes.length > 0) {
-      var mote = game.warpMotes.pop();
-      game.players[winners[count]].motes.push(mote);
-      count = (count + 1) % winners.length;
-    }
+  //   // distribute motes evenly to winners
+  //   var count = counterSync;
+  //   while (game.warpMotes.length > 0) {
+  //     var mote = game.warpMotes.pop();
+  //     game.players[winners[count]].motes.push(mote);
+  //     count = (count + 1) % winners.length;
+  //   }
 
-    var showdownTime = 2500;
-    window.setTimeout(advanceStage, showdownTime);
-  }
+  //   var showdownTime = 2500;
+  //   window.setTimeout(advanceStage, showdownTime);
+  // }
 
-  function spellCast(pNum) {
-    alert('spellcast by ' + pNum);
-    // var player = game.players[pNum];
+  // function spellCast(pNum) {
+  //   alert('spellcast by ' + pNum);
+  //   var player = game.players[pNum];
 
-    // var targNum = pickTargetNum(pNum);
-    // var target = game.players[targNum];
+  //   var targNum = pickTargetNum(pNum);
+  //   var target = game.players[targNum];
 
-    // var moteSpend = 0;
-    // var spellName = null;
+  //   var moteSpend = 0;
+  //   var spellName = null;
 
-    // var reviveCost = 700; // 70;
-    // var baseDamageMod = 62.5; //6.25
+  //   var reviveCost = 700; // 70;
+  //   var baseDamageMod = 62.5; //6.25
 
-    // if (player.ghost && player.motes.length >= reviveCost) {
-    //   spellName = 'Revive';
-    //   console.log(player.name + ' cast Revive.');
-    //   console.log(player.name + ' has revived with 500 hp.');
-    //   moteSpend = reviveCost;
-    //   player.hp = 500;
-    //   player.ghost = false;
-    //   reviveSprite(pNum);
-    // } else if (player.ghost) {
-    //   spellName = 'Boo!';
-    //   manaSpend = 0;
-    //   console.log(player.name + ' cast Boo!')
-    // } else {
-    //   spellName = 'Force Blast';
-    //   moteSpend = Math.ceil(player.motes.length * 0.3);
+  //   if (player.ghost && player.motes.length >= reviveCost) {
+  //     spellName = 'Revive';
+  //     console.log(player.name + ' cast Revive.');
+  //     console.log(player.name + ' has revived with 500 hp.');
+  //     moteSpend = reviveCost;
+  //     player.hp = 500;
+  //     player.ghost = false;
+  //     reviveSprite(pNum);
+  //   } else if (player.ghost) {
+  //     spellName = 'Boo!';
+  //     manaSpend = 0;
+  //     console.log(player.name + ' cast Boo!')
+  //   } else {
+  //     spellName = 'Force Blast';
+  //     moteSpend = Math.ceil(player.motes.length * 0.3);
 
-    //   var dam = Math.ceil(baseDamageMod * moteSpend);
-    //   if (target.ghost) {
-    //     dam = 0;
-    //   }
-    //   target.hp -= dam;
+  //     var dam = Math.ceil(baseDamageMod * moteSpend);
+  //     if (target.ghost) {
+  //       dam = 0;
+  //     }
+  //     target.hp -= dam;
 
-    //   console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
-    //   console.log(target.name + ' has ' + target.hp + ' health remaining.');
+  //     console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
+  //     console.log(target.name + ' has ' + target.hp + ' health remaining.');
 
-    //   checkForFaint(targNum);
-    // }
+  //     checkForFaint(targNum);
+  //   }
 
-    // if (spellName == 'Force Blast') {
-    //   animateForceBlast(pNum);
-    // }
+  //   if (spellName == 'Force Blast') {
+  //     animateForceBlast(pNum);
+  //   }
 
-    // player.motes = player.motes.slice(moteSpend, player.motes.length);
-    // Magnetic.destructParticles(pNum, moteSpend);
-  }
+  //   player.motes = player.motes.slice(moteSpend, player.motes.length);
+  //   Magnetic.destructParticles(pNum, moteSpend);
+  // }
 }
 
 Game.init();
