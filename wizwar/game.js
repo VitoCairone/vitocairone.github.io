@@ -33,11 +33,11 @@ Game = new function () {
   }
 
   this.pressFold = function () {
-    ; // fold(1);
+    fold(1);
   }
 
   this.pressBet = function () {
-    ; // bet(1);
+    bet(1);
   }
 
   this.init = function () {
@@ -118,10 +118,10 @@ Game = new function () {
     Magnetic.contractParticles(pNum);
   }
 
-  // function animateForceBlast(pNum) {
-  //   var el = document.getElementById('spellshot' + pNum);
-  //   el.classList.add('inflight');
-  // }
+  function animateForceBlast(pNum) {
+    var el = document.getElementById('spellshot' + pNum);
+    el.classList.add('inflight');
+  }
 
   function bet(pNum) {  
     var player = game.players[pNum];
@@ -449,7 +449,7 @@ Game = new function () {
       case 2:
         // turn
         showTurnCard();
-        ttBetStage();
+        startBetStage();
         window.setTimeout(endBetStage, betStageTime);
         break;
       case 3:
