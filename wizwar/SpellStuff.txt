@@ -1,0 +1,113 @@
+
+THE SPELLS
+
+1. FIREBALL
+	GESTALT: FIRE
+	MANA: 50
+	DAMAGE: 120
+	TARGET: 1
+	EFFECT: IGNITE 3
+
+2. FROST BLAST
+	GESTALT: ICE
+	MANA: 50
+	DAMAGE: 100
+	TARGET: 1
+	EFFECT: FREEZE 5
+
+3. WINTER
+	GESTALT: ICE
+	MANA: 16
+	DAMAGE: 0
+	TARGET: ENEMIES
+	EFFECT: FREEZE 5
+	ENDON: GESTALT FIRE
+
+3. BOULDER
+	GESTALT: EARTH
+	MANA: 30
+	DAMAGE: 70
+	TARGET: 1
+	EFFECT: NONE
+
+4. DARK BLAST
+	GESTALT: DARK
+	MANA: 40
+	DAMAGE: 90
+	TARGET: 1
+	EFFECT: DARKEN 3
+
+5. REGEN
+	GESTALT: LIGHT
+	MANA: 40
+	DAMAGE: 0
+	TARGET: 1 ALLY
+	EFFECT: ILLUMINATE 7
+
+6. SOAK
+	GESTALT: WATER
+	MANA: 30
+	DAMAGE: 60
+	TARGET: 1
+	EFFECT: SOAK 7
+
+7. 
+	GESTALT: AIR
+	MANA: 20
+	DAMAGE: 60
+	TARGET: 1
+	EFFECT: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===== OLD =====
+
+SpellStuff
+
+
+SIGNATURE SPELLS (1-25 mana)
+
+6 Wind: Air 1+, 7 mana
+  sweeps 5-10 mana from the target to yourself
+
+2 Soak: Water 1+, 8 mana
+  6.5x damage, + 50 vulnerable Water/Ice, + 50 resist Fire
+
+3 Rock: Earth 1+, 10 mana
+  6.5x damage
+
+7 Frost: Ice 1+, 10 mana
+  6.7x damage, freezes 3 motes of target
+
+1 Fireball: Fire 1+, 15 mana
+  7.0x damage, ignites 3 motes of target
+
+4 Heal: Light 1+, 20 mana
+  6.0x healing
+  heals lowest team member
+
+5 Hurt: Dark 1+, 20 mana
+  6.0x damage, +50 vulnerable All
+
+
+DEMO CHARACTERS
+
+ALLIES: LV Militia
+
+2 Genders: Male, Female
+4 Builds: Thin, Medium, Strong, Heavy
+4 Ages: Kid, Youth, Adult, Elder
+
+FOES: LV Headquarters(?)
+

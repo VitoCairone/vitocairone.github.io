@@ -1,0 +1,26 @@
+TODO:
+  show ghosts CSS sprite on faint [CHECK]
+  consume motes on spellcast [CHECK]
+  animate force blasts from foe team [CHECK]
+  show all contestant hidden orbs at showdown [CHECK]
+  cast attacks on next ally when opponent is ghost [CHECK]
+  replace setInterval with synchronous state changes in game logic [CHECK]
+  detect win condition [CHECK - Mar 13]
+  show damage popups
+  replace wizard images with CSS sprites
+  show struck animation
+  <STRIKE>fire spellbursts from center
+
+  added Mar 8
+  confirm Force Blast sprite is facing correct direction when cast from right
+  animate Force Blast spites
+  pre-load projectile CSS sprites in background
+  animate correct projectile trajectory when target is not opposite
+  test deploy on github.io and performance/usability on phone browser
+  target 320 x 480 screen
+
+  added Mar 13
+  test appearence on web/phone via githubpages
+  change element appear order from 2-3-1-1 to 4-2-1
+  organize code properly into namespace-safe exportable library
+  replace element circles with drawn or SVG-rendered images

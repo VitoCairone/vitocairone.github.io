@@ -1,0 +1,24 @@
+0     preflop
+  0-0  unhilite mana, reveal orbs, award mana
+  0-1  bet or fold (bet stage)
+  0-2  meet or fold (meet stage)
+1     flop
+  0-0 reavel orbs, award mana?
+  0-1 bet or fold (bet stage)
+  0-2 meet or fold (meet stage)
+2     turn
+  0-0 reveal orbs, award mana?
+  0-1 bet or fold (bet stage)
+  0-2 meet or fold (meet stage)
+3     river
+  0-0 reveal orbs, award mana
+  0-1 bet or fold (bet stage)
+
+4     showdown
+  0-0 reveal orbs
+  0-1 display winner
+  0-2 disperse mana
+5     casting
+  0-0 lock spell
+  0-1 animate spell
+  0-2 enact spell

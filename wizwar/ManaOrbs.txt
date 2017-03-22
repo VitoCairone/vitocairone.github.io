@@ -1,0 +1,38 @@
+ORBS
+
+FIRE-MANA
+  Resist:Fire -1, min -100
+  Power:Fire +1, max +100
+  Fire-Mana will spontaneously jump to Warp or convert other Mana to Fire
+  creates more warp orbs
+
+EARTH-MANA
+  Defence +1, max +100
+  Power:Earth +1, max +100
+  Earth-Mana is spent last priority
+
+DARK-MANA
+  Damage 1, max 30
+  Power +1/2, max +50
+  Power:Dark +1, max +100
+
+LIGHT-MANA
+  Heal 1, max 30
+  Power:Light +1, max +100
+
+WATER-MANA
+  Resist:Fire +1, max +100
+  Resist:Ice -1, min -100
+  Resist:Water -1/2, min -50
+  Power:Water +1, max +100
+  cancels out Fire-Mana
+
+AIR-MANA
+  Evade +1/2, max +50
+  Power:Air +1, max +100
+
+ICE-MANA
+  Resist:Ice -1, min -100
+  Power:Ice +1, max +100
+  cannot be donated
+

@@ -1,0 +1,117 @@
+SPELLS
+
+FIRE
+
+  Burn
+    Fire-hi
+    7 mana; 20 damage; ignite 1/7 (at least 7) target mana
+
+    {
+      name: 'Burn',
+      cost: 7,
+      damage: 20,
+      dtype: 'fire',
+      postActions: ['igniteSeventh']
+    }
+
+  Fireball
+    Fire-hi
+    15 mana; 100 damage; ignite 3 target mana (6.66x)
+
+    {
+    name: 'Fireball',
+    requires: {
+      hiType: 'fire',
+      hiMin: 1
+    }
+    cost: 15,
+    damage: 100,
+    postActions: ['igniteThree']
+    }
+
+  Wildfire
+    Fire-hi, Fire 4+ 
+    40 mana; Ignite 10 mana of every player,
+    and increase fire-spreading rate
+    until Ice or Water is cast.
+
+  Inferno
+    Fire-hi, Fire 5+
+    150 mana; 400 fire damage to ALL players
+
+WATER
+
+  Drench
+    Water-hi
+    10 mana; 30 damage; soak 1/7, at least 7, target mana
+
+  Rain
+    Water-hi, Light 1+, Light > Dark
+    10 mana; heal self by 30; soak 7 owned mana
+
+  Drown
+    Water-hi, Dark 1+, Dark > Light
+
+  Flood
+    Water-hi, 
+
+AIR
+
+  Quicken
+
+  Lightning
+    Air-hi
+
+  Windstorm
+    Air-hi, Air 3+
+
+  Thunderstorm
+    Air-hi, Air 3+, Water 1+
+
+  Snowstorm
+    Air-hi, Air 3+, Water 1+, Ice 1+, Fire 0
+
+  Firestorm
+    Air-hi, Air 3+, Fire 2+, Water 0
+
+  Sandstorm
+    Air-hi, Air 3+, Earth 1+, Water 0
+
+
+LIGHT
+
+  Regen
+    Light-hi
+    14 mana; illuminate 7 owned mana,
+    gain 1/7 free mana as Light until Dark is cast.
+
+  Holy Strike
+    Light 7+
+    180 mana; 300 light damage to all enemies,
+    normalize ALL players Dark mana
+
+DARK
+
+ICE
+
+  Chill
+
+  Ice Blast
+
+  Frost
+
+  Deep Freeze
+
+  Blizzard
+
+EARTH
+
+
+
+VOID
+
+  Voidstorm
+    Void-hi, Air 3+
+
+  Inferno
+

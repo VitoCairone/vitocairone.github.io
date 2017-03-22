@@ -1,0 +1,520 @@
+/* scene-box = 393 x 268 */
+/* of which, vertically:
+  0-24
+    shared orb space
+    2 padding
+    2 border
+    16 diameter
+    2 border
+    2 padding
+  25 - 48
+    message box space
+    1 border
+    22 interor
+    1 border
+
+  49-392
+    arena space
+*/
+
+body {
+  background-image: url('star-background.jpg');
+  background-size: 180px 180px;
+}
+
+.fold-button {
+  position: relative; 
+  display: inline-block; 
+  border-radius: 13%; 
+  border: 2px solid blue;
+  height: 64px; 
+  width: 35%; 
+  margin: 6px 4% 6px 9%; 
+  background-color: white;
+}
+
+.raise-button {
+  position: relative; 
+  display: inline-block; 
+  border-radius: 13%; 
+  height: 64px; 
+  width: 35%; 
+  border: 2px solid blue;
+  margin: 6px 9% 6px 4%; 
+  background-color: white;
+}
+
+.action-button {
+  background-color: navy;
+}
+
+.action-button:hover {
+  background-color: blue;
+}
+
+.action-button .center-text {
+  position: absolute; 
+  left: 0; 
+  top: 22px; 
+  width: 100%; 
+  text-align: center; 
+  font-size: 14px;
+  color: white;
+}
+
+.dark-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: black; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.light-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: white; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.earth-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: green; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.fire-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: red; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.air-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: yellow; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.water-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: blue; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.ice-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: cyan;
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.void-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: indigo; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.gold-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: gold; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+#player-elements {
+  position: absolute; 
+  margin-left: 65px;
+  border: 1px solid orange;
+}
+
+/*#pers-element-1 {
+  position: absolute;
+  top: 100px;
+}
+
+#pers-element-2 {
+  position: absolute;
+  top: 100px;
+  left: 22px;
+}*/
+
+#player-element-1 {
+  position: absolute;
+  top: 70px;
+  left: 0px;
+}
+
+#player-element-2 {
+  position: absolute;
+  top: 70px;
+  left: 22px;
+}
+
+#player-element-3 {
+  position: absolute;
+  top: 105px;
+  left: 0px;
+}
+
+#player-element-4 {
+  position: absolute;
+  top: 105px;
+  left: 22px;
+}
+
+#player-element-5 {
+  position: absolute;
+  top: 140px;
+  left: 0px;
+}
+
+#player-element-6 {
+  position: absolute;
+  top: 140px;
+  left: 22px;
+}
+
+#player-element-7 {
+  position: absolute;
+  top: 180px;
+  left: 0px;
+}
+
+#player-element-8 {
+  position: absolute;
+  top: 180px;
+  left: 22px;
+}
+
+#player-element-9 {
+  position: absolute;
+  top: 70px;
+  left: 222px;
+}
+
+#player-element-10 {
+  position: absolute;
+  top: 70px;
+  left: 244px;
+}
+
+#player-element-11 {
+  position: absolute;
+  top: 105px;
+  left: 222px;
+}
+
+#player-element-12 {
+  position: absolute;
+  top: 105px;
+  left: 244px;
+}
+
+#player-element-13 {
+  position: absolute;
+  top: 140px;
+  left: 222px;
+}
+
+#player-element-14 {
+  position: absolute;
+  top: 140px;
+  left: 244px;
+}
+
+#player-element-15 {
+  position: absolute;
+  top: 180px;
+  left: 222px;
+}
+
+#player-element-16 {
+  position: absolute;
+  top: 180px;
+  left: 244px;
+}
+
+.sprite {
+  display: inline-block;
+  /*position: absolute;*/
+  height: 40px;
+  width: 30px;
+  background-image: url('idle_1.png');
+  background-size: 30px 40px;
+  /*background-color: blue;*/
+  /*border-radius: 10%;*/
+  /*border: 1px solid orange;*/
+  margin: -10px 0px 0px 20px;
+}
+
+.sprite.frame-2 {
+  background-image: url('idle_2.png');
+}
+
+.sprite.frame-3 {
+  background-image: url('idle_3.png');
+}
+
+.sprite.frame-4 {
+  background-image: url('idle_4.png');
+}
+
+.sprite.top-row {
+  /*margin-top: 65px;*/
+}
+
+.sprite.right-sprite {
+  margin: -10px 20px 0px 0px;
+  transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+/*.spellcore {
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(red, green, cyan);
+  border-radius: 50%;
+}
+
+#spellcore2 {
+  top: 32px;
+}
+
+#spellcore3 {
+  top: 68px;
+}
+
+#spellcore4 {
+  top: 104px;
+}*/
+
+.spellshot {
+  /*display: inline-block;*/
+  position: absolute;
+  top: 0px;
+  left: 18px;
+  visibility: hidden;
+  width: 33px;
+  height: 30px;
+  background: url('buster.gif') left center;
+  background-position: -175px -68px;
+  /*border: 1px solid blue;*/
+}
+
+#spellshot2 {
+  top: 32px;
+}
+
+#spellshot3 {
+  top: 64px;
+}
+
+#spellshot4 {
+  top: 96px;
+}
+
+#spellshot6 {
+  top: 32px;
+}
+
+#spellshot7 {
+  top: 64px;
+}
+
+#spellshot8 {
+  top: 96px;
+}
+
+.spellshot.inflight {
+  visibility: visible;
+  -webkit-transform: translate(330px, 0px);
+  -webkit-transition-property: visibility, -webkit-transform;
+  -webkit-transition-duration: 0s, 0.6s;
+  -webkit-transition-delay: 0s, 0s;
+  -webkit-transition-timing-function: linear, linear;
+}
+
+#foeTeamBox .spellshot.inflight {
+  -webkit-transform: translate(-350px, 0px);
+}
+
+/*#foeTeamBox .spellshot {
+  transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}*/
+
+.spellshot.vanished {
+  display: none;
+}
+
+.desert-background {
+  /*background-image: url('http://68.media.tumblr.com/81c221724f7f5b05f8e8b72ea0cf393f/tumblr_o0aurfiKlq1sm9gg5o1_500.png');*/
+  background-image: url('desert.png');
+}
+
+#glyph {
+  margin: 50px auto 0 auto;
+  border-radius: 50%;
+  height: 140px;
+  width: 140px;
+
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(-90deg, violet, cyan); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(-90deg, violet, cyan); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(-90deg, violet, cyan); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(-90deg, violet, cyan); /* Standard syntax */
+}
+
+#progress-bar-back {
+  height: 30px;
+  background-color: navy;
+}
+
+#progress-bar-fill {
+  height: 30px;
+  background-color: blue;
+  width: 0%;
+}
+
+#progress-bar-fill.bet-stage {
+  transition-property: width;
+  transition-timing-function: linear;
+  transition-duration: 5s;
+  width: 71.4%;
+  /*transition-property: width;
+  transition-duration: 5s;
+  transition-timing-function: linear;*/
+/*  -webkit-transition-property: width;
+  -webkit-transition-duration: 3s;
+  -webkit-transition-delay: 0s;
+  -webkit-transition-timing-function: linear;*/
+}
+
+#progress-bar-fill.match-stage {
+  transition-property: width;
+  transition-timing-function: linear;
+  transition-duration: 2s;
+  width: 100%;
+  /*transition-property: width;
+  transition-duration: 2s;
+  transition-timing-function: linear;*/
+/*  -webkit-transition-property: width;
+  -webkit-transition-duration: 3s;
+  -webkit-transition-delay: 0s;
+  -webkit-transition-timing-function: linear;*/
+}
+
+.spin-1s {
+    /* spin */
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 1000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 1000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 1000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  -o-transition: rotate(360deg);
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+/* spin keyframes */
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+
+/* ghost CSS sprite */
+
+.sprite.wizard.fainted {
+    /*width: 50px;
+    height: 72px;*/
+    /*width: 33px;
+    height: 30px;
+    background-image: url("ghosts.png");*/
+    width: 30px;
+    height: 33px;
+    margin-bottom: 7px;
+    background: url('ghosts.png') left top;
+    background-position: 0px -72px;
+    
+/*    -webkit-animation: play .8s steps(3) infinite;
+       -moz-animation: play .8s steps(3) infinite;
+        -ms-animation: play .8s steps(3) infinite;
+         -o-animation: play .8s steps(3) infinite;*/
+            animation: play .8s steps(3) infinite;
+}
+
+/*@-webkit-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}
+@-moz-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}
+@-ms-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}
+@-o-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}*/
+@keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -96px; }
+}
