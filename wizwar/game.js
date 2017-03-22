@@ -451,12 +451,12 @@ Game = new function () {
         startBetStage();
         window.setTimeout(endBetStage, betStageTime);
         break;
-      case 3:
-        // river
-        showRiverCard();
-        startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
-        break;
+      // case 3:
+      //   // river
+      //   showRiverCard();
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
       // case 4:
       //   //showdown
       //   showContestCards();
