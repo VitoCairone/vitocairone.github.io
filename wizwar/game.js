@@ -732,9 +732,9 @@ Game = new function () {
         hideAllCards();
         shuffleCards();
         showPersonalCardsFor([1]);
+        startBetStage();
         alert('done startStage 0');
         break;
-      //   startBetStage();
       //   window.setTimeout(endBetStage, betStageTime);
       //   break;
       // case 1:
