@@ -159,6 +159,10 @@ Game = new function () {
     return Math.floor(Math.random() * 9) - 2;
   }
 
+  function endBetStage() { 
+    startMatchStage();
+  }
+
   function fold(pNum) {
     var player = game.players[pNum];
 
@@ -326,6 +330,25 @@ Game = new function () {
     }
   }
 
+  function startMatchStage() {  
+
+    animateMatchTimerBar();
+
+    var players = game.players;
+
+    var maxBetCount = 0;
+    for (var i = 1; i <= 8; i++) {
+      if (!players[i].folded && players[i].betCount > maxBetCount) {
+        maxBetCount = players[i].betCount;
+      }
+    }
+    game.maxBetCount = maxBetCount;
+
+    var matchStageTime = 2000;
+    alert('completed startMatchStage');
+    //window.setTimeout(endMatchStage, matchStageTime);
+  }
+
   function startRound() {
     updateHealthReadout();
     game.captureTo = null;
@@ -372,16 +395,16 @@ Game = new function () {
         shuffleCards();
         showPersonalCardsFor([1]);
         startBetStage();
-        alert('done startStage 0');
-        break;
+        window.setTimeout(endBetStage, betStageTime);
+      break;
+       case 1:
+         // flop
+         showFlopCards();
+         startBetStage();
+         alert('done startStage 1');
+
       //   window.setTimeout(endBetStage, betStageTime);
-      //   break;
-      // case 1:
-      //   // flop
-      //   showFlopCards();
-      //   startBetStage();
-      //   window.setTimeout(endBetStage, betStageTime);
-      //   break;
+         break;
       // case 2:
       //   // turn
       //   showTurnCard();
@@ -439,24 +462,6 @@ Game = new function () {
   //   for (var i = 1; i <= 8; i++) {
   //     Magnetic.transferMarkedParticles(i, 0);
   //   }
-  // }
-
-  // function startMatchStage() {  
-
-  //   animateMatchTimerBar();
-
-  //   var players = game.players;
-
-  //   var maxBetCount = 0;
-  //   for (var i = 1; i <= 8; i++) {
-  //     if (!players[i].folded && players[i].betCount > maxBetCount) {
-  //       maxBetCount = players[i].betCount;
-  //     }
-  //   }
-  //   game.maxBetCount = maxBetCount;
-
-  //   var matchStageTime = 2000;
-  //   window.setTimeout(endMatchStage, matchStageTime);
   // }
 
   // function endMatchStage() {
@@ -556,10 +561,6 @@ Game = new function () {
   //   if (!detectWinCondition()) {
   //     window.setTimeout(advanceStage, spellCastingTime);
   //   }
-  // }
-
-  // function endBetStage() { 
-  //   startMatchStage();
   // }
 
   // function faintSprite(pNum) {
