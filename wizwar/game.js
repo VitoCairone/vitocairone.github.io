@@ -1,8 +1,14 @@
-if (!window.requestAnimationFrame) {
-  window.requestAnimationFrame = function(fn) {
-      setTimeout(fn, 16.66);
-  }
-}
+// function broadcast(msg) {
+//   console.log(msg);
+//   alert(msg);
+// }
+
+// if (!window.requestAnimationFrame) {
+//   broadcast('stubbing requestAnimationFrame');
+//   window.requestAnimationFrame = function(fn) {
+//       setTimeout(fn, 16.66);
+//   }
+// }
 
 var game = {
   elements: ['earth', 'fire', 'air', 'water', 'ice', 'dark', 'light'],
@@ -767,3 +773,5 @@ function updateHealthReadout() {
 
   document.getElementById('healthReadout').innerHTML = readout;
 }
+
+alert('finished game.js read');
