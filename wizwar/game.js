@@ -33,34 +33,35 @@ Game = new function () {
   }
 
   this.pressFold = function () {
-    fold(1);
+    ; // fold(1);
   }
 
   this.pressBet = function () {
-    bet(1);
+    ; // bet(1);
   }
 
-
-  for (var i = 0; i < 7; i++) {
-    game.cards = game.cards.concat(game.elements);
-  }
-  game.cards = game.cards.concat(['void', 'void', 'gold']);
-
-  var names = [null, 'Alan', 'Betty', 'Carl', 'Diane', 'Ed', 'Felicia', 'Gary', 'Helen']
-
-  for (var i = 1; i <= 8; i++) {
-    game.players[i] = {
-      name: names[i],
-      hp: 700,
-      // mana: 1000,
-      thisStageBet: 0,
-      folded: false,
-      allIn: false,
-      ghost: false,
-      motes: []
+  this.init = function () {
+    for (var i = 0; i < 7; i++) {
+      game.cards = game.cards.concat(game.elements);
     }
-    for (var j = 0; j < 28 - 7; j++) {
-      game.players[i].motes.push(10);
+    game.cards = game.cards.concat(['void', 'void', 'gold']);
+
+    var names = [null, 'Alan', 'Betty', 'Carl', 'Diane', 'Ed', 'Felicia', 'Gary', 'Helen']
+
+    for (var i = 1; i <= 8; i++) {
+      game.players[i] = {
+        name: names[i],
+        hp: 700,
+        // mana: 1000,
+        thisStageBet: 0,
+        folded: false,
+        allIn: false,
+        ghost: false,
+        motes: []
+      }
+      for (var j = 0; j < 28 - 7; j++) {
+        game.players[i].motes.push(10);
+      }
     }
   }
 
@@ -98,98 +99,98 @@ Game = new function () {
 
   */
 
-  function animateBet(pNum) {
-    Magnetic.hiliteMagnetParticle(pNum);
-  }
+  // function animateBet(pNum) {
+  //   Magnetic.hiliteMagnetParticle(pNum);
+  // }
 
-  function animateFold(pNum) {
-    Magnetic.contractParticles(pNum);
-  }
+  // function animateFold(pNum) {
+  //   Magnetic.contractParticles(pNum);
+  // }
 
-  function animateForceBlast(pNum) {
-    var el = document.getElementById('spellshot' + pNum);
-    el.classList.add('inflight');
-  }
+  // function animateForceBlast(pNum) {
+  //   var el = document.getElementById('spellshot' + pNum);
+  //   el.classList.add('inflight');
+  // }
 
-  function checkForCapture() {
-    var players = game.players;
-    var canAct = 0;
-    var leaderIdx = 0;
-    for (var i = 1; i <= 8 && canAct < 2; i++) {
-      if (!players[i].folded && !players[i].allIn) {
-        canAct += 1;
-        leaderIdx = i;
-      }
-    }
-    if (canAct == 1) {
-      game.captureTo = leaderIdx;
-    }
-  }
+  // function checkForCapture() {
+  //   var players = game.players;
+  //   var canAct = 0;
+  //   var leaderIdx = 0;
+  //   for (var i = 1; i <= 8 && canAct < 2; i++) {
+  //     if (!players[i].folded && !players[i].allIn) {
+  //       canAct += 1;
+  //       leaderIdx = i;
+  //     }
+  //   }
+  //   if (canAct == 1) {
+  //     game.captureTo = leaderIdx;
+  //   }
+  // }
 
-  function fold(pNum) {
-    var player = game.players[pNum];
+  // function fold(pNum) {
+  //   var player = game.players[pNum];
 
-    if (player.folded || player.allIn) {
-      return 0;
-    }
+  //   if (player.folded || player.allIn) {
+  //     return 0;
+  //   }
 
-    player.folded = true;
+  //   player.folded = true;
 
-    animateFold(pNum);
-    console.log(player.name + ' folds.')
+  //   animateFold(pNum);
+  //   console.log(player.name + ' folds.')
 
-    checkForCapture();
+  //   checkForCapture();
 
-    return 1;
-  }
+  //   return 1;
+  // }
 
-  function bet(pNum) {  
-    var player = game.players[pNum];
+  // function bet(pNum) {  
+  //   var player = game.players[pNum];
 
-    if (player.betCount >= 7 || player.folded || player.allIn || player.motes.length == 0) {
-      return 0;
-    }
+  //   if (player.betCount >= 7 || player.folded || player.allIn || player.motes.length == 0) {
+  //     return 0;
+  //   }
 
-    player.betCount += 1;
-    var mote = player.motes.pop();
-    game.warpMotes.push(mote);
+  //   player.betCount += 1;
+  //   var mote = player.motes.pop();
+  //   game.warpMotes.push(mote);
 
-    animateBet(pNum);
-    console.log(player.name + " bets")
+  //   animateBet(pNum);
+  //   console.log(player.name + " bets")
 
-    if (player.motes.length == 0) {
-      player.allIn = true;
-      checkForCapture();
-    }
+  //   if (player.motes.length == 0) {
+  //     player.allIn = true;
+  //     checkForCapture();
+  //   }
 
-    return 1;
-  }
+  //   return 1;
+  // }
 
-  function meet(pNum) {
-    var player = game.players[pNum];
-    var diff = game.maxBetCount - player.betCount;
+  // function meet(pNum) {
+  //   var player = game.players[pNum];
+  //   var diff = game.maxBetCount - player.betCount;
 
-    if (player.folded || player.allIn || diff == 0) {
-      return 0;
-    }
+  //   if (player.folded || player.allIn || diff == 0) {
+  //     return 0;
+  //   }
 
-    while (diff > 0 && player.motes.length > 0) {
-      player.betCount += 1;
-      diff -= 1;
-      var mote = player.motes.pop();
-      game.warpMotes.push(mote);
-      animateBet(pNum);
-    }
+  //   while (diff > 0 && player.motes.length > 0) {
+  //     player.betCount += 1;
+  //     diff -= 1;
+  //     var mote = player.motes.pop();
+  //     game.warpMotes.push(mote);
+  //     animateBet(pNum);
+  //   }
 
-    console.log(player.name + " calls");
+  //   console.log(player.name + " calls");
 
-    if (player.motes.length == 0) {
-      player.allIn = true;
-      checkForCapture();
-    }
+  //   if (player.motes.length == 0) {
+  //     player.allIn = true;
+  //     checkForCapture();
+  //   }
 
-    return 1;
-  }
+  //   return 1;
+  // }
 
   function shuffle (array) {
     //Fisher-Yates shuffle
@@ -311,103 +312,103 @@ Game = new function () {
     }
 
     // skip player 1; let interface control
-    for (var i = 2; i <= 8; i++) {
-      var player = game.players[i];
-      if (player.folded || player.allIn) {
-        continue;
-      }
-      var bets = decideBets(i);
-      if (bets < 0) {
-        if (game.stage == 0 || bets < -1) {
-          fold(i);
-        }
-      } else if (bets > 0) {
-        for (var j = 0; j < bets; j++) {
-          bet(i);
-        }
-      }
-    }
+    // for (var i = 2; i <= 8; i++) {
+    //   var player = game.players[i];
+    //   if (player.folded || player.allIn) {
+    //     continue;
+    //   }
+    //   var bets = decideBets(i);
+    //   if (bets < 0) {
+    //     if (game.stage == 0 || bets < -1) {
+    //       fold(i);
+    //     }
+    //   } else if (bets > 0) {
+    //     for (var j = 0; j < bets; j++) {
+    //       bet(i);
+    //     }
+    //   }
+    // }
   }
 
-  function decideBets(pNum) {
-    var player = game.players[pNum];
-    return Math.floor(Math.random() * 9) - 2;
-  }
+  // function decideBets(pNum) {
+  //   var player = game.players[pNum];
+  //   return Math.floor(Math.random() * 9) - 2;
+  // }
 
-  function animateEndMatchStage() {
-    for (var i = 1; i <= 8; i++) {
-      Magnetic.transferMarkedParticles(i, 0);
-    }
-  }
+  // function animateEndMatchStage() {
+  //   for (var i = 1; i <= 8; i++) {
+  //     Magnetic.transferMarkedParticles(i, 0);
+  //   }
+  // }
 
-  function startMatchStage() {  
+  // function startMatchStage() {  
 
-    animateMatchTimerBar();
+  //   animateMatchTimerBar();
 
-    var players = game.players;
+  //   var players = game.players;
 
-    var maxBetCount = 0;
-    for (var i = 1; i <= 8; i++) {
-      if (!players[i].folded && players[i].betCount > maxBetCount) {
-        maxBetCount = players[i].betCount;
-      }
-    }
-    game.maxBetCount = maxBetCount;
+  //   var maxBetCount = 0;
+  //   for (var i = 1; i <= 8; i++) {
+  //     if (!players[i].folded && players[i].betCount > maxBetCount) {
+  //       maxBetCount = players[i].betCount;
+  //     }
+  //   }
+  //   game.maxBetCount = maxBetCount;
 
-    var matchStageTime = 2000;
-    window.setTimeout(endMatchStage, matchStageTime);
-  }
+  //   var matchStageTime = 2000;
+  //   window.setTimeout(endMatchStage, matchStageTime);
+  // }
 
-  function endMatchStage() {
+  // function endMatchStage() {
 
-    animateResetTimerBar();
+  //   animateResetTimerBar();
 
-    var players = game.players;
+  //   var players = game.players;
 
-    var maxBetCount = game.maxBetCount;
+  //   var maxBetCount = game.maxBetCount;
 
-    //at endMatchStage, all undecided players automatically meet
-    for (var i = 1; i <= 8; i++) {
-      var player = game.players[i];
-      if (player.folded || player.allIn) {
-        continue;
-      }
+  //   //at endMatchStage, all undecided players automatically meet
+  //   for (var i = 1; i <= 8; i++) {
+  //     var player = game.players[i];
+  //     if (player.folded || player.allIn) {
+  //       continue;
+  //     }
 
-      if (player.betCount < maxBetCount) {
-        if (player.betCount < maxBetCount && player.motes.length > 0) {
-          meet(i);
-        }
-      }
-    }
+  //     if (player.betCount < maxBetCount) {
+  //       if (player.betCount < maxBetCount && player.motes.length > 0) {
+  //         meet(i);
+  //       }
+  //     }
+  //   }
 
-    console.log("Warp now has " + game.warpMotes.length);
+  //   console.log("Warp now has " + game.warpMotes.length);
 
-    animateEndMatchStage();
+  //   animateEndMatchStage();
 
-    checkForCapture();
+  //   checkForCapture();
 
-    if (game.captureTo != null) {
-      console.log("Captured by " + game.players[game.captureTo].name);
-      game.stage = 3;
-    }
+  //   if (game.captureTo != null) {
+  //     console.log("Captured by " + game.players[game.captureTo].name);
+  //     game.stage = 3;
+  //   }
 
-    advanceStage();
-  }
+  //   advanceStage();
+  // }
 
-  function testOdds(pNum) {
+  // function testOdds(pNum) {
 
-  }
+  // }
 
-  function showContestCards() {
-    var contestNums = [];
-    for (var i = 1; i <= 8; i++) {
-      var player = game.players[i];
-      if (!player.folded) {
-        contestNums.push(i);
-      }
-    }
-    showPersonalCardsFor(contestNums);
-  }
+  // function showContestCards() {
+  //   var contestNums = [];
+  //   for (var i = 1; i <= 8; i++) {
+  //     var player = game.players[i];
+  //     if (!player.folded) {
+  //       contestNums.push(i);
+  //     }
+  //   }
+  //   showPersonalCardsFor(contestNums);
+  // }
 
   function totalMana() {
     var total = 0;
@@ -419,53 +420,53 @@ Game = new function () {
     return total;
   }
 
-  function detectWinCondition() {
-    var teamAlive = false;
-    for (var i = 1; i <= 4 && teamAlive == false; i++) {
-      if (!game.players[i].ghost) {
-        teamAlive = true;
-      }
-    }
+  // function detectWinCondition() {
+  //   var teamAlive = false;
+  //   for (var i = 1; i <= 4 && teamAlive == false; i++) {
+  //     if (!game.players[i].ghost) {
+  //       teamAlive = true;
+  //     }
+  //   }
 
-    if (teamAlive) {
-      teamAlive = false;
-      for (var i = 5; i <= 8 && teamAlive == false; i++) {
-        if (!game.players[i].ghost) {
-          teamAlive = true;
-        }
-      }
-    }
+  //   if (teamAlive) {
+  //     teamAlive = false;
+  //     for (var i = 5; i <= 8 && teamAlive == false; i++) {
+  //       if (!game.players[i].ghost) {
+  //         teamAlive = true;
+  //       }
+  //     }
+  //   }
 
-    if (!teamAlive) {
-      var elapsed = new Date().getTime() - game.startTime;
-      var message = 'game ended in ' + (elapsed / (60 * 1000)) + ' min';
-      console.log(message);
-      alert(message);
-      return true;
-    }
+  //   if (!teamAlive) {
+  //     var elapsed = new Date().getTime() - game.startTime;
+  //     var message = 'game ended in ' + (elapsed / (60 * 1000)) + ' min';
+  //     console.log(message);
+  //     alert(message);
+  //     return true;
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
-  function spellLocking() {
-    var winners = game.winners;
+  // function spellLocking() {
+  //   var winners = game.winners;
 
-    console.log("Total mana before casting = " + totalMana());
+  //   console.log("Total mana before casting = " + totalMana());
 
-    winners.forEach(winnerIdx => {
-      spellCast(winnerIdx);
-    });
+  //   winners.forEach(winnerIdx => {
+  //     spellCast(winnerIdx);
+  //   });
 
-    console.log("Total mana after casting = " + totalMana());
+  //   console.log("Total mana after casting = " + totalMana());
 
-    updateHealthReadout();
+  //   updateHealthReadout();
 
-    var spellCastingTime = 1000;
+  //   var spellCastingTime = 1000;
 
-    if (!detectWinCondition()) {
-      window.setTimeout(advanceStage, spellCastingTime);
-    }
-  }
+  //   if (!detectWinCondition()) {
+  //     window.setTimeout(advanceStage, spellCastingTime);
+  //   }
+  // }
 
   function startRound() {
     updateHealthReadout();
@@ -519,42 +520,42 @@ Game = new function () {
     };
   }
 
-  function endBetStage() { 
-    startMatchStage();
-  }
+  // function endBetStage() { 
+  //   startMatchStage();
+  // }
 
-  function faintSprite(pNum) {
-    var el = document.getElementById('sprite' + pNum);
-    el.classList.add('fainted');
-    // el.classList.remove('wizard');
-  }
+  // function faintSprite(pNum) {
+  //   var el = document.getElementById('sprite' + pNum);
+  //   el.classList.add('fainted');
+  //   // el.classList.remove('wizard');
+  // }
 
-  function findWinners() {
-    var gestalt = [];
-    var score = 0;
-    var topScore = 0;
-    var topScoreNums = [];
-    for (var i = 1; i <= 8; i++) {
-      if (game.players[i].folded) {
-        continue;
-      }
-      var player = game.players[i];
-      var gestalt = getCommonCards().concat(getPlayerCards(i));
-      player.gestalt = gestalt;
-      score = gestaltRank(gestalt);
-      console.log(player.name + ' has ' + gestalt + ' worth ' + score);
-      // game.players[i].score = score;
+  // function findWinners() {
+  //   var gestalt = [];
+  //   var score = 0;
+  //   var topScore = 0;
+  //   var topScoreNums = [];
+  //   for (var i = 1; i <= 8; i++) {
+  //     if (game.players[i].folded) {
+  //       continue;
+  //     }
+  //     var player = game.players[i];
+  //     var gestalt = getCommonCards().concat(getPlayerCards(i));
+  //     player.gestalt = gestalt;
+  //     score = gestaltRank(gestalt);
+  //     console.log(player.name + ' has ' + gestalt + ' worth ' + score);
+  //     // game.players[i].score = score;
 
-      if (score > topScore) {
-        topScore = score;
-        topScoreNums = [i];
-      } else if (score == topScore) {
-        topScoreNums.push(i);
-      }
-    }
+  //     if (score > topScore) {
+  //       topScore = score;
+  //       topScoreNums = [i];
+  //     } else if (score == topScore) {
+  //       topScoreNums.push(i);
+  //     }
+  //   }
 
-    return topScoreNums;
-  }
+  //   return topScoreNums;
+  // }
 
   function gameLoop() {
     // game.timeoutRefs = [];
@@ -564,162 +565,162 @@ Game = new function () {
     window.setInterval(animateSprites, 1000 / 3);
   }
 
-  function gestaltRank(gestalt) {
-    var score = 0;
-    var hashEls = {};
-    var presentEls = [];
+  // function gestaltRank(gestalt) {
+  //   var score = 0;
+  //   var hashEls = {};
+  //   var presentEls = [];
 
-    for (var i = 0; i < gestalt.length; i++) {
-      var el = gestalt[i];
-      if (el in hashEls) {
-        hashEls[el] += 1;
-      } else {
-        hashEls[el] = 1;
-        presentEls.push(el);
-      }
-    }
+  //   for (var i = 0; i < gestalt.length; i++) {
+  //     var el = gestalt[i];
+  //     if (el in hashEls) {
+  //       hashEls[el] += 1;
+  //     } else {
+  //       hashEls[el] = 1;
+  //       presentEls.push(el);
+  //     }
+  //   }
 
-    countsArr = [0, 0, 0, 0, 0, 0, 0, 0];
-    for (var i = 0; i < presentEls.length; i++) {
-      var el = presentEls[i];
-      countsArr[hashEls[el]] += 1;
-    }
+  //   countsArr = [0, 0, 0, 0, 0, 0, 0, 0];
+  //   for (var i = 0; i < presentEls.length; i++) {
+  //     var el = presentEls[i];
+  //     countsArr[hashEls[el]] += 1;
+  //   }
 
-    var pow10 = 1;
-    for (var i = 1; i <= 7; i++) {
-      var multiple = countsArr[i];
-      score += multiple * pow10;
-      pow10 *= 10;
-    }
+  //   var pow10 = 1;
+  //   for (var i = 1; i <= 7; i++) {
+  //     var multiple = countsArr[i];
+  //     score += multiple * pow10;
+  //     pow10 *= 10;
+  //   }
 
-    if ('gold' in hashEls) {
-      score += 1;
-    }
+  //   if ('gold' in hashEls) {
+  //     score += 1;
+  //   }
 
-    if ('void' in hashEls && hashEls['void'] == 2) {
-      score += 1000000000;
-    }
+  //   if ('void' in hashEls && hashEls['void'] == 2) {
+  //     score += 1000000000;
+  //   }
 
-    return score;
-  }
+  //   return score;
+  // }
 
-  function checkForFaint(pNum) {
-    var player = game.players[pNum];
-    if (player.hp <= 0 && !player.ghost) {
-      console.log(player.name + ' has fainted!');
-      player.hp = 0;
-      player.ghost = true;
-      faintSprite(pNum);
-      // alert('faint');
-    }
-  }
+  // function checkForFaint(pNum) {
+  //   var player = game.players[pNum];
+  //   if (player.hp <= 0 && !player.ghost) {
+  //     console.log(player.name + ' has fainted!');
+  //     player.hp = 0;
+  //     player.ghost = true;
+  //     faintSprite(pNum);
+  //     // alert('faint');
+  //   }
+  // }
 
-  function pickTargetNum(pNum) {
-    var targetPriorities = [
-      null,
-      [5, 6, 7, 8],
-      [6, 5, 7, 8],
-      [7, 8, 6, 5],
-      [8, 7, 6, 5],
-      [1, 2, 3, 4],
-      [2, 1, 3, 4],
-      [3, 4, 2, 1],
-      [4, 3, 2, 1]
-    ];
+  // function pickTargetNum(pNum) {
+  //   var targetPriorities = [
+  //     null,
+  //     [5, 6, 7, 8],
+  //     [6, 5, 7, 8],
+  //     [7, 8, 6, 5],
+  //     [8, 7, 6, 5],
+  //     [1, 2, 3, 4],
+  //     [2, 1, 3, 4],
+  //     [3, 4, 2, 1],
+  //     [4, 3, 2, 1]
+  //   ];
 
-    var targets = targetPriorities[pNum];
-    for (var i = 0; i < 4; i++) {
-      if (!game.players[targets[i]].ghost) {
-        return targets[i];
-      }
-    }
+  //   var targets = targetPriorities[pNum];
+  //   for (var i = 0; i < 4; i++) {
+  //     if (!game.players[targets[i]].ghost) {
+  //       return targets[i];
+  //     }
+  //   }
 
-    // guess the game is over! just return normal target
-    return targets[0];
-  }
+  //   // guess the game is over! just return normal target
+  //   return targets[0];
+  // }
 
-  function reviveSprite(pNum) {
-    var el = document.getElementById('sprite' + pNum);
-    // el.classList.add('wizard');
-    el.classList.remove('fainted');
-  }
+  // function reviveSprite(pNum) {
+  //   var el = document.getElementById('sprite' + pNum);
+  //   // el.classList.add('wizard');
+  //   el.classList.remove('fainted');
+  // }
 
-  function showdown() {
+  // function showdown() {
 
-    console.log('showdown');
+  //   console.log('showdown');
 
-    var winners = findWinners();
-    game.winners = winners;
+  //   var winners = findWinners();
+  //   game.winners = winners;
 
-    if (winners.length < 1) {
-      console.log("ERROR: no winners");
-      return;
-    }
+  //   if (winners.length < 1) {
+  //     console.log("ERROR: no winners");
+  //     return;
+  //   }
 
-    var counterSync = Math.floor(Math.random() * winners.length);
-    Magnetic.distributeParticles(0, winners, counterSync);
-    console.log('sent particles');
+  //   var counterSync = Math.floor(Math.random() * winners.length);
+  //   Magnetic.distributeParticles(0, winners, counterSync);
+  //   console.log('sent particles');
 
-    // distribute motes evenly to winners
-    var count = counterSync;
-    while (game.warpMotes.length > 0) {
-      var mote = game.warpMotes.pop();
-      game.players[winners[count]].motes.push(mote);
-      count = (count + 1) % winners.length;
-    }
+  //   // distribute motes evenly to winners
+  //   var count = counterSync;
+  //   while (game.warpMotes.length > 0) {
+  //     var mote = game.warpMotes.pop();
+  //     game.players[winners[count]].motes.push(mote);
+  //     count = (count + 1) % winners.length;
+  //   }
 
-    var showdownTime = 2500;
-    window.setTimeout(advanceStage, showdownTime);
-  }
+  //   var showdownTime = 2500;
+  //   window.setTimeout(advanceStage, showdownTime);
+  // }
 
-  function spellCast(pNum) {
-    var player = game.players[pNum];
+  // function spellCast(pNum) {
+  //   var player = game.players[pNum];
 
-    var targNum = pickTargetNum(pNum);
-    var target = game.players[targNum];
+  //   var targNum = pickTargetNum(pNum);
+  //   var target = game.players[targNum];
 
-    var moteSpend = 0;
-    var spellName = null;
+  //   var moteSpend = 0;
+  //   var spellName = null;
 
-    var reviveCost = 700; // 70;
-    var baseDamageMod = 62.5; //6.25
+  //   var reviveCost = 700; // 70;
+  //   var baseDamageMod = 62.5; //6.25
 
 
-    if (player.ghost && player.motes.length >= reviveCost) {
-      spellName = 'Revive';
-      console.log(player.name + ' cast Revive.');
-      console.log(player.name + ' has revived with 500 hp.');
-      moteSpend = reviveCost;
-      player.hp = 500;
-      player.ghost = false;
-      reviveSprite(pNum);
-    } else if (player.ghost) {
-      spellName = 'Boo!';
-      manaSpend = 0;
-      console.log(player.name + ' cast Boo!')
-    } else {
-      spellName = 'Force Blast';
-      moteSpend = Math.ceil(player.motes.length * 0.3);
+  //   if (player.ghost && player.motes.length >= reviveCost) {
+  //     spellName = 'Revive';
+  //     console.log(player.name + ' cast Revive.');
+  //     console.log(player.name + ' has revived with 500 hp.');
+  //     moteSpend = reviveCost;
+  //     player.hp = 500;
+  //     player.ghost = false;
+  //     reviveSprite(pNum);
+  //   } else if (player.ghost) {
+  //     spellName = 'Boo!';
+  //     manaSpend = 0;
+  //     console.log(player.name + ' cast Boo!')
+  //   } else {
+  //     spellName = 'Force Blast';
+  //     moteSpend = Math.ceil(player.motes.length * 0.3);
 
-      var dam = Math.ceil(baseDamageMod * moteSpend);
-      if (target.ghost) {
-        dam = 0;
-      }
-      target.hp -= dam;
+  //     var dam = Math.ceil(baseDamageMod * moteSpend);
+  //     if (target.ghost) {
+  //       dam = 0;
+  //     }
+  //     target.hp -= dam;
 
-      console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
-      console.log(target.name + ' has ' + target.hp + ' health remaining.');
+  //     console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
+  //     console.log(target.name + ' has ' + target.hp + ' health remaining.');
 
-      checkForFaint(targNum);
-    }
+  //     checkForFaint(targNum);
+  //   }
 
-    if (spellName == 'Force Blast') {
-      animateForceBlast(pNum);
-    }
+  //   if (spellName == 'Force Blast') {
+  //     animateForceBlast(pNum);
+  //   }
 
-    player.motes = player.motes.slice(moteSpend, player.motes.length);
-    Magnetic.destructParticles(pNum, moteSpend);
-  }
+  //   player.motes = player.motes.slice(moteSpend, player.motes.length);
+  //   Magnetic.destructParticles(pNum, moteSpend);
+  // }
 
   function startStage() {
     // console.log("startStage " + game.stage);
@@ -731,37 +732,41 @@ Game = new function () {
         hideAllCards();
         shuffleCards();
         showPersonalCardsFor([1]);
-        startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
+        alert('done startStage 0');
         break;
-      case 1:
-        // flop
-        showFlopCards();
-        startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
-        break;
-      case 2:
-        // turn
-        showTurnCard();
-        startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
-        break;
-      case 3:
-        // river
-        showRiverCard();
-        startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
-        break;
-      case 4:
-        //showdown
-        showContestCards();
-        //showWinners();
-        showdown();
-        break;
-      case 5:
-        //casting
-        spellLocking();
-      break;
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 1:
+      //   // flop
+      //   showFlopCards();
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 2:
+      //   // turn
+      //   showTurnCard();
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 3:
+      //   // river
+      //   showRiverCard();
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 4:
+      //   //showdown
+      //   showContestCards();
+      //   //showWinners();
+      //   showdown();
+      //   break;
+      // case 5:
+      //   //casting
+      //   spellLocking();
+      // break;
+      default:
+        alert('startStage encountered default');
     }
   }
 
@@ -782,6 +787,6 @@ Game = new function () {
   }
 }
 
-// Game.init();
+Game.init();
 
 alert('finished game.js read');
