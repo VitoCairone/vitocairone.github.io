@@ -541,33 +541,35 @@ Game = new function () {
   //   return false;
   // }
 
-  // function spellLocking() {
-  //   var winners = game.winners;
+  // ORANGE ZONE 2
 
-  //   console.log("Total mana before casting = " + totalMana());
+  function spellLocking() {
+    var winners = game.winners;
 
-  //   winners.forEach(winnerIdx => {
-  //     spellCast(winnerIdx);
-  //   });
+    console.log("Total mana before casting = " + totalMana());
 
-  //   console.log("Total mana after casting = " + totalMana());
+    winners.forEach(winnerIdx => {
+      spellCast(winnerIdx);
+    });
 
-  //   updateHealthReadout();
+    console.log("Total mana after casting = " + totalMana());
 
-  //   var spellCastingTime = 1000;
+    updateHealthReadout();
 
-  //   if (!detectWinCondition()) {
-  //     window.setTimeout(advanceStage, spellCastingTime);
-  //   }
-  // }
+    var spellCastingTime = 1000;
 
-  // function faintSprite(pNum) {
-  //   var el = document.getElementById('sprite' + pNum);
-  //   el.classList.add('fainted');
-  //   // el.classList.remove('wizard');
-  // }
+    if (!detectWinCondition()) {
+      window.setTimeout(advanceStage, spellCastingTime);
+    }
+  }
 
-  // START ORANGE ZONE
+  function faintSprite(pNum) {
+    var el = document.getElementById('sprite' + pNum);
+    el.classList.add('fainted');
+    // el.classList.remove('wizard');
+  }
+
+  // ORANGE ZONE 1
 
   function findWinners() {
     var gestalt = [];
