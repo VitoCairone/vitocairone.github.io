@@ -443,7 +443,6 @@ Game = new function () {
         // flop
         showFlopCards();
         startBetStage();
-        alert('done startStage 1');
         window.setTimeout(endBetStage, betStageTime);
         break;
       case 2:
@@ -702,51 +701,52 @@ Game = new function () {
   }
 
   function spellCast(pNum) {
-    var player = game.players[pNum];
+    alert('spellcast by ' + pNum);
+    // var player = game.players[pNum];
 
-    var targNum = pickTargetNum(pNum);
-    var target = game.players[targNum];
+    // var targNum = pickTargetNum(pNum);
+    // var target = game.players[targNum];
 
-    var moteSpend = 0;
-    var spellName = null;
+    // var moteSpend = 0;
+    // var spellName = null;
 
-    var reviveCost = 700; // 70;
-    var baseDamageMod = 62.5; //6.25
+    // var reviveCost = 700; // 70;
+    // var baseDamageMod = 62.5; //6.25
 
-    if (player.ghost && player.motes.length >= reviveCost) {
-      spellName = 'Revive';
-      console.log(player.name + ' cast Revive.');
-      console.log(player.name + ' has revived with 500 hp.');
-      moteSpend = reviveCost;
-      player.hp = 500;
-      player.ghost = false;
-      reviveSprite(pNum);
-    } else if (player.ghost) {
-      spellName = 'Boo!';
-      manaSpend = 0;
-      console.log(player.name + ' cast Boo!')
-    } else {
-      spellName = 'Force Blast';
-      moteSpend = Math.ceil(player.motes.length * 0.3);
+    // if (player.ghost && player.motes.length >= reviveCost) {
+    //   spellName = 'Revive';
+    //   console.log(player.name + ' cast Revive.');
+    //   console.log(player.name + ' has revived with 500 hp.');
+    //   moteSpend = reviveCost;
+    //   player.hp = 500;
+    //   player.ghost = false;
+    //   reviveSprite(pNum);
+    // } else if (player.ghost) {
+    //   spellName = 'Boo!';
+    //   manaSpend = 0;
+    //   console.log(player.name + ' cast Boo!')
+    // } else {
+    //   spellName = 'Force Blast';
+    //   moteSpend = Math.ceil(player.motes.length * 0.3);
 
-      var dam = Math.ceil(baseDamageMod * moteSpend);
-      if (target.ghost) {
-        dam = 0;
-      }
-      target.hp -= dam;
+    //   var dam = Math.ceil(baseDamageMod * moteSpend);
+    //   if (target.ghost) {
+    //     dam = 0;
+    //   }
+    //   target.hp -= dam;
 
-      console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
-      console.log(target.name + ' has ' + target.hp + ' health remaining.');
+    //   console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
+    //   console.log(target.name + ' has ' + target.hp + ' health remaining.');
 
-      checkForFaint(targNum);
-    }
+    //   checkForFaint(targNum);
+    // }
 
-    if (spellName == 'Force Blast') {
-      animateForceBlast(pNum);
-    }
+    // if (spellName == 'Force Blast') {
+    //   animateForceBlast(pNum);
+    // }
 
-    player.motes = player.motes.slice(moteSpend, player.motes.length);
-    Magnetic.destructParticles(pNum, moteSpend);
+    // player.motes = player.motes.slice(moteSpend, player.motes.length);
+    // Magnetic.destructParticles(pNum, moteSpend);
   }
 }
 
