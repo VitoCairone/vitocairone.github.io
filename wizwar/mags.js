@@ -1,4 +1,4 @@
-console.log('running mags.js');
+alert('running mags.js');
 
 Magnetic = new function() {
   
@@ -383,6 +383,6 @@ function Magnet() {
 
 Magnetic.init();
 
-console.log("finished exec mags.js")
+alert("finished exec mags.js")
   
   
