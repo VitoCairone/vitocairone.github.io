@@ -10,6 +10,8 @@
 //   }
 // }
 
+alert('start game.js read');
+
 var game = {
   elements: ['earth', 'fire', 'air', 'water', 'ice', 'dark', 'light'],
   pNums: [1, 2, 3, 4, 5, 6, 7, 8],
