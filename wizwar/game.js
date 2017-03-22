@@ -463,10 +463,10 @@ Game = new function () {
         //showWinners();
         showdown();
         break;
-      case 5:
-        //casting
-        spellLocking();
-      break;
+      // case 5:
+      //   //casting
+      //   spellLocking();
+      // break;
       default:
         alert('startStage encountered default');
     }
