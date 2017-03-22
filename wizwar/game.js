@@ -99,72 +99,72 @@ Game = new function () {
 
   */
 
-  // function animateBet(pNum) {
-  //   Magnetic.hiliteMagnetParticle(pNum);
-  // }
+  function animateBet(pNum) {
+    Magnetic.hiliteMagnetParticle(pNum);
+  }
 
-  // function animateFold(pNum) {
-  //   Magnetic.contractParticles(pNum);
-  // }
+  function animateFold(pNum) {
+    Magnetic.contractParticles(pNum);
+  }
 
   // function animateForceBlast(pNum) {
   //   var el = document.getElementById('spellshot' + pNum);
   //   el.classList.add('inflight');
   // }
 
-  // function checkForCapture() {
-  //   var players = game.players;
-  //   var canAct = 0;
-  //   var leaderIdx = 0;
-  //   for (var i = 1; i <= 8 && canAct < 2; i++) {
-  //     if (!players[i].folded && !players[i].allIn) {
-  //       canAct += 1;
-  //       leaderIdx = i;
-  //     }
-  //   }
-  //   if (canAct == 1) {
-  //     game.captureTo = leaderIdx;
-  //   }
-  // }
+  function checkForCapture() {
+    var players = game.players;
+    var canAct = 0;
+    var leaderIdx = 0;
+    for (var i = 1; i <= 8 && canAct < 2; i++) {
+      if (!players[i].folded && !players[i].allIn) {
+        canAct += 1;
+        leaderIdx = i;
+      }
+    }
+    if (canAct == 1) {
+      game.captureTo = leaderIdx;
+    }
+  }
 
-  // function fold(pNum) {
-  //   var player = game.players[pNum];
+  function fold(pNum) {
+    var player = game.players[pNum];
 
-  //   if (player.folded || player.allIn) {
-  //     return 0;
-  //   }
+    if (player.folded || player.allIn) {
+      return 0;
+    }
 
-  //   player.folded = true;
+    player.folded = true;
 
-  //   animateFold(pNum);
-  //   console.log(player.name + ' folds.')
+    animateFold(pNum);
+    console.log(player.name + ' folds.')
 
-  //   checkForCapture();
+    checkForCapture();
 
-  //   return 1;
-  // }
+    return 1;
+  }
 
-  // function bet(pNum) {  
-  //   var player = game.players[pNum];
+  function bet(pNum) {  
+    var player = game.players[pNum];
 
-  //   if (player.betCount >= 7 || player.folded || player.allIn || player.motes.length == 0) {
-  //     return 0;
-  //   }
+    if (player.betCount >= 7 || player.folded || player.allIn || player.motes.length == 0) {
+      return 0;
+    }
 
-  //   player.betCount += 1;
-  //   var mote = player.motes.pop();
-  //   game.warpMotes.push(mote);
+    player.betCount += 1;
+    var mote = player.motes.pop();
+    game.warpMotes.push(mote);
 
-  //   animateBet(pNum);
-  //   console.log(player.name + " bets")
+    animateBet(pNum);
+    console.log(player.name + " bets")
 
-  //   if (player.motes.length == 0) {
-  //     player.allIn = true;
-  //     checkForCapture();
-  //   }
+    if (player.motes.length == 0) {
+      player.allIn = true;
+      checkForCapture();
+    }
 
-  //   return 1;
-  // }
+    return 1;
+  }
 
   // function meet(pNum) {
   //   var player = game.players[pNum];
@@ -312,28 +312,28 @@ Game = new function () {
     }
 
     // skip player 1; let interface control
-    // for (var i = 2; i <= 8; i++) {
-    //   var player = game.players[i];
-    //   if (player.folded || player.allIn) {
-    //     continue;
-    //   }
-    //   var bets = decideBets(i);
-    //   if (bets < 0) {
-    //     if (game.stage == 0 || bets < -1) {
-    //       fold(i);
-    //     }
-    //   } else if (bets > 0) {
-    //     for (var j = 0; j < bets; j++) {
-    //       bet(i);
-    //     }
-    //   }
-    // }
+    for (var i = 2; i <= 8; i++) {
+      var player = game.players[i];
+      if (player.folded || player.allIn) {
+        continue;
+      }
+      var bets = decideBets(i);
+      if (bets < 0) {
+        if (game.stage == 0 || bets < -1) {
+          fold(i);
+        }
+      } else if (bets > 0) {
+        for (var j = 0; j < bets; j++) {
+          bet(i);
+        }
+      }
+    }
   }
 
-  // function decideBets(pNum) {
-  //   var player = game.players[pNum];
-  //   return Math.floor(Math.random() * 9) - 2;
-  // }
+  function decideBets(pNum) {
+    // in this stub, pNum is actually unused
+    return Math.floor(Math.random() * 9) - 2;
+  }
 
   // function animateEndMatchStage() {
   //   for (var i = 1; i <= 8; i++) {
