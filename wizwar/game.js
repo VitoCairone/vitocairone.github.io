@@ -108,6 +108,12 @@ Game = new function () {
     Magnetic.hiliteMagnetParticle(pNum);
   }
 
+  function animateEndMatchStage() {
+    for (var i = 1; i <= 8; i++) {
+      Magnetic.transferMarkedParticles(i, 0);
+    }
+  }
+
   function animateFold(pNum) {
     Magnetic.contractParticles(pNum);
   }
@@ -163,6 +169,42 @@ Game = new function () {
     startMatchStage();
   }
 
+  function endMatchStage() {
+
+    animateResetTimerBar();
+
+    var players = game.players;
+
+    var maxBetCount = game.maxBetCount;
+
+    //at endMatchStage, all undecided players automatically meet
+    for (var i = 1; i <= 8; i++) {
+      var player = game.players[i];
+      if (player.folded || player.allIn) {
+        continue;
+      }
+
+      if (player.betCount < maxBetCount) {
+        if (player.betCount < maxBetCount && player.motes.length > 0) {
+          meet(i);
+        }
+      }
+    }
+
+    console.log("Warp now has " + game.warpMotes.length);
+
+    animateEndMatchStage();
+
+    checkForCapture();
+
+    if (game.captureTo != null) {
+      console.log("Captured by " + game.players[game.captureTo].name);
+      game.stage = 3;
+    }
+
+    advanceStage();
+  }
+
   function fold(pNum) {
     var player = game.players[pNum];
 
@@ -197,32 +239,6 @@ Game = new function () {
     return game.cards.slice(16, 21);
   }
 
-  // function meet(pNum) {
-  //   var player = game.players[pNum];
-  //   var diff = game.maxBetCount - player.betCount;
-
-  //   if (player.folded || player.allIn || diff == 0) {
-  //     return 0;
-  //   }
-
-  //   while (diff > 0 && player.motes.length > 0) {
-  //     player.betCount += 1;
-  //     diff -= 1;
-  //     var mote = player.motes.pop();
-  //     game.warpMotes.push(mote);
-  //     animateBet(pNum);
-  //   }
-
-  //   console.log(player.name + " calls");
-
-  //   if (player.motes.length == 0) {
-  //     player.allIn = true;
-  //     checkForCapture();
-  //   }
-
-  //   return 1;
-  // }
-
   function hideAllCards() {
     // var cardEls = ['pers-element-1', 'pers-element-2', 'rev-element-1', 'rev-element-2', 'rev-element-3', 'rev-element-4', 'rev-element-5'];
 
@@ -245,6 +261,32 @@ Game = new function () {
         cardEl.classList.remove(orbClasses[j]);
       }
     }
+  }
+
+  function meet(pNum) {
+    var player = game.players[pNum];
+    var diff = game.maxBetCount - player.betCount;
+
+    if (player.folded || player.allIn || diff == 0) {
+      return 0;
+    }
+
+    while (diff > 0 && player.motes.length > 0) {
+      player.betCount += 1;
+      diff -= 1;
+      var mote = player.motes.pop();
+      game.warpMotes.push(mote);
+      animateBet(pNum);
+    }
+
+    console.log(player.name + " calls");
+
+    if (player.motes.length == 0) {
+      player.allIn = true;
+      checkForCapture();
+    }
+
+    return 1;
   }
 
   function setMessage(msg) {
@@ -346,7 +388,7 @@ Game = new function () {
 
     var matchStageTime = 2000;
     alert('completed startMatchStage');
-    //window.setTimeout(endMatchStage, matchStageTime);
+    window.setTimeout(endMatchStage, matchStageTime);
   }
 
   function startRound() {
@@ -457,48 +499,6 @@ Game = new function () {
 
     document.getElementById('healthReadout').innerHTML = readout;
   }
-
-  // function animateEndMatchStage() {
-  //   for (var i = 1; i <= 8; i++) {
-  //     Magnetic.transferMarkedParticles(i, 0);
-  //   }
-  // }
-
-  // function endMatchStage() {
-
-  //   animateResetTimerBar();
-
-  //   var players = game.players;
-
-  //   var maxBetCount = game.maxBetCount;
-
-  //   //at endMatchStage, all undecided players automatically meet
-  //   for (var i = 1; i <= 8; i++) {
-  //     var player = game.players[i];
-  //     if (player.folded || player.allIn) {
-  //       continue;
-  //     }
-
-  //     if (player.betCount < maxBetCount) {
-  //       if (player.betCount < maxBetCount && player.motes.length > 0) {
-  //         meet(i);
-  //       }
-  //     }
-  //   }
-
-  //   console.log("Warp now has " + game.warpMotes.length);
-
-  //   animateEndMatchStage();
-
-  //   checkForCapture();
-
-  //   if (game.captureTo != null) {
-  //     console.log("Captured by " + game.players[game.captureTo].name);
-  //     game.stage = 3;
-  //   }
-
-  //   advanceStage();
-  // }
 
   // function testOdds(pNum) {
 
