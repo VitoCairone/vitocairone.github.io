@@ -1,0 +1,33 @@
+  /* 
+    Scoring rules:
+
+    The five elements on the board and the two in your hand
+    combine to make your gestalt.
+
+    Having more of the same element creates a higher ranked
+    gestalt. For example, a gestalt with 3 Fire beats all
+    gestalts with less than 3 of any one element,
+    and a gestalt with 5 Ice beats all gestalts with less
+    than 5 of any one element.
+
+    Multiples of the highest grouping are worth more,
+    so a gestalt with 3 Ice and 3 Earth will beat one
+    with only 3 Ice.
+
+    Further ties are settled by applying the same rules
+    to the remainder, so a gestalt of 3 Light,
+    2 Air, and 2 Water will beat a gestalt of 3 Fire and 
+    2 Dark, because the first gestalt has more pairs.
+
+    There are 49 (7 x 7) elements and 3 additional cards:
+
+    2 Voids
+    1 Gold
+
+    Double Void beats all others gestalts. Players
+    tied with Double Voids are ranked by the rest
+    of their gestalts as normal.
+
+    The Gold orb wins when otherwise tied.
+
+  */

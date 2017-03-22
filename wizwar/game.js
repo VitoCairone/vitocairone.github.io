@@ -65,39 +65,44 @@ Game = new function () {
     }
   }
 
-  /* 
-    Scoring rules:
+  function advanceStage() {
+    // console.log('started advanceStage');
+    game.stage = (game.stage + 1) % 6
+    startStage();
+  }
 
-    The five elements on the board and the two in your hand
-    combine to make your gestalt.
+  function animateSprites() {
+    var sprites = document.getElementsByClassName("sprite");
+    for (var i = 0; i < sprites.length; i++) {
+      sprites[i].classList.remove('frame-1', 'frame-2', 'frame-3', 'frame-4');
+      var frame = parseInt(sprites[i].getAttribute('frame'));
+      frame = (frame + 1) % 5 || 1;
+      sprites[i].classList.add('frame-' + frame);
+      sprites[i].setAttribute('frame', frame);
+    };
+  }
 
-    Having more of the same element creates a higher ranked
-    gestalt. For example, a gestalt with 3 Fire beats all
-    gestalts with less than 3 of any one element,
-    and a gestalt with 5 Ice beats all gestalts with less
-    than 5 of any one element.
+  function animateResetTimerBar() {
+    console.log('resetting');
+    // document.getElementById('progress-bar-fill').style.width = "0%";
+    document.getElementById('progress-bar-fill').classList.remove('bet-stage', 'match-stage');
+    // document.getElementById('progress-bar-fill').classList.add('reset');
+  }
 
-    Multiples of the highest grouping are worth more,
-    so a gestalt with 3 Ice and 3 Earth will beat one
-    with only 3 Ice.
+  function animateBetTimerBar() {
+    // this timeout ensure that at least 1 frame is rendered without
+    // a -stage class, resetting the bar to 0. Prefer a cleaner solution
+    // which can't fail race conditions. requestAnimationFrame appears
+    // insufficient.
+    window.setTimeout(function() {
+      // document.getElementById('progress-bar-fill').classList.remove('reset');
+      document.getElementById('progress-bar-fill').classList.add('bet-stage');
+    }, 50)
+  }
 
-    Further ties are settled by applying the same rules
-    to the remainder, so a gestalt of 3 Light,
-    2 Air, and 2 Water will beat a gestalt of 3 Fire and 
-    2 Dark, because the first gestalt has more pairs.
-
-    There are 49 (7 x 7) elements and 3 additional cards:
-
-    2 Voids
-    1 Gold
-
-    Double Void beats all others gestalts. Players
-    tied with Double Voids are ranked by the rest
-    of their gestalts as normal.
-
-    The Gold orb wins when otherwise tied.
-
-  */
+  function animateMatchTimerBar() {
+    document.getElementById('progress-bar-fill').classList.add('match-stage');
+  }
 
   function animateBet(pNum) {
     Magnetic.hiliteMagnetParticle(pNum);
@@ -111,38 +116,6 @@ Game = new function () {
   //   var el = document.getElementById('spellshot' + pNum);
   //   el.classList.add('inflight');
   // }
-
-  function checkForCapture() {
-    var players = game.players;
-    var canAct = 0;
-    var leaderIdx = 0;
-    for (var i = 1; i <= 8 && canAct < 2; i++) {
-      if (!players[i].folded && !players[i].allIn) {
-        canAct += 1;
-        leaderIdx = i;
-      }
-    }
-    if (canAct == 1) {
-      game.captureTo = leaderIdx;
-    }
-  }
-
-  function fold(pNum) {
-    var player = game.players[pNum];
-
-    if (player.folded || player.allIn) {
-      return 0;
-    }
-
-    player.folded = true;
-
-    animateFold(pNum);
-    console.log(player.name + ' folds.')
-
-    checkForCapture();
-
-    return 1;
-  }
 
   function bet(pNum) {  
     var player = game.players[pNum];
@@ -164,6 +137,60 @@ Game = new function () {
     }
 
     return 1;
+  }
+
+  function checkForCapture() {
+    var players = game.players;
+    var canAct = 0;
+    var leaderIdx = 0;
+    for (var i = 1; i <= 8 && canAct < 2; i++) {
+      if (!players[i].folded && !players[i].allIn) {
+        canAct += 1;
+        leaderIdx = i;
+      }
+    }
+    if (canAct == 1) {
+      game.captureTo = leaderIdx;
+    }
+  }
+
+  function decideBets(pNum) {
+    // in this stub, pNum is actually unused
+    return Math.floor(Math.random() * 9) - 2;
+  }
+
+  function fold(pNum) {
+    var player = game.players[pNum];
+
+    if (player.folded || player.allIn) {
+      return 0;
+    }
+
+    player.folded = true;
+
+    animateFold(pNum);
+    console.log(player.name + ' folds.')
+
+    checkForCapture();
+
+    return 1;
+  }
+
+  function gameLoop() {
+    // game.timeoutRefs = [];
+    console.log ('started gameLoop')
+    advanceStage();
+    //window.setInterval(advanceStage, 3000);
+    window.setInterval(animateSprites, 1000 / 3);
+  }
+
+  function getPlayerCards(pNum) {
+    var idx = pNum - 1;
+    return [game.cards[idx * 2], game.cards[idx * 2 + 1]];
+  }
+
+  function getCommonCards() {
+    return game.cards.slice(16, 21);
   }
 
   // function meet(pNum) {
@@ -192,60 +219,6 @@ Game = new function () {
   //   return 1;
   // }
 
-  function shuffle (array) {
-    //Fisher-Yates shuffle
-    var i = 0
-      , j = 0
-      , temp = null;
-
-    for (i = array.length - 1; i > 0; i -= 1) {
-      j = Math.floor(Math.random() * (i + 1))
-      temp = array[i]
-      array[i] = array[j]
-      array[j] = temp
-    }
-  }
-
-  function shuffleCards() {
-    shuffle(game.cards)
-  }
-
-  function setMessage(msg) {
-    document.getElementById("message-box").innerHTML = msg;
-  }
-
-  function revealElements(nums) {
-    console.log("Revealing " + nums);
-    for (var i = 0; i < nums.length; i++) {
-      var n = nums[i];
-      var elId = 'rev-element-' + n;
-      var elClass = game.cards[15+n] + '-orb';
-      document.getElementById(elId).classList.add(elClass);
-    }
-  }
-
-  function getPlayerCards(pNum) {
-    var idx = pNum - 1;
-    return [game.cards[idx * 2], game.cards[idx * 2 + 1]];
-  }
-
-  function getCommonCards() {
-    return game.cards.slice(16, 21);
-  }
-
-  function showPersonalCardsFor(nums) {
-    for (var i = 0; i < nums.length; i++) {
-      var n = nums[i];
-      var id1 = n * 2 - 1;
-      var id2 = n * 2;
-      var slot1 = n * 2 - 2;
-      var slot2 = n * 2 - 1;
-      console.log("showing personal cards for " + n);
-      document.getElementById("player-element-" + id1).classList.add(game.cards[slot1] + '-orb');
-      document.getElementById("player-element-" + id2).classList.add(game.cards[slot2] + '-orb');
-    }
-  }
-
   function hideAllCards() {
     // var cardEls = ['pers-element-1', 'pers-element-2', 'rev-element-1', 'rev-element-2', 'rev-element-3', 'rev-element-4', 'rev-element-5'];
 
@@ -270,33 +243,56 @@ Game = new function () {
     }
   }
 
+  function setMessage(msg) {
+    document.getElementById("message-box").innerHTML = msg;
+  }
+
+  function shuffle (array) {
+    //Fisher-Yates shuffle
+    var i = 0
+      , j = 0
+      , temp = null;
+
+    for (i = array.length - 1; i > 0; i -= 1) {
+      j = Math.floor(Math.random() * (i + 1))
+      temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+  }
+
+  function shuffleCards() {
+    shuffle(game.cards)
+  }
+
+  function revealElements(nums) {
+    console.log("Revealing " + nums);
+    for (var i = 0; i < nums.length; i++) {
+      var n = nums[i];
+      var elId = 'rev-element-' + n;
+      var elClass = game.cards[15+n] + '-orb';
+      document.getElementById(elId).classList.add(elClass);
+    }
+  }
+
+  function showPersonalCardsFor(nums) {
+    for (var i = 0; i < nums.length; i++) {
+      var n = nums[i];
+      var id1 = n * 2 - 1;
+      var id2 = n * 2;
+      var slot1 = n * 2 - 2;
+      var slot2 = n * 2 - 1;
+      console.log("showing personal cards for " + n);
+      document.getElementById("player-element-" + id1).classList.add(game.cards[slot1] + '-orb');
+      document.getElementById("player-element-" + id2).classList.add(game.cards[slot2] + '-orb');
+    }
+  }
+
   function showFlopCards() { revealElements([1,2,3]); }
 
   function showTurnCard() { revealElements([4]); }
 
   function showRiverCard() { revealElements([5]); }
-
-  function animateResetTimerBar() {
-    console.log('resetting');
-    // document.getElementById('progress-bar-fill').style.width = "0%";
-    document.getElementById('progress-bar-fill').classList.remove('bet-stage', 'match-stage');
-    // document.getElementById('progress-bar-fill').classList.add('reset');
-  }
-
-  function animateBetTimerBar() {
-    // this timeout ensure that at least 1 frame is rendered without
-    // a -stage class, resetting the bar to 0. Prefer a cleaner solution
-    // which can't fail race conditions. requestAnimationFrame appears
-    // insufficient.
-    window.setTimeout(function() {
-      // document.getElementById('progress-bar-fill').classList.remove('reset');
-      document.getElementById('progress-bar-fill').classList.add('bet-stage');
-    }, 50)
-  }
-
-  function animateMatchTimerBar() {
-    document.getElementById('progress-bar-fill').classList.add('match-stage');
-  }
 
   function startBetStage() { 
 
@@ -330,9 +326,113 @@ Game = new function () {
     }
   }
 
-  function decideBets(pNum) {
-    // in this stub, pNum is actually unused
-    return Math.floor(Math.random() * 9) - 2;
+  function startRound() {
+    updateHealthReadout();
+    game.captureTo = null;
+
+    Magnetic.unhiliteAllParticles();
+
+    console.log('Round start!');
+
+    for (var i = 1; i <= 8; i++) {
+      var player = game.players[i];
+      // player.startMana = player.mana;
+      player.allIn = false;
+      player.folded = false;
+      // if (player.motes.length == 0) {
+      //   console.log(player.name + " is OUT!")
+      //   fold(i);
+      // }
+
+      var gain = game.motesPerRound;
+      if (player.ghost) {
+        gain = Math.ceil(gain * 4 / 7);
+      }
+      if (player.motes.length >= 250) {
+        console.log("!! " + player.name + " has " + player.motes.length + " mana.")
+        // gain = 0;
+      }
+      for (var j = 0; j < gain; j++) {
+        player.motes.push(10);
+      }
+
+      Magnetic.conjureParticles(i, gain);
+      Magnetic.expandParticles(i);
+    }
+  }
+
+  function startStage() {
+    // console.log("startStage " + game.stage);
+    var betStageTime = 5000;
+    switch (game.stage) {
+      case 0:
+        // preflop 
+        startRound();
+        hideAllCards();
+        shuffleCards();
+        showPersonalCardsFor([1]);
+        startBetStage();
+        alert('done startStage 0');
+        break;
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 1:
+      //   // flop
+      //   showFlopCards();
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 2:
+      //   // turn
+      //   showTurnCard();
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 3:
+      //   // river
+      //   showRiverCard();
+      //   startBetStage();
+      //   window.setTimeout(endBetStage, betStageTime);
+      //   break;
+      // case 4:
+      //   //showdown
+      //   showContestCards();
+      //   //showWinners();
+      //   showdown();
+      //   break;
+      // case 5:
+      //   //casting
+      //   spellLocking();
+      // break;
+      default:
+        alert('startStage encountered default');
+    }
+  }
+
+  function totalMana() {
+    var total = 0;
+    var players = game.players;
+    for (var i = 1; i <= 8; i++) {
+      total += players[i].motes.length;
+    }
+    total += game.warpMotes.length;
+    return total;
+  }
+
+  function updateHealthReadout() {
+    var readout = "";
+
+    for (var i = 1; i <= 4; i++) {
+      var left = i;
+      var right = 4 + i;
+      var player = game.players[left];
+      readout += player.name + ': ' + player.hp + '       ';
+      player = game.players[right];
+      readout += player.name + ': ' + player.hp;
+      readout += '<br/>';
+    }
+
+    document.getElementById('healthReadout').innerHTML = readout;
   }
 
   // function animateEndMatchStage() {
@@ -410,16 +510,6 @@ Game = new function () {
   //   showPersonalCardsFor(contestNums);
   // }
 
-  function totalMana() {
-    var total = 0;
-    var players = game.players;
-    for (var i = 1; i <= 8; i++) {
-      total += players[i].motes.length;
-    }
-    total += game.warpMotes.length;
-    return total;
-  }
-
   // function detectWinCondition() {
   //   var teamAlive = false;
   //   for (var i = 1; i <= 4 && teamAlive == false; i++) {
@@ -468,58 +558,6 @@ Game = new function () {
   //   }
   // }
 
-  function startRound() {
-    updateHealthReadout();
-    game.captureTo = null;
-
-    Magnetic.unhiliteAllParticles();
-
-    console.log('Round start!');
-
-    for (var i = 1; i <= 8; i++) {
-      var player = game.players[i];
-      // player.startMana = player.mana;
-      player.allIn = false;
-      player.folded = false;
-      // if (player.motes.length == 0) {
-      //   console.log(player.name + " is OUT!")
-      //   fold(i);
-      // }
-
-      var gain = game.motesPerRound;
-      if (player.ghost) {
-        gain = Math.ceil(gain * 4 / 7);
-      }
-      if (player.motes.length >= 250) {
-        console.log("!! " + player.name + " has " + player.motes.length + " mana.")
-        // gain = 0;
-      }
-      for (var j = 0; j < gain; j++) {
-        player.motes.push(10);
-      }
-
-      Magnetic.conjureParticles(i, gain);
-      Magnetic.expandParticles(i);
-    }
-  }
-
-  function advanceStage() {
-    // console.log('started advanceStage');
-    game.stage = (game.stage + 1) % 6
-    startStage();
-  }
-
-  function animateSprites() {
-    var sprites = document.getElementsByClassName("sprite");
-    for (var i = 0; i < sprites.length; i++) {
-      sprites[i].classList.remove('frame-1', 'frame-2', 'frame-3', 'frame-4');
-      var frame = parseInt(sprites[i].getAttribute('frame'));
-      frame = (frame + 1) % 5 || 1;
-      sprites[i].classList.add('frame-' + frame);
-      sprites[i].setAttribute('frame', frame);
-    };
-  }
-
   // function endBetStage() { 
   //   startMatchStage();
   // }
@@ -556,14 +594,6 @@ Game = new function () {
 
   //   return topScoreNums;
   // }
-
-  function gameLoop() {
-    // game.timeoutRefs = [];
-    console.log ('started gameLoop')
-    advanceStage();
-    //window.setInterval(advanceStage, 3000);
-    window.setInterval(animateSprites, 1000 / 3);
-  }
 
   // function gestaltRank(gestalt) {
   //   var score = 0;
@@ -721,70 +751,6 @@ Game = new function () {
   //   player.motes = player.motes.slice(moteSpend, player.motes.length);
   //   Magnetic.destructParticles(pNum, moteSpend);
   // }
-
-  function startStage() {
-    // console.log("startStage " + game.stage);
-    var betStageTime = 5000;
-    switch (game.stage) {
-      case 0:
-        // preflop 
-        startRound();
-        hideAllCards();
-        shuffleCards();
-        showPersonalCardsFor([1]);
-        startBetStage();
-        alert('done startStage 0');
-        break;
-      //   window.setTimeout(endBetStage, betStageTime);
-      //   break;
-      // case 1:
-      //   // flop
-      //   showFlopCards();
-      //   startBetStage();
-      //   window.setTimeout(endBetStage, betStageTime);
-      //   break;
-      // case 2:
-      //   // turn
-      //   showTurnCard();
-      //   startBetStage();
-      //   window.setTimeout(endBetStage, betStageTime);
-      //   break;
-      // case 3:
-      //   // river
-      //   showRiverCard();
-      //   startBetStage();
-      //   window.setTimeout(endBetStage, betStageTime);
-      //   break;
-      // case 4:
-      //   //showdown
-      //   showContestCards();
-      //   //showWinners();
-      //   showdown();
-      //   break;
-      // case 5:
-      //   //casting
-      //   spellLocking();
-      // break;
-      default:
-        alert('startStage encountered default');
-    }
-  }
-
-  function updateHealthReadout() {
-    var readout = "";
-
-    for (var i = 1; i <= 4; i++) {
-      var left = i;
-      var right = 4 + i;
-      var player = game.players[left];
-      readout += player.name + ': ' + player.hp + '       ';
-      player = game.players[right];
-      readout += player.name + ': ' + player.hp;
-      readout += '<br/>';
-    }
-
-    document.getElementById('healthReadout').innerHTML = readout;
-  }
 }
 
 Game.init();
