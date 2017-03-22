@@ -12,6 +12,12 @@
 
 </HEAD>
 <BODY style="margin: 0 0 0 0;">
+
+  <SCRIPT>
+    pressFold = new function () {};
+    pressBet = new function () {};
+  </SCRIPT>
+
   <div id="outermost" style="position: relative">
 
     <div id="scene-box" class="desert-background" style="position: relative; margin: 0 auto; width: 393px; height: 262px;">
@@ -173,9 +179,9 @@
 
     })();
 
-    game.startTime = new Date().getTime();
-
-    gameLoop();
+    pressFold = Game.pressFold;
+    pressBet = Game.pressBet;
+    Game.begin();
 
   </SCRIPT>
 </BODY>
