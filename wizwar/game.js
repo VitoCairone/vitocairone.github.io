@@ -502,46 +502,44 @@ Game = new function () {
 
   // BEGIN RED ZONE
 
-  // function showContestCards() {
-  //   var contestNums = [];
-  //   for (var i = 1; i <= 8; i++) {
-  //     var player = game.players[i];
-  //     if (!player.folded) {
-  //       contestNums.push(i);
-  //     }
-  //   }
-  //   showPersonalCardsFor(contestNums);
-  // }
+  function showContestCards() {
+    var contestNums = [];
+    for (var i = 1; i <= 8; i++) {
+      var player = game.players[i];
+      if (!player.folded) {
+        contestNums.push(i);
+      }
+    }
+    showPersonalCardsFor(contestNums);
+  }
 
-  // function detectWinCondition() {
-  //   var teamAlive = false;
-  //   for (var i = 1; i <= 4 && teamAlive == false; i++) {
-  //     if (!game.players[i].ghost) {
-  //       teamAlive = true;
-  //     }
-  //   }
+  function detectWinCondition() {
+    var teamAlive = false;
+    for (var i = 1; i <= 4 && teamAlive == false; i++) {
+      if (!game.players[i].ghost) {
+        teamAlive = true;
+      }
+    }
 
-  //   if (teamAlive) {
-  //     teamAlive = false;
-  //     for (var i = 5; i <= 8 && teamAlive == false; i++) {
-  //       if (!game.players[i].ghost) {
-  //         teamAlive = true;
-  //       }
-  //     }
-  //   }
+    if (teamAlive) {
+      teamAlive = false;
+      for (var i = 5; i <= 8 && teamAlive == false; i++) {
+        if (!game.players[i].ghost) {
+          teamAlive = true;
+        }
+      }
+    }
 
-  //   if (!teamAlive) {
-  //     var elapsed = new Date().getTime() - game.startTime;
-  //     var message = 'game ended in ' + (elapsed / (60 * 1000)) + ' min';
-  //     console.log(message);
-  //     alert(message);
-  //     return true;
-  //   }
+    if (!teamAlive) {
+      var elapsed = new Date().getTime() - game.startTime;
+      var message = 'game ended in ' + (elapsed / (60 * 1000)) + ' min';
+      console.log(message);
+      alert(message);
+      return true;
+    }
 
-  //   return false;
-  // }
-
-  // // ORANGE ZONE 2
+    return false;
+  }
 
   // function spellLocking() {
   //   var winners = game.winners;
@@ -568,8 +566,6 @@ Game = new function () {
   //   el.classList.add('fainted');
   //   // el.classList.remove('wizard');
   // }
-
-  // // ORANGE ZONE 1
 
   // function findWinners() {
   //   var gestalt = [];
@@ -760,4 +756,4 @@ Game = new function () {
 
 Game.init();
 
-alert('finished game.js read revision Alpha');
+alert('finished game.js read revision Beta');
