@@ -541,25 +541,25 @@ Game = new function () {
     return false;
   }
 
-  // function spellLocking() {
-  //   var winners = game.winners;
+  function spellLocking() {
+    var winners = game.winners;
 
-  //   console.log("Total mana before casting = " + totalMana());
+    console.log("Total mana before casting = " + totalMana());
 
-  //   winners.forEach(winnerIdx => {
-  //     spellCast(winnerIdx);
-  //   });
+    winners.forEach(winnerIdx => {
+      spellCast(winnerIdx);
+    });
 
-  //   console.log("Total mana after casting = " + totalMana());
+    console.log("Total mana after casting = " + totalMana());
 
-  //   updateHealthReadout();
+    updateHealthReadout();
 
-  //   var spellCastingTime = 1000;
+    var spellCastingTime = 1000;
 
-  //   if (!detectWinCondition()) {
-  //     window.setTimeout(advanceStage, spellCastingTime);
-  //   }
-  // }
+    if (!detectWinCondition()) {
+      window.setTimeout(advanceStage, spellCastingTime);
+    }
+  }
 
   // function faintSprite(pNum) {
   //   var el = document.getElementById('sprite' + pNum);
