@@ -546,7 +546,7 @@ Game = new function () {
 
     console.log("Total mana before casting = " + totalMana());
 
-    winners.forEach(winnerIdx => {
+    winners.forEach(function (winnerIdx) {
       spellCast(winnerIdx);
     });
 
