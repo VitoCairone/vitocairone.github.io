@@ -756,4 +756,4 @@ Game = new function () {
 
 Game.init();
 
-alert('finished game.js read revision Gamma');
+alert('finished game.js read revision Delta');
