@@ -62,6 +62,12 @@ var Painter = new function () {
     showPersonalCardsFor(contestNums);
   }
 
+  function showFlopCards() { revealElements([1,2,3]); }
+
+  function showTurnCard() { revealElements([4]); }
+
+  function showRiverCard() { revealElements([5]); }
+
   function faintSprite(pNum) {
     var el = document.getElementById('sprite' + pNum);
     el.classList.add('fainted');

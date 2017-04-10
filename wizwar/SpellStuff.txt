@@ -1,3 +1,69 @@
+Every type of mana grants +1 power for that element and -1 resist to that element
+
+Earth: +1 Defence.
+
+Fire: Fire mana will ignite other mana or donate themselves to the Warp spontaneously
+
+Air: +1 Evade; upon Evade, 1/2 of Air mana are sent to nearby allies
+
+Water: Also grants +1 resist Fire and -1 resist Ice, and prevents Fire spread
+
+Ice: Cannot be wagered
+
+Dark: Deals 1 damage per hand
+
+Light: Heals 1 damage per hand
+
+
+EFAWIDL
+
+BOULDER - damage
+FIREBALL - damage plus ignite
+TORNADO - low damage plus mana trade 2:1 with damage for owned Air
+SOAK - low damage plus soak
+FROSTBLAST - damage plus freeze
+CURSE - shroud
+REGEN - self illuminate
+
+FORTIFY - self petrify
+BURN - self ignite then target ignite 2:1 for owned Fire
+WINDSWEEP - self windsweep
+DROWN - damage plus soak 
+FREEZE - freeze
+PAIN - damage plus shroud
+HEAL - teammate lowest heal plus illuminate
+
+EARTH - damage
+FIRE - damage
+AIR - damage
+WATER - damage
+ICE - damage
+DARK - damage
+LIGHT - damage
+
+GROWTH - self petrify then petrify 1:1 for owned Earth
+FLASHFIRE - all damage with 2x Fire resist
+VORTEX - self windsweep plus virtual windsweep
+REFLECT - self +100 Reflect this round plus +1:2 Reflect for owned Water for 5 rounds
+REFRESH - self soak then heal for owned Water
+SHINE - self illuminate including Dark first
+PUNISH - shroud plus shroud 2:1 including Light first for target Light
+
+PROTECT - team all petrify plus 2x Earth mana defence for 5 rounds
+HASTE - team all windsweep plus +1 Power for owned Air for 5 rounds
+SUBSTITUTE - team autoswap to minimize current percent health loss for 5 rounds
+
+EARTHQUAKE - all damage
+INFERNO - everyone high damage
+HURRICANE - all damage plus mana trade 2:1 with damage for owned Air
+FLOOD - all low damage plus soak all mana
+SHATTER - damage with 3x Ice resist
+NIGHTMARE - all shroud all mana including elementals
+SALVATION - team all heal plus illuminate
+
+
+======= OLD CRAP =====
+
 
 THE SPELLS
 
