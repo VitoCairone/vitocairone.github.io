@@ -6,8 +6,6 @@
 
 <link rel="stylesheet" type="text/css" href="styles.css" />
 
-<!-- script src here does not appear to be read on Android mobile browser -->
-
 <TITLE>
   Wizards' War
 </TITLE>
@@ -18,11 +16,12 @@
   <SCRIPT>
     pressFold = new function () {};
     pressBet = new function () {};
+    pressSpellLock = new function () {};
   </SCRIPT>
 
   <div id="outermost" style="position: relative">
 
-    <div id="scene-box" class="desert-background" style="position: relative; margin: 0 auto; width: 393px; height: 262px;">
+    <div id="scene-box" class="desert-background" style="position: relative; margin: 0 auto; width: 100%; height: 260px;">
 
       <canvas id='world' width="393" height="262" style="position: absolute;"></canvas>
 
@@ -135,8 +134,9 @@
             RAISE
           </div>
         </div>
-      <div id="spellToggles">
-        <!-- toggles -->
+
+      <div id="spellLockButton" class="action-button" onclick="pressSpellLock()">
+        CAST
       </div>
 
       <div id="healthReadout">
@@ -185,6 +185,7 @@
 
     pressFold = Game.pressFold;
     pressBet = Game.pressBet;
+    pressSpellLock = Game.pressSpellLock;
     Game.begin();
 
   </SCRIPT>

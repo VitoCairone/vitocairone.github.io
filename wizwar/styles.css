@@ -17,6 +17,10 @@
     arena space
 */
 
+@-ms-viewport {
+  width: device-width;
+}
+
 body {
   background-image: url('star-background.jpg');
   background-size: 180px 180px;

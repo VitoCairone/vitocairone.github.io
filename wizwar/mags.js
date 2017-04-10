@@ -1,4 +1,4 @@
-alert('running mags.js');
+console.log('running mags.js');
 
 Magnetic = new function() {
   
@@ -51,7 +51,8 @@ Magnetic = new function() {
       
       createMagnets();
       
-      //windowResizeHandler();
+      // window.addEventListener('resize', windowResizeHandler, false);
+      // windowResizeHandler();
       
       requestAnimationFrame( loop );
     }
@@ -353,6 +354,20 @@ Magnetic = new function() {
     var dy = p2.y-p1.y;
     return Math.sqrt(dx*dx + dy*dy);
   }
+
+  function windowResizeHandler() {
+    SCREEN_WIDTH = window.innerWidth;
+    SCREEN_HEIGHT = window.innerHeight;
+    
+    canvas.width = SCREEN_WIDTH;
+    canvas.height = SCREEN_HEIGHT;
+    
+    canvas.style.position = 'absolute';
+    
+    // it seems like this will always be '0px'...
+    canvas.style.left = (window.innerWidth - SCREEN_WIDTH) * .5 + 'px';
+    canvas.style.top = (window.innerHeight - SCREEN_HEIGHT) * .5 + 'px';
+  }
   
 };
 
@@ -380,9 +395,8 @@ function Magnet() {
   this.markedParticles = 0;
 }
 
-
 Magnetic.init();
 
-alert("finished exec mags.js")
+console.log("finished exec mags.js")
   
   

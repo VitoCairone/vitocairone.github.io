@@ -10,9 +10,9 @@
 //   }
 // }
 
-alert('start game.js read');
+console.log('start game.js read');
 
-Game = new function () {
+var Game = new function () {
 
   var game = {
     elements: ['earth', 'fire', 'air', 'water', 'ice', 'dark', 'light'],
@@ -23,7 +23,15 @@ Game = new function () {
     captureTo: null,
     warpMotes: [],
     returnMotes: [],
-    motesPerRound: 7
+    motesPerRound: 7,
+    render: false,
+    painter: null
+    clock: {
+      betStage: 3500,
+      matchStage: 1500,
+      spellLocking: 2000,
+      spellCasting: 2000
+    }
   };
 
   this.begin = function () {
@@ -38,6 +46,11 @@ Game = new function () {
 
   this.pressBet = function () {
     bet(1);
+  }
+
+  this.pressSpellLock = function () {
+    alert('spell-lock');
+    // spellLock(1);
   }
 
   this.init = function () {
@@ -71,58 +84,6 @@ Game = new function () {
     startStage();
   }
 
-  function animateSprites() {
-    var sprites = document.getElementsByClassName("sprite");
-    for (var i = 0; i < sprites.length; i++) {
-      sprites[i].classList.remove('frame-1', 'frame-2', 'frame-3', 'frame-4');
-      var frame = parseInt(sprites[i].getAttribute('frame'));
-      frame = (frame + 1) % 5 || 1;
-      sprites[i].classList.add('frame-' + frame);
-      sprites[i].setAttribute('frame', frame);
-    };
-  }
-
-  function animateResetTimerBar() {
-    console.log('resetting');
-    // document.getElementById('progress-bar-fill').style.width = "0%";
-    document.getElementById('progress-bar-fill').classList.remove('bet-stage', 'match-stage');
-    // document.getElementById('progress-bar-fill').classList.add('reset');
-  }
-
-  function animateBetTimerBar() {
-    // this timeout ensure that at least 1 frame is rendered without
-    // a -stage class, resetting the bar to 0. Prefer a cleaner solution
-    // which can't fail race conditions. requestAnimationFrame appears
-    // insufficient.
-    window.setTimeout(function() {
-      // document.getElementById('progress-bar-fill').classList.remove('reset');
-      document.getElementById('progress-bar-fill').classList.add('bet-stage');
-    }, 50)
-  }
-
-  function animateMatchTimerBar() {
-    document.getElementById('progress-bar-fill').classList.add('match-stage');
-  }
-
-  function animateBet(pNum) {
-    Magnetic.hiliteMagnetParticle(pNum);
-  }
-
-  function animateEndMatchStage() {
-    for (var i = 1; i <= 8; i++) {
-      Magnetic.transferMarkedParticles(i, 0);
-    }
-  }
-
-  function animateFold(pNum) {
-    Magnetic.contractParticles(pNum);
-  }
-
-  function animateForceBlast(pNum) {
-    var el = document.getElementById('spellshot' + pNum);
-    el.classList.add('inflight');
-  }
-
   function bet(pNum) {  
     var player = game.players[pNum];
 
@@ -134,7 +95,9 @@ Game = new function () {
     var mote = player.motes.pop();
     game.warpMotes.push(mote);
 
-    animateBet(pNum);
+    if (game.render) {
+      painter.painter.animateBet(pNum);
+    }
     console.log(player.name + " bets")
 
     if (player.motes.length == 0) {
@@ -171,7 +134,9 @@ Game = new function () {
 
   function endMatchStage() {
 
-    animateResetTimerBar();
+    if (game.render) {
+      game.painter.animateResetTimerBar();
+    }
 
     var players = game.players;
 
@@ -193,7 +158,9 @@ Game = new function () {
 
     console.log("Warp now has " + game.warpMotes.length);
 
-    animateEndMatchStage();
+    if (game.render) {
+      game.painter.animateEndMatchStage();
+    }
 
     checkForCapture();
 
@@ -214,7 +181,9 @@ Game = new function () {
 
     player.folded = true;
 
-    animateFold(pNum);
+    if (game.render) {
+      game.painter.animateFold(pNum);
+    }
     console.log(player.name + ' folds.')
 
     checkForCapture();
@@ -276,7 +245,9 @@ Game = new function () {
       diff -= 1;
       var mote = player.motes.pop();
       game.warpMotes.push(mote);
-      animateBet(pNum);
+      if (game.render) {
+        game.painter.animateBet(pNum);
+      }
     }
 
     console.log(player.name + " calls");
@@ -342,7 +313,9 @@ Game = new function () {
 
   function startBetStage() { 
 
-    animateBetTimerBar();
+    if (game.render) {
+      game.painter.animateBetTimerBar();
+    }
 
     for (var i = 1; i <= 8; i++) {
       var player = game.players[i];
@@ -374,7 +347,9 @@ Game = new function () {
 
   function startMatchStage() {  
 
-    animateMatchTimerBar();
+    if (game.render) {
+      game.painter.animateMatchTimerBar();
+    }
 
     var players = game.players;
 
@@ -385,10 +360,9 @@ Game = new function () {
       }
     }
     game.maxBetCount = maxBetCount;
-
-    var matchStageTime = 2000;
+    
     // alert('completed startMatchStage');
-    window.setTimeout(endMatchStage, matchStageTime);
+    window.setTimeout(endMatchStage, game.clock.matchStage);
   }
 
   function startRound() {
@@ -428,7 +402,6 @@ Game = new function () {
 
   function startStage() {
     // console.log("startStage " + game.stage);
-    var betStageTime = 5000;
     switch (game.stage) {
       case 0:
         // preflop 
@@ -437,25 +410,25 @@ Game = new function () {
         shuffleCards();
         showPersonalCardsFor([1]);
         startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
+        window.setTimeout(endBetStage, game.clock.betStage);
         break;
       case 1:
         // flop
         showFlopCards();
         startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
+        window.setTimeout(endBetStage, game.clock.betStage);
         break;
       case 2:
         // turn
         showTurnCard();
         startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
+        window.setTimeout(endBetStage, game.clock.betStage);
         break;
       case 3:
         // river
         showRiverCard();
         startBetStage();
-        window.setTimeout(endBetStage, betStageTime);
+        window.setTimeout(endBetStage, game.clock.betStage);
         break;
       case 4:
         //showdown
@@ -498,19 +471,6 @@ Game = new function () {
     document.getElementById('healthReadout').innerHTML = readout;
   }
 
-  // WORKING-BREAKPOINT
-
-  function showContestCards() {
-    var contestNums = [];
-    for (var i = 1; i <= 8; i++) {
-      var player = game.players[i];
-      if (!player.folded) {
-        contestNums.push(i);
-      }
-    }
-    showPersonalCardsFor(contestNums);
-  }
-
   function detectWinCondition() {
     var teamAlive = false;
     for (var i = 1; i <= 4 && teamAlive == false; i++) {
@@ -539,32 +499,38 @@ Game = new function () {
     return false;
   }
 
+  function botSpellCasting() {
+    var winners = game.winners;
+    winners.forEach(function (winnerIdx) {
+      if (winnerIdx != 1) {
+        spellCast(winnerIdx);
+      }
+    });
+  }
+
   function spellLocking() {
     var winners = game.winners;
 
     console.log("Total mana before casting = " + totalMana());
 
-    winners.forEach(function (winnerIdx) {
-      spellCast(winnerIdx);
-    });
+    if (winners.indexOf(1) > -1) {
+      window.setTimeout(timeoutSpellLock, game.clock.spellLocking)
+      botSpellCasting();
+    } else {
+      botSpellCasting();
+    }
 
     console.log("Total mana after casting = " + totalMana());
 
     updateHealthReadout();
 
-    var spellCastingTime = 1000;
-
     if (!detectWinCondition()) {
-      window.setTimeout(advanceStage, spellCastingTime);
+      window.setTimeout(advanceStage, game.clock.spellCasting);
     }
   }
 
-  // BEGIN RED ZONE 
-
-  function faintSprite(pNum) {
-    var el = document.getElementById('sprite' + pNum);
-    el.classList.add('fainted');
-    // el.classList.remove('wizard');
+  function timeoutSpellLock() {
+    return;
   }
 
   function findWinners() {
@@ -644,8 +610,6 @@ Game = new function () {
     }
   }
 
-  // END RED ZONE
-
   function pickTargetNum(pNum) {
     var targetPriorities = [
       null,
@@ -670,11 +634,7 @@ Game = new function () {
     return targets[0];
   }
 
-  function reviveSprite(pNum) {
-    var el = document.getElementById('sprite' + pNum);
-    // el.classList.add('wizard');
-    el.classList.remove('fainted');
-  }
+
 
   function showdown() {
 
@@ -705,7 +665,6 @@ Game = new function () {
   }
 
   function spellCast(pNum) {
-    alert('spellcast by ' + pNum);
     var player = game.players[pNum];
 
     var targNum = pickTargetNum(pNum);
@@ -714,8 +673,8 @@ Game = new function () {
     var moteSpend = 0;
     var spellName = null;
 
-    var reviveCost = 700; // 70;
-    var baseDamageMod = 62.5; //6.25
+    var reviveCost = 100;
+    var baseDamageMod = 10;
 
     if (player.ghost && player.motes.length >= reviveCost) {
       spellName = 'Revive';
@@ -756,4 +715,4 @@ Game = new function () {
 
 Game.init();
 
-alert('finished game.js read revision Epsilon');
+console.log('finished game.js read');
