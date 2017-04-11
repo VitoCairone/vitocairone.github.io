@@ -27,18 +27,18 @@ var Game = new function () {
     motesPerRound: 7,
     render: false,
     painter: null,
-    clock: {
-      betStage: 0,
-      matchStage: 0,
-      spellLocking: 0,
-      spellCasting: 0
-    }
     // clock: {
-    //   betStage: 35,
-    //   matchStage: 15,
-    //   spellLocking: 20,
-    //   spellCasting: 20
+    //   betStage: 0,
+    //   matchStage: 0,
+    //   spellLocking: 0,
+    //   spellCasting: 0
     // }
+    clock: {
+      betStage: 3500,
+      matchStage: 1500,
+      spellLocking: 2000,
+      spellCasting: 2000
+    }
   };
 
   this.begin = function () {
@@ -58,6 +58,11 @@ var Game = new function () {
   this.pressSpellLock = function () {
     alert('spell-lock');
     // spellLock(1);
+  }
+
+  this.setPainter = function (painter) {
+    game.render = true;
+    game.painter = painter;
   }
 
   this.init = function () {
@@ -106,7 +111,7 @@ var Game = new function () {
     game.warpMotes.push(mote);
 
     if (game.render) {
-      painter.painter.animateBet(pNum);
+      game.painter.animateBet(pNum);
     }
     console.log(player.name + " bets")
 
@@ -294,31 +299,6 @@ var Game = new function () {
     shuffle(game.cards)
   }
 
-  function revealElements(nums) {
-    console.log("Revealing " + nums);
-    for (var i = 0; i < nums.length; i++) {
-      var n = nums[i];
-      var elId = 'rev-element-' + n;
-      var elClass = game.cards[15+n] + '-orb';
-      document.getElementById(elId).classList.add(elClass);
-    }
-  }
-
-  function showPersonalCardsFor(nums) {
-    for (var i = 0; i < nums.length; i++) {
-      var n = nums[i];
-      var id1 = n * 2 - 1;
-      var id2 = n * 2;
-      var slot1 = n * 2 - 2;
-      var slot2 = n * 2 - 1;
-      console.log("showing personal cards for " + n);
-      document.getElementById("player-element-" + id1).classList.add(game.cards[slot1] + '-orb');
-      document.getElementById("player-element-" + id2).classList.add(game.cards[slot2] + '-orb');
-    }
-  }
-
-
-
   function startBetStage() { 
 
     if (game.render) {
@@ -421,7 +401,7 @@ var Game = new function () {
         hideAllCards();
         shuffleCards();
         if (game.render) {
-          game.painter.showPersonalCardsFor([1]);
+          game.painter.showPersonalCardsFor([1], game.cards);
         }
         startBetStage();
         triggerByClock(endBetStage, game.clock.betStage);
@@ -429,7 +409,7 @@ var Game = new function () {
       case 1:
         // flop
         if (game.render) {
-          game.painter.showFlopCards();
+          game.painter.showFlopCards(game.cards);
         }
         startBetStage();
         triggerByClock(endBetStage, game.clock.betStage);
@@ -437,7 +417,7 @@ var Game = new function () {
       case 2:
         // turn
         if (game.render) {
-          game.painter.showTurnCard();
+          game.painter.showTurnCard(game.cards);
         }
         startBetStage();
         triggerByClock(endBetStage, game.clock.betStage);
@@ -445,7 +425,7 @@ var Game = new function () {
       case 3:
         // river
         if (game.render) {
-          game.painter.showRiverCard();
+          game.painter.showRiverCard(game.cards);
         }
         startBetStage();
         triggerByClock(endBetStage, game.clock.betStage);
@@ -453,7 +433,7 @@ var Game = new function () {
       case 4:
         //showdown
         if (game.render) {
-          game.painter.showContestCards();
+          showContestCards();
         }
         //showWinners();
         showdown();
@@ -537,6 +517,17 @@ var Game = new function () {
         spellCast(winnerIdx);
       }
     });
+  }
+
+  function showContestCards() {
+    var contestNums = [];
+    for (var i = 1; i <= 8; i++) {
+      var player = game.players[i];
+      if (!player.folded) {
+        contestNums.push(i);
+      }
+    }
+    game.painter.showPersonalCardsFor(contestNums, game.cards);
   }
 
   function spellLocking() {

@@ -1,5 +1,5 @@
 var Painter = new function () {
-  function animateSprites() {
+  this.animateSprites = function () {
     var sprites = document.getElementsByClassName("sprite");
     for (var i = 0; i < sprites.length; i++) {
       sprites[i].classList.remove('frame-1', 'frame-2', 'frame-3', 'frame-4');
@@ -10,14 +10,14 @@ var Painter = new function () {
     };
   }
 
-  function animateResetTimerBar() {
+  this.animateResetTimerBar = function () {
     console.log('resetting');
     // document.getElementById('progress-bar-fill').style.width = "0%";
     document.getElementById('progress-bar-fill').classList.remove('bet-stage', 'match-stage');
     // document.getElementById('progress-bar-fill').classList.add('reset');
   }
 
-  function animateBetTimerBar() {
+  this.animateBetTimerBar = function () {
     // this timeout ensure that at least 1 frame is rendered without
     // a -stage class, resetting the bar to 0. Prefer a cleaner solution
     // which can't fail race conditions. requestAnimationFrame appears
@@ -28,55 +28,69 @@ var Painter = new function () {
     }, 50)
   }
 
-  function animateMatchTimerBar() {
+  this.animateMatchTimerBar = function () {
     document.getElementById('progress-bar-fill').classList.add('match-stage');
   }
 
-  function animateBet(pNum) {
+  this.animateBet = function (pNum) {
     Magnetic.hiliteMagnetParticle(pNum);
   }
 
-  function animateEndMatchStage() {
+  this.animateEndMatchStage = function () {
     for (var i = 1; i <= 8; i++) {
       Magnetic.transferMarkedParticles(i, 0);
     }
   }
 
-  function animateFold(pNum) {
+  this.animateFold = function (pNum) {
     Magnetic.contractParticles(pNum);
   }
 
-  function animateForceBlast(pNum) {
+  this.animateForceBlast = function (pNum) {
     var el = document.getElementById('spellshot' + pNum);
     el.classList.add('inflight');
   }
 
-  function showContestCards() {
-    var contestNums = [];
-    for (var i = 1; i <= 8; i++) {
-      var player = game.players[i];
-      if (!player.folded) {
-        contestNums.push(i);
-      }
-    }
-    showPersonalCardsFor(contestNums);
-  }
+  this.showFlopCards = function (cards) { revealElements([1,2,3], cards); }
 
-  function showFlopCards() { revealElements([1,2,3]); }
+  this.showTurnCard = function (cards) { revealElements([4], cards); }
 
-  function showTurnCard() { revealElements([4]); }
+  this.showRiverCard = function (cards) { revealElements([5], cards); }
 
-  function showRiverCard() { revealElements([5]); }
-
-  function faintSprite(pNum) {
+  this.faintSprite = function (pNum) {
     var el = document.getElementById('sprite' + pNum);
     el.classList.add('fainted');
     // el.classList.remove('wizard');
   }
 
-  function reviveSprite(pNum) {
+  this.reviveSprite = function (pNum) {
     var el = document.getElementById('sprite' + pNum);
     // el.classList.add('wizard');
     el.classList.remove('fainted');
   }
+
+  this.showPersonalCardsFor = function (nums, cards) {
+    for (var i = 0; i < nums.length; i++) {
+      var n = nums[i];
+      var id1 = n * 2 - 1;
+      var id2 = n * 2;
+      var slot1 = n * 2 - 2;
+      var slot2 = n * 2 - 1;
+      console.log("showing personal cards for " + n);
+      document.getElementById("player-element-" + id1).classList.add(cards[slot1] + '-orb');
+      document.getElementById("player-element-" + id2).classList.add(cards[slot2] + '-orb');
+    }
+  }
+
+  function revealElements(nums, cards) {
+    console.log("Revealing " + nums);
+    for (var i = 0; i < nums.length; i++) {
+      var n = nums[i];
+      var elId = 'rev-element-' + n;
+      var elClass = cards[15+n] + '-orb';
+      document.getElementById(elId).classList.add(elClass);
+    }
+  }
 }
+
+Game.setPainter(Painter);

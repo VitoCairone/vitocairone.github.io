@@ -26,6 +26,27 @@ body {
   background-size: 180px 180px;
 }
 
+
+#allyTeamBox {
+  position: absolute;
+  width: 60px; 
+  height: 200px; 
+  left: 0px; 
+  top: 0px; 
+  padding: 0; 
+  margin: 0;
+}
+
+#foeTeamBox {
+  position: absolute;
+  width: 50px; 
+  height: 200px; 
+  right: 0px; 
+  top: 0px; 
+  padding: 0; 
+  margin: 0;
+}
+
 .fold-button {
   position: relative; 
   display: inline-block; 
@@ -261,8 +282,7 @@ body {
 }
 
 .sprite {
-  display: inline-block;
-  /*position: absolute;*/
+  position: absolute;
   height: 40px;
   width: 30px;
   background-image: url('idle_1.png');
@@ -270,7 +290,55 @@ body {
   /*background-color: blue;*/
   /*border-radius: 10%;*/
   /*border: 1px solid orange;*/
-  margin: -10px 0px 0px 20px;
+  margin: 0px;
+}
+
+.sprite.top-row {
+  top: 40px;
+}
+
+.sprite.mid-top-row {
+  top: 80px;
+}
+
+.sprite.mid-bot-row {
+  top: 120px;
+}
+
+.sprite.bot-row {
+  top: 160px;
+}
+
+#allyTeamBox .sprite.top-row {
+  left: 16px;
+}
+
+#allyTeamBox .sprite.mid-top-row {
+  left: 20px;
+}
+
+#allyTeamBox .sprite.mid-bot-row {
+  left: 24px;
+}
+
+#allyTeamBox .sprite.bot-row {
+  left: 28px;
+}
+
+#foeTeamBox .sprite.top-row {
+  right: 16px;
+}
+
+#foeTeamBox .sprite.mid-top-row {
+  right: 20px;
+}
+
+#foeTeamBox .sprite.mid-bot-row {
+  right: 24px;
+}
+
+#foeTeamBox .sprite.bot-row {
+  right: 28px;
 }
 
 .sprite.frame-2 {
@@ -290,7 +358,7 @@ body {
 }
 
 .sprite.right-sprite {
-  margin: -10px 20px 0px 0px;
+  margin: 0px;
   transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
   -moz-transform: scaleX(-1);
@@ -383,6 +451,14 @@ body {
 .spellshot.vanished {
   display: none;
 }
+
+/*.damage-popup {
+  position: absolute;
+  top: 0px;
+  left: 18px;
+  width: 0px;
+  height: 0px;
+}*/
 
 .desert-background {
   /*background-image: url('http://68.media.tumblr.com/81c221724f7f5b05f8e8b72ea0cf393f/tumblr_o0aurfiKlq1sm9gg5o1_500.png');*/
