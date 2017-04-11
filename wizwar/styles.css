@@ -353,18 +353,54 @@ body {
   background-image: url('idle_4.png');
 }
 
-.sprite.top-row {
-  /*margin-top: 65px;*/
-}
-
 .sprite.right-sprite {
-  margin: 0px;
   transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   filter: FlipH;
   -ms-filter: "FlipH";
+}
+
+.damage-popup {
+  margin-top: 20px;
+  font-size: 20px;
+  font-family: courier;
+  font-weight: bold;
+  position: absolute;
+  color: yellow;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#allyTeamBox .damage-popup {
+  left: 35px;
+}
+
+#foeTeamBox .damage-popup {
+  right: 35px;
+}
+
+.damage-popup.top-row {
+  top: 40px;
+}
+
+.damage-popup.mid-top-row {
+  top: 80px;
+}
+
+.damage-popup.mid-bot-row {
+  top: 120px;
+}
+
+.damage-popup.bot-row {
+  top: 160px;
+}
+
+.damage-popup.reporting {
+  transition-property: margin-top;
+  transition-timing-function: linear;
+  transition-duration: 500ms;
+  margin-top: 0px;
 }
 
 /*.spellcore {

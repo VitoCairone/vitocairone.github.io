@@ -1,4 +1,14 @@
 var Painter = new function () {
+  this.animateDamage = function (pNum, amount) {
+    var el = document.getElementById('damage-popup-' + pNum);
+    el.innerHTML = amount;
+    el.classList.add('reporting');
+    window.setTimeout(function () {
+      el.innerHTML = "";
+      el.classList.remove('reporting');
+    }, 500)
+  }
+
   this.animateSprites = function () {
     var sprites = document.getElementsByClassName("sprite");
     for (var i = 0; i < sprites.length; i++) {

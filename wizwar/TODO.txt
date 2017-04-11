@@ -6,10 +6,10 @@ TODO:
   cast attacks on next ally when opponent is ghost [CHECK]
   replace setInterval with synchronous state changes in game logic [CHECK]
   detect win condition [CHECK - Mar 13]
-  show damage popups
-  replace wizard images with CSS sprites
+  show damage popups [CHECK - Apr 11]
+  replace wizard images with CSS sprites <DEFER>
   show struck animation
-  <STRIKE>fire spellbursts from center
+  fire spellbursts from center <STRIKE>
 
   added Mar 8
   confirm Force Blast sprite is facing correct direction when cast from right

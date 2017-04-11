@@ -34,10 +34,10 @@ var Game = new function () {
     //   spellCasting: 0
     // }
     clock: {
-      betStage: 3500,
-      matchStage: 1500,
-      spellLocking: 2000,
-      spellCasting: 2000
+      betStage: 350,
+      matchStage: 150,
+      spellLocking: 200,
+      spellCasting: 200
     }
   };
 
@@ -707,7 +707,7 @@ var Game = new function () {
       player.hp = 500;
       player.ghost = false;
       if (game.render) {
-        reviveSprite(pNum);
+        game.painter.reviveSprite(pNum);
       }
     } else if (player.ghost) {
       spellName = 'Boo!';
@@ -724,6 +724,10 @@ var Game = new function () {
       target.hp -= dam;
 
       console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
+
+      if (game.render) {
+        game.painter.animateDamage(targNum, dam)
+      }
       console.log(target.name + ' has ' + target.hp + ' health remaining.');
 
       checkForFaint(targNum);
