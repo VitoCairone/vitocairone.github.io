@@ -18,8 +18,12 @@
     pressBet = new function () {};
     pressSpellLock = new function () {};
 
+    // modern phones will intentionally ignore user-scalable=no,
+    // because they meaning that tapping on the screen,
+    // including the buttons, will zoom in on that area. This hook captures and
+    // prevents all phone gestures but doesn't block click events.
     document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
-    
+
   </SCRIPT>
 
   <div id="outermost" style="position: relative">
@@ -94,36 +98,29 @@
         <div id="spellshot7" class="spellshot left-facing"></div>
         <div id="spellshot8" class="spellshot left-facing"></div>
 
-        <div id="player-elements">
+        <div id="player-element-1" class="card-el pers-el els-of-1"></div>
+        <div id="player-element-2" class="card-el pers-el els-of-1 right-el"></div>
 
-          <!-- <div id="pers-element-1"></div>
-          <div id="pers-element-2"></div> -->
+        <div id="player-element-3" class="card-el pers-el els-of-2"></div>
+        <div id="player-element-4" class="card-el pers-el els-of-2 right-el"></div>
 
-          <div id="player-element-1" class="card-el els-of-1"></div>
-          <div id="player-element-2" class="card-el els-of-1 right-el"></div>
+        <div id="player-element-5" class="card-el pers-el els-of-3"></div>
+        <div id="player-element-6" class="card-el pers-el els-of-3 right-el"></div>
 
-          <div id="player-element-3" class="card-el els-of-2"></div>
-          <div id="player-element-4" class="card-el els-of-2 right-el"></div>
+        <div id="player-element-7" class="card-el pers-el els-of-4"></div>
+        <div id="player-element-8" class="card-el pers-el els-of-4 right-el"></div>
 
-          <div id="player-element-5" class="card-el els-of-3"></div>
-          <div id="player-element-6" class="card-el els-of-3 right-el"></div>
+        <div id="player-element-9" class="card-el pers-el els-of-5"></div>
+        <div id="player-element-10" class="card-el pers-el els-of-5 right-el"></div>
 
-          <div id="player-element-7" class="card-el els-of-4"></div>
-          <div id="player-element-8" class="card-el els-of-4 right-el"></div>
+        <div id="player-element-11" class="card-el pers-el els-of-6"></div>
+        <div id="player-element-12" class="card-el pers-el els-of-6 right-el"></div>
 
-          <div id="player-element-9" class="card-el els-of-5"></div>
-          <div id="player-element-10" class="card-el els-of-5 right-el"></div>
+        <div id="player-element-13" class="card-el pers-el els-of-7"></div>
+        <div id="player-element-14" class="card-el pers-el els-of-7 right-el"></div>
 
-          <div id="player-element-11" class="card-el els-of-6"></div>
-          <div id="player-element-12" class="card-el els-of-6 right-el"></div>
-
-          <div id="player-element-13" class="card-el els-of-7"></div>
-          <div id="player-element-14" class="card-el els-of-7 right-el"></div>
-
-          <div id="player-element-15" class="card-el els-of-8"></div>
-          <div id="player-element-16" class="card-el els-of-8 right-el"></div>
-
-        </div>
+        <div id="player-element-15" class="card-el pers-el els-of-8"></div>
+        <div id="player-element-16" class="card-el pers-el els-of-8 right-el"></div>
 
       </div> <!-- /combat-area -->
 

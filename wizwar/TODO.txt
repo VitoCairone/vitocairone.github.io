@@ -13,11 +13,11 @@ TODO:
   fire spellbursts from center <STRIKE>
 
   added Mar 8
-  confirm Force Blast sprite is facing correct direction when cast from right
+  confirm Force Blast sprite is facing correct direction when cast from right [CHECK - Apr 11]
   animate Force Blast spites
   pre-load projectile CSS sprites in background
-  animate correct projectile trajectory when target is not opposite
-  target 320 x 480 screen
+  animate correct projectile trajectory when target is not opposite [CHECK - Apr 11]
+  target 320 x 480 screen [CHECK - Apr 11]
 
   added Mar 13
   test appearence on web/phone via githubpages [CHECK]
