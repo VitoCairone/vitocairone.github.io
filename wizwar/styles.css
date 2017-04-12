@@ -238,7 +238,6 @@ body {
 }
 
 #player-element-9 {
-  border: 1px solid green;
   position: absolute;
   top: 40px;
   right: 92px;
@@ -246,7 +245,6 @@ body {
 
 #player-element-10 {
   position: absolute;
-  border: 1px solid yellow;
   top: 40px;
   right: 70px;
 }
