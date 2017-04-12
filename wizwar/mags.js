@@ -5,7 +5,7 @@ Magnetic = new function() {
   var SCREEN_WIDTH = window.innerWidth;
   var SCREEN_HEIGHT = window.innerHeight;
 
-  var RIGHT_OFFSET_CONST = 50;
+  var RIGHT_OFFSET_CONST = 38;
 
   // console.log('SCREEN_WIDTH is ' + SCREEN_WIDTH);
   // console.log('SCREEN_HEIGHT is ' + SCREEN_HEIGHT);
@@ -248,14 +248,11 @@ Magnetic = new function() {
     for (i = 0, ilen = particles.length; i < ilen; i++) {
       particle = particles[i];
       
-      var currentDistance = -1;
-      var closestDistance = -1;
-      var closestMagnet = null;
-      var activeMagnet = null;
-      
       var force = { x: 0, y: 0 };
       
       if (particle.magnet != null) {
+        
+        magnet = particle.magnet;
 
         var fx = magnet.position.x - particle.position.x;
         // if( fx > -MAGNETIC_FORCE_THRESHOLD && fx < MAGNETIC_FORCE_THRESHOLD ) {
@@ -267,38 +264,6 @@ Magnetic = new function() {
           force.y += fy / MAGNETIC_FORCE_THRESHOLD;
         // }
 
-      } else {
-        console.log('CHECKING CLOSEST MAGNET');
-        // For each particle, we check what the closes magnet is
-        for( j = 0, jlen = magnets.length; j < jlen; j++ ) {
-          magnet = magnets[j];
-          
-          currentDistance = distanceBetween( particle.position, magnet.position ) - ( magnet.orbit * 0.5 );
-          
-          if( particle.magnet != magnet ) {
-            var fx = magnet.position.x - particle.position.x;
-            if( fx > -MAGNETIC_FORCE_THRESHOLD && fx < MAGNETIC_FORCE_THRESHOLD ) {
-              force.x += fx / MAGNETIC_FORCE_THRESHOLD;
-            }
-            
-            var fy = magnet.position.y - particle.position.y;
-            if( fy > -MAGNETIC_FORCE_THRESHOLD && fy < MAGNETIC_FORCE_THRESHOLD ) {
-              force.y += fy / MAGNETIC_FORCE_THRESHOLD;
-            }
-            
-          }
-            
-          if( closestMagnet == null || currentDistance < closestDistance ) {
-            closestDistance = currentDistance;
-            closestMagnet = magnet;
-          }
-        }
-        
-        if( particle.magnet == null || particle.magnet != closestMagnet ) {
-          particle.magnet = closestMagnet;
-        }
-        
-        closestMagnet.connections += 1;
       }
       
       // Rotation

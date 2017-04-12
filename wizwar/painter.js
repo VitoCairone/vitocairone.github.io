@@ -56,9 +56,10 @@ var Painter = new function () {
     Magnetic.contractParticles(pNum);
   }
 
-  this.animateForceBlast = function (pNum) {
+  this.animateForceBlast = function (pNum, targNum) {
     var el = document.getElementById('spellshot' + pNum);
     el.classList.add('inflight');
+    el.classList.add('target' + targNum);
   }
 
   this.showFlopCards = function (cards) { revealElements([1,2,3], cards); }
@@ -70,12 +71,10 @@ var Painter = new function () {
   this.faintSprite = function (pNum) {
     var el = document.getElementById('sprite' + pNum);
     el.classList.add('fainted');
-    // el.classList.remove('wizard');
   }
 
   this.reviveSprite = function (pNum) {
     var el = document.getElementById('sprite' + pNum);
-    // el.classList.add('wizard');
     el.classList.remove('fainted');
   }
 
@@ -86,7 +85,6 @@ var Painter = new function () {
       var id2 = n * 2;
       var slot1 = n * 2 - 2;
       var slot2 = n * 2 - 1;
-      console.log("showing personal cards for " + n);
       document.getElementById("player-element-" + id1).classList.add(cards[slot1] + '-orb');
       document.getElementById("player-element-" + id2).classList.add(cards[slot2] + '-orb');
     }

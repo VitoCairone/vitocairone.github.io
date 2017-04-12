@@ -428,8 +428,6 @@ body {
 .spellshot {
   /*display: inline-block;*/
   position: absolute;
-  top: 0px;
-  left: 18px;
   visibility: hidden;
   width: 33px;
   height: 30px;
@@ -438,51 +436,108 @@ body {
   /*border: 1px solid blue;*/
 }
 
+#spellshot1 {
+  top: 45px;
+  left: 40px;
+}
+
 #spellshot2 {
-  top: 32px;
+  top: 85px;
+  left: 44px;
 }
 
 #spellshot3 {
-  top: 64px;
+  top: 125px;
+  left: 48px;
 }
 
 #spellshot4 {
-  top: 96px;
+  top: 165px;
+  left: 52px;
+}
+
+#spellshot5 {
+  top: 45px;
+  left: calc(100% - 33px - 40px);
 }
 
 #spellshot6 {
-  top: 32px;
+  top: 85px;
+  left: calc(100% - 33px - 44px);
 }
 
 #spellshot7 {
-  top: 64px;
+  top: 125px;
+  left: calc(100% - 33px - 48px);
 }
 
 #spellshot8 {
-  top: 96px;
+  top: 165px;
+  left: calc(100% - 33px - 52px);
+}
+
+.target1 {
+  top: 45px !important;
+  left: 20px !important;
+}
+
+.target2 {
+  top: 85px !important;
+  left: 20px !important;
+}
+
+.target3 {
+  top: 125px !important;
+  left: 20px !important;
+}
+
+.target4 {
+  top: 165px !important;
+  left: 20px !important;
+  /*right: auto;*/
+}
+
+.target5 {
+  top: 45px !important;
+  left: calc(100% - 33px - 20px) !important;
+}
+
+.target6 {
+  top: 85px !important;
+  left: calc(100% - 33px - 20px) !important;
+}
+
+.target7 {
+  top: 125px !important;
+  left: calc(100% - 33px - 20px) !important;
+}
+
+.target8 {
+  top: 165px !important;
+  left: calc(100% - 33px - 20px) !important;
 }
 
 .spellshot.inflight {
+  /*border: 2px solid green;*/
   visibility: visible;
-  -webkit-transform: translate(330px, 0px);
-  -webkit-transition-property: visibility, -webkit-transform;
-  -webkit-transition-duration: 0s, 0.6s;
+  transition-property: left, top;
+  transition-timing-function: linear, linear, linear;
+  transition-duration: 0.7s, 0.7s;
+  transition-delay: 0s, 0s;
+  -webkit-transition-property: left, top;
+  -webkit-transition-duration: 0.7s, 0.7s;
   -webkit-transition-delay: 0s, 0s;
   -webkit-transition-timing-function: linear, linear;
 }
 
-#foeTeamBox .spellshot.inflight {
-  -webkit-transform: translate(-350px, 0px);
-}
-
-/*#foeTeamBox .spellshot {
+.left-facing {
   transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   filter: FlipH;
   -ms-filter: "FlipH";
-}*/
+}
 
 .spellshot.vanished {
   display: none;

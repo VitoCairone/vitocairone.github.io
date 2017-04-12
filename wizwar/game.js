@@ -25,7 +25,7 @@ var Game = new function () {
       betStage: 350,
       matchStage: 150,
       spellLocking: 200,
-      spellCasting: 200
+      spellCasting: 750
     },
     runhot: {
       betStage: 0,
@@ -48,7 +48,7 @@ var Game = new function () {
     motesPerRound: 7,
     render: false,
     painter: null,
-    clock: clocks.fast
+    clock: clocks.normal
   };
 
   this.begin = function () {
@@ -523,7 +523,7 @@ var Game = new function () {
   function botSpellCasting() {
     var winners = game.winners;
     winners.forEach(function (winnerIdx) {
-      if (winnerIdx != 1) {
+      if (true || winnerIdx != 1) {
         spellCast(winnerIdx);
       }
     });
@@ -545,19 +545,26 @@ var Game = new function () {
 
     console.log("Total mana before casting = " + totalMana());
 
-    if (winners.indexOf(1) > -1) {
-      botSpellCasting();
-      triggerByClock(timeoutSpellLock, game.clock.spellLocking)
-    } else {
-      botSpellCasting();
-    }
+    // if (winners.indexOf(1) > -1) {
+    //   botSpellCasting();
+    //   triggerByClock(timeoutSpellLock, game.clock.spellLocking)
+    // } else {
+    //   botSpellCasting();
+    // }
+
+    // when rendering, the strike is DELAYED by the time for
+    // the animation to complete, so behavior here is async!!
+
+    botSpellCasting();
 
     console.log("Total mana after casting = " + totalMana());
 
+    // not proper async design
     updateHealthReadout();
 
+    // not proper async design
     if (!detectWinCondition()) {
-      triggerByClock(advanceStage, game.clock.spellLocking);
+      triggerByClock(advanceStage, game.clock.spellCasting);
     }
   }
 
@@ -578,7 +585,12 @@ var Game = new function () {
       var gestalt = getCommonCards().concat(getPlayerCards(i));
       player.gestalt = gestalt;
       score = gestaltRank(gestalt);
-      console.log(player.name + ' has ' + gestalt + ' worth ' + score);
+
+      var shortHand = [];
+      for (var j = 0; j < gestalt.length; j++) {
+        shortHand.push(gestalt[j].charAt(0).toUpperCase())
+      }
+      console.log(player.name + ' has ' + shortHand.join('') + ' worth ' + score);
       // game.players[i].score = score;
 
       if (score > topScore) {
@@ -697,6 +709,31 @@ var Game = new function () {
     triggerByClock(advanceStage, game.clock.spellLocking);
   }
 
+  function spellStrike(pNum, targNum, spellName, moteSpend) {
+
+    var baseDamageMod = 7;
+
+    var player = game.players[pNum];
+    var target = game.players[targNum];
+
+    var dam = Math.ceil(baseDamageMod * moteSpend);
+    if (target.ghost) {
+      dam = 0;
+    }
+
+    target.hp -= dam;
+
+    if (game.render) {
+      game.painter.animateDamage(targNum, dam);
+    }
+
+    console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
+
+    console.log(target.name + ' has ' + target.hp + ' health remaining.');
+
+    checkForFaint(targNum);
+  }
+
   function spellCast(pNum) {
     var player = game.players[pNum];
 
@@ -707,7 +744,6 @@ var Game = new function () {
     var spellName = null;
 
     var reviveCost = 100;
-    var baseDamageMod = 7;
 
     if (player.ghost && player.motes.length >= reviveCost) {
       spellName = 'Revive';
@@ -727,31 +763,25 @@ var Game = new function () {
       spellName = 'Force Blast';
       moteSpend = Math.ceil(player.motes.length * 0.5);
 
-      var dam = Math.ceil(baseDamageMod * moteSpend);
-      if (target.ghost) {
-        dam = 0;
-      }
-      target.hp -= dam;
+      // First, destruct particles
 
-      console.log(player.name + ' spent ' + moteSpend + ' mana to cast force blast on ' + target.name + ' for ' + dam + ' damage.');
+      player.motes = player.motes.slice(moteSpend, player.motes.length);
 
       if (game.render) {
-        game.painter.animateDamage(targNum, dam)
+        Magnetic.destructParticles(pNum, moteSpend);
       }
-      console.log(target.name + ' has ' + target.hp + ' health remaining.');
 
-      checkForFaint(targNum);
+      // Then, transit spell, applying strike after
+
+      if (game.render && spellName == 'Force Blast') {
+        game.painter.animateForceBlast(pNum, targNum);
+        window.setTimeout(spellStrike.bind(null, pNum, targNum, 'Force Blast', moteSpend), 700);
+      } else if (spellName == 'Force Blast') {
+        spellStrike(pNum, targNum, 'Force Blast', moteSpend);
+      }
+
     }
 
-    if (game.render && spellName == 'Force Blast') {
-      game.painter.animateForceBlast(pNum);
-    }
-
-    player.motes = player.motes.slice(moteSpend, player.motes.length);
-
-    if (game.render) {
-      Magnetic.destructParticles(pNum, moteSpend);
-    }
   }
 }
 
