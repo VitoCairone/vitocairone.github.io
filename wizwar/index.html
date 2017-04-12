@@ -40,6 +40,11 @@
       <div id="combat-area" style="position: relative; width: 100%; margin: 0 auto;">
         
         <div id="allyTeamBox" class="team-box">
+          <div id="damage-back-1" class="damage-back top-row"></div>
+          <div id="damage-back-2" class="damage-back mid-top-row"></div>
+          <div id="damage-back-3" class="damage-back mid-bot-row"></div>
+          <div id="damage-back-4" class="damage-back bot-row"></div>
+
           <div id="sprite1" class="sprite wizard top-row" frame="1"></div>
           <div id="sprite2" class="sprite wizard mid-top-row" frame="1"></div>
           <div id="sprite3" class="sprite wizard mid-bot-row" frame="1"></div>
@@ -56,68 +61,71 @@
           <div id="damage-popup-4" class="damage-popup bot-row"></div>
         </div>
 
-          <!-- <div id="glyph" class="spin-1s">
-            <svg>
-              <circle cx="50" cy="50" r="48" stroke="black" stroke-width="1" fill="none"/>
-              <polyline points="50,0 90,75 15,85 50,0" stroke="black" stroke-width="1" fill="none"></polyline>
-            </svg>
-          </div> -->
+        <!-- <div id="glyph" class="spin-1s">
+          <svg>
+            <circle cx="50" cy="50" r="48" stroke="black" stroke-width="1" fill="none"/>
+            <polyline points="50,0 90,75 15,85 50,0" stroke="black" stroke-width="1" fill="none"></polyline>
+          </svg>
+        </div> -->
 
-          <div id="foeTeamBox" class="team-box">
-            <div id="sprite5" class="sprite wizard right-sprite top-row frame-1"></div>
-            <!-- <div id="spell5" style="display: inline-block; height: 10px; width: 10px; background-color: orange;"> -->
+        <div id="foeTeamBox" class="team-box">
 
-            <div id="sprite6" class="sprite wizard right-sprite mid-top-row frame-1"></div>
+          <div id="damage-back-5" class="damage-back top-row"></div>
+          <div id="damage-back-6" class="damage-back mid-top-row"></div>
+          <div id="damage-back-7" class="damage-back mid-bot-row"></div>
+          <div id="damage-back-8" class="damage-back bot-row"></div>
 
-            <div id="sprite7" class="sprite wizard right-sprite mid-bot-row frame-1"></div>
+          <div id="sprite5" class="sprite wizard right-sprite top-row frame-1"></div>
+          <div id="sprite6" class="sprite wizard right-sprite mid-top-row frame-1"></div>
+          <div id="sprite7" class="sprite wizard right-sprite mid-bot-row frame-1"></div>
+          <div id="sprite8" class="sprite wizard right-sprite bot-row frame-1"></div>
 
-            <div id="sprite8" class="sprite wizard right-sprite bot-row frame-1"></div>
+          <div id="spellshot5" class="spellshot"></div>
+          <div id="spellshot6" class="spellshot"></div>
+          <div id="spellshot7" class="spellshot"></div>
+          <div id="spellshot8" class="spellshot"></div>
 
-            <div id="spellshot5" class="spellshot"></div>
-            <div id="spellshot6" class="spellshot"></div>
-            <div id="spellshot7" class="spellshot"></div>
-            <div id="spellshot8" class="spellshot"></div>
-
-            <div id="damage-popup-5" class="damage-popup top-row"></div>
-            <div id="damage-popup-6" class="damage-popup mid-top-row"></div>
-            <div id="damage-popup-7" class="damage-popup mid-bot-row"></div>
-            <div id="damage-popup-8" class="damage-popup bot-row"></div>
-          </div>
-
-          <div id="player-elements">
-
-            <!-- <div id="pers-element-1"></div>
-            <div id="pers-element-2"></div> -->
-
-            <div id="player-element-1" class="card-el els-of-1"></div>
-            <div id="player-element-2" class="card-el els-of-1 right-el"></div>
-
-            <div id="player-element-3" class="card-el els-of-2"></div>
-            <div id="player-element-4" class="card-el els-of-2 right-el"></div>
-
-            <div id="player-element-5" class="card-el els-of-3"></div>
-            <div id="player-element-6" class="card-el els-of-3 right-el"></div>
-
-            <div id="player-element-7" class="card-el els-of-4"></div>
-            <div id="player-element-8" class="card-el els-of-4 right-el"></div>
-
-            <div id="player-element-9" class="card-el els-of-5"></div>
-            <div id="player-element-10" class="card-el els-of-5 right-el"></div>
-
-            <div id="player-element-11" class="card-el els-of-6"></div>
-            <div id="player-element-12" class="card-el els-of-6 right-el"></div>
-
-            <div id="player-element-13" class="card-el els-of-7"></div>
-            <div id="player-element-14" class="card-el els-of-7 right-el"></div>
-
-            <div id="player-element-15" class="card-el els-of-8"></div>
-            <div id="player-element-16" class="card-el els-of-8 right-el"></div>
-
-          </div>
+          <div id="damage-popup-5" class="damage-popup top-row"></div>
+          <div id="damage-popup-6" class="damage-popup mid-top-row"></div>
+          <div id="damage-popup-7" class="damage-popup mid-bot-row"></div>
+          <div id="damage-popup-8" class="damage-popup bot-row"></div>
 
         </div>
 
-      </div>
+        <div id="player-elements">
+
+          <!-- <div id="pers-element-1"></div>
+          <div id="pers-element-2"></div> -->
+
+          <div id="player-element-1" class="card-el els-of-1"></div>
+          <div id="player-element-2" class="card-el els-of-1 right-el"></div>
+
+          <div id="player-element-3" class="card-el els-of-2"></div>
+          <div id="player-element-4" class="card-el els-of-2 right-el"></div>
+
+          <div id="player-element-5" class="card-el els-of-3"></div>
+          <div id="player-element-6" class="card-el els-of-3 right-el"></div>
+
+          <div id="player-element-7" class="card-el els-of-4"></div>
+          <div id="player-element-8" class="card-el els-of-4 right-el"></div>
+
+          <div id="player-element-9" class="card-el els-of-5"></div>
+          <div id="player-element-10" class="card-el els-of-5 right-el"></div>
+
+          <div id="player-element-11" class="card-el els-of-6"></div>
+          <div id="player-element-12" class="card-el els-of-6 right-el"></div>
+
+          <div id="player-element-13" class="card-el els-of-7"></div>
+          <div id="player-element-14" class="card-el els-of-7 right-el"></div>
+
+          <div id="player-element-15" class="card-el els-of-8"></div>
+          <div id="player-element-16" class="card-el els-of-8 right-el"></div>
+
+        </div>
+
+      </div> <!-- /combat-area -->
+
+    </div> <!-- /scene-box -->
 
     <div id="control-area" style="position: relative; margin: 0 auto; width: 393px;">
       <!-- <div id="teamVitalsBox">
@@ -142,15 +150,19 @@
           </div>
         </div>
 
-      <div id="spellLockButton" class="action-button" onclick="pressSpellLock()">
-        CAST
+      <div id="spellButtons">
+        <div id="signature-spell-button" class="spell-button signature"></div>
+        <div id="special-spell-button" class="spell-button special"></div>
+        <div id="warp-spell-button" class="spell-button warp"></div>
+        <div id="ultimate-spell-button" class="spell-button ultimate"></div>
       </div>
 
       <div id="healthReadout">
       </div>
 
     </div>
-  </div>
+
+  </div> <!-- /control-area -->
 
   <!-- Magnetic should never need to call anything from Game -->
   <script src="mags.js" type="text/javascript"></script>
@@ -161,6 +173,8 @@
 
   <SCRIPT>
 
+    // this method of watching for 'transitioned' events to fire seems kind of ugly...
+    // possibly prefer just to sync timing of effect-end functions
     (function() {
       function whichTransitionEvent(){
         var t;

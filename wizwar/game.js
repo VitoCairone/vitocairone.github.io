@@ -14,6 +14,27 @@ console.log('start game.js read');
 
 var Game = new function () {
 
+  var clocks = {
+    normal: {
+      betStage: 3500,
+      matchStage: 1500,
+      spellLocking: 2000,
+      spellCasting: 2000
+    },
+    fast: {
+      betStage: 350,
+      matchStage: 150,
+      spellLocking: 200,
+      spellCasting: 200
+    },
+    runhot: {
+      betStage: 0,
+      matchStage: 0,
+      spellLocking: 0,
+      spellCasting: 0
+    }
+  }
+
   var game = {
     elements: ['earth', 'fire', 'air', 'water', 'ice', 'dark', 'light'],
     pNums: [1, 2, 3, 4, 5, 6, 7, 8],
@@ -27,18 +48,7 @@ var Game = new function () {
     motesPerRound: 7,
     render: false,
     painter: null,
-    // clock: {
-    //   betStage: 0,
-    //   matchStage: 0,
-    //   spellLocking: 0,
-    //   spellCasting: 0
-    // }
-    clock: {
-      betStage: 350,
-      matchStage: 150,
-      spellLocking: 200,
-      spellCasting: 200
-    }
+    clock: clocks.fast
   };
 
   this.begin = function () {

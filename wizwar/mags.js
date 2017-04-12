@@ -1,9 +1,11 @@
 console.log('running mags.js');
 
 Magnetic = new function() {
-  
+
   var SCREEN_WIDTH = window.innerWidth;
   var SCREEN_HEIGHT = window.innerHeight;
+
+  var RIGHT_OFFSET_CONST = 50;
 
   // console.log('SCREEN_WIDTH is ' + SCREEN_WIDTH);
   // console.log('SCREEN_HEIGHT is ' + SCREEN_HEIGHT);
@@ -51,8 +53,8 @@ Magnetic = new function() {
       
       createMagnets();
       
-      // window.addEventListener('resize', windowResizeHandler, false);
-      // windowResizeHandler();
+      window.addEventListener('resize', windowResizeHandler, false);
+      windowResizeHandler();
       
       requestAnimationFrame( loop );
     }
@@ -363,10 +365,23 @@ Magnetic = new function() {
     canvas.height = SCREEN_HEIGHT;
     
     canvas.style.position = 'absolute';
+
+    var topFoeMagnet = magnets[5];
+    var offsetDelta = (SCREEN_WIDTH - RIGHT_OFFSET_CONST) - topFoeMagnet.position.x;
+
+    magnets[0].position.x = SCREEN_WIDTH / 2;
+
+    for (var i = 5; i < magnets.length; i++) {
+      var magnet = magnets[i];
+      magnet.position.x += offsetDelta;
+      for (var j = 0; j < magnet.particles.length; j++) {
+        magnet.particles[j].shift.x += offsetDelta;
+      }
+    }
     
     // it seems like this will always be '0px'...
-    canvas.style.left = (window.innerWidth - SCREEN_WIDTH) * .5 + 'px';
-    canvas.style.top = (window.innerHeight - SCREEN_HEIGHT) * .5 + 'px';
+    // canvas.style.left = (window.innerWidth - SCREEN_WIDTH) * .5 + 'px';
+    // canvas.style.top = (window.innerHeight - SCREEN_HEIGHT) * .5 + 'px';
   }
   
 };
