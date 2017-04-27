@@ -1,0 +1,14 @@
+note: Day 1 = Apr 18 = github day 9
+
+Sun 4-23 (Day 6) 9:35a-10:30 (55m)
+  monteCarlo for predictive odds
+  + additional evening time, ~1hr
+
+Mon 4-24 (Day 7) 10:00p-11:05p (1h05m)
+  monteCarlo for predictive odds, all stages and scenarios
+  + Pixi1, show orbs from mags.js
+
+Tue 4-25 (Day 8) 9:36a-10:41a (1h05m)
+  Pixi1, show orbs at proper positions on transparent back
+  
+Wed 4-26 (Day 9) 

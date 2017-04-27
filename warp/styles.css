@@ -1,0 +1,749 @@
+@-ms-viewport {
+  width: device-width;
+}
+
+body {
+  background-image: url('star-background.jpg');
+  background-size: 180px 180px;
+}
+
+
+#allyTeamBox {
+  position: absolute;
+  width: 60px; 
+  height: 200px; 
+  left: 0px; 
+  top: 0px; 
+  padding: 0; 
+  margin: 0;
+}
+
+#foeTeamBox {
+  position: absolute;
+  width: 50px; 
+  height: 200px; 
+  right: 0px; 
+  top: 0px; 
+  padding: 0; 
+  margin: 0;
+}
+
+.fold-button {
+  position: relative; 
+  display: inline-block; 
+  border-radius: 13%; 
+  border: 2px solid blue;
+  height: 64px; 
+  width: 35%; 
+  margin: 6px 4% 6px 9%; 
+}
+
+.raise-button {
+  position: relative; 
+  display: inline-block; 
+  border-radius: 13%; 
+  height: 64px; 
+  width: 35%; 
+  border: 2px solid blue;
+  margin: 6px 9% 6px 4%; 
+}
+
+/*.action-button {
+  background-color: navy;
+}*/
+
+.spell-button {
+  position: absolute;
+  border-radius: 13%;
+  height: 54px;
+  width: 20%;
+  background-color: navy;
+  border: 2px solid blue;
+}
+
+#signature-spell-button {
+  left: 2.5%;
+}
+
+#special-spell-button {
+  left: 27.5%;
+}
+
+#warp-spell-button {
+  left: 52.5%;
+}
+
+#ultimate-spell-button {
+  left: 77.5%;
+}
+
+.action-button:active {
+  background-color: blue;
+}
+
+.action-button .center-text {
+  position: absolute; 
+  left: 0; 
+  top: 22px; 
+  width: 100%; 
+  text-align: center; 
+  font-size: 14px;
+  color: white;
+}
+
+.center-text {
+  position: absolute; 
+  left: 0; 
+  top: 22px; 
+  width: 100%; 
+  text-align: center; 
+  font-size: 14px;
+  color: white;
+}
+
+.spell-button .center-text {
+  top: 10px;
+}
+
+.dark-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: black; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.light-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: white; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.earth-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: green; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.fire-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: red; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.air-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: yellow; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.water-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: blue; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.ice-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: cyan;
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.void-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: indigo; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+.gold-orb {
+  /*display: inline-block; */
+  border-radius: 50%; 
+  background-color: gold; 
+  height: 16px; 
+  width: 16px; 
+  border: 2px solid silver;
+}
+
+#player-elements {
+  position: absolute; 
+  margin-left: 65px;
+  border: 1px solid orange;
+}
+
+/*#pers-element-1 {
+  position: absolute;
+  top: 100px;
+}
+
+#pers-element-2 {
+  position: absolute;
+  top: 100px;
+  left: 22px;
+}*/
+
+.pers-el {
+  /* should be 15px, sprites are shortened... */
+  position: absolute;
+  margin-top: 7px;
+}
+
+#player-element-1 {
+  left: 70px;
+}
+
+#player-element-2 {
+  left: 92px;
+}
+
+#player-element-3 {
+  left: 66px;
+}
+
+#player-element-4 {
+  left: 88px;
+}
+
+#player-element-5 {
+  left: 62px;
+}
+
+#player-element-6 {
+  left: 84px;
+}
+
+#player-element-7 {
+  left: 58px;
+}
+
+#player-element-8 {
+  left: 80px;
+}
+
+#player-element-9 {
+  right: 92px;
+}
+
+#player-element-10 {
+  right: 70px;
+}
+
+#player-element-11 {
+  right: 88px;
+}
+
+#player-element-12 {
+  right: 66px;
+}
+
+#player-element-13 {
+  right: 84px;
+}
+
+#player-element-14 {
+  right: 62px;
+}
+
+#player-element-15 {
+  right: 80px;
+}
+
+#player-element-16 {
+  right: 58px;
+}
+
+#bet-count-overlay {
+  position: absolute;
+  background-color: navy;
+  height: 0%;
+  width: 100%;
+  bottom: 0px;
+  border-radius: 13% 13% 13% 13%
+}
+
+#defend-overlay {
+  position: absolute;
+  background-color: navy;
+  height: 0%;
+  width: 100%;
+  bottom: 0px;
+  border-radius: 13% 13% 13% 13% 
+}
+
+#defend-overlay.defend {
+  height: 100%;
+}
+
+#bet-count-overlay.count-1 {
+  height: 14.2%;
+}
+
+#bet-count-overlay.count-2 {
+  height: 28.5%;
+}
+
+#bet-count-overlay.count-3 {
+  height: 42.8%;
+}
+
+#bet-count-overlay.count-4 {
+  height: 57.1%;
+}
+
+#bet-count-overlay.count-5 {
+  height: 71.4%;
+}
+
+#bet-count-overlay.count-6 {
+  height: 85.7%;
+}
+
+#bet-count-overlay.count-7 {
+  height: 100%;
+}
+
+.sprite {
+  /*border: 1px dashed orange;*/
+  position: absolute;
+  height: 31px;
+  width: 30px;
+  background: url('piskel3.png') left center;
+  /*background-size: 30px 40px;*/
+  background-position: 0px, 0px;
+  /*background-color: blue;*/
+  /*border-radius: 10%;*/
+  /*border: 1px solid orange;*/
+  margin: 0px;
+  animation: playsprite 0.4s steps(4) infinite;
+  z-index: 100;
+}
+
+@keyframes playsprite {
+   from { background-position-x:   0px; }
+     to { background-position-x: -120px; }
+}
+
+.top-row {
+  top: 100px;
+}
+
+.mid-top-row {
+  top: 140px;
+}
+
+.mid-bot-row {
+  top: 180px;
+}
+
+.bot-row {
+  /*top: 90%;*/
+  top: 220px;
+}
+
+#allyTeamBox .sprite.top-row {
+  left: 28px;
+}
+
+#allyTeamBox .sprite.mid-top-row {
+  left: 24px;
+}
+
+#allyTeamBox .sprite.mid-bot-row {
+  left: 20px;
+}
+
+#allyTeamBox .sprite.bot-row {
+  left: 16px;
+}
+
+#foeTeamBox .sprite.top-row {
+  right: 28px;
+}
+
+#foeTeamBox .sprite.mid-top-row {
+  right: 24px;
+}
+
+#foeTeamBox .sprite.mid-bot-row {
+  right: 20px;
+}
+
+#foeTeamBox .sprite.bot-row {
+  right: 16px;
+}
+
+.sprite.right-sprite {
+  transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.damage-popup {
+  margin-top: 20px;
+  font-size: 20px;
+  font-family: courier;
+  font-weight: bold;
+  position: absolute;
+  color: yellow;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#allyTeamBox .damage-popup {
+  left: 35px;
+}
+
+#foeTeamBox .damage-popup {
+  right: 35px;
+}
+
+.damage-popup.reporting {
+  transition-property: margin-top;
+  transition-timing-function: linear;
+  transition-duration: 500ms;
+  margin-top: 0px;
+}
+
+/*.spellcore {
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(red, green, cyan);
+  border-radius: 50%;
+}
+
+#spellcore2 {
+  top: 32px;
+}
+
+#spellcore3 {
+  top: 68px;
+}
+
+#spellcore4 {
+  top: 104px;
+}*/
+
+.spellshot {
+  margin-top: 5px;
+  position: absolute;
+  visibility: hidden;
+  width: 33px;
+  height: 30px;
+  background: url('piskel2.gif') left center;
+  background-position: -100px -10px;
+}
+
+/* so this works... but why?? why is the final position
+changed all the way to the RIGHT edge when the initial is defined
+by the left edge? */
+@keyframes playblast {
+  from { background-position-x: -100px; } 
+    to { background-position-x: -206px; }
+}
+
+#spellshot1 {
+  left: 28px;
+}
+
+#spellshot2 {
+  left: 24px;
+}
+
+#spellshot3 {
+  left: 20px;
+}
+
+#spellshot4 {
+  left: 16px;
+}
+
+#spellshot5 {
+  left: calc(100% - 33px - 28px);
+}
+
+#spellshot6 {
+  left: calc(100% - 33px - 24px);
+}
+
+#spellshot7 {
+  left: calc(100% - 33px - 20px);
+}
+
+#spellshot8 {
+  left: calc(100% - 33px - 16px);
+}
+
+.target1 {
+  top: 100px !important;
+  left: 28px !important;
+}
+
+.target2 {
+  top: 140px !important;
+  left: 24px !important;
+}
+
+.target3 {
+  top: 180px !important;
+  left: 20px !important;
+}
+
+.target4 {
+  top: 220px !important;
+  left: 16px !important;
+  /*right: auto;*/
+}
+
+.target5 {
+  top: 100px !important;
+  left: calc(100% - 33px - 28px) !important;
+}
+
+.target6 {
+  top: 140px !important;
+  left: calc(100% - 33px - 24px) !important;
+}
+
+.target7 {
+  top: 180px !important;
+  left: calc(100% - 33px - 20px) !important;
+}
+
+.target8 {
+  top: 220px !important;
+  left: calc(100% - 33px - 16px) !important;
+}
+
+.spellshot.inflight {
+  /*border: 2px solid green;*/
+  visibility: visible;
+  animation: playblast .35s steps(3) infinite;
+
+  transition-property: left, top;
+  transition-timing-function: linear, linear, linear;
+  transition-duration: 0.7s, 0.7s;
+  transition-delay: 0s, 0s;
+  -webkit-transition-property: left, top;
+  -webkit-transition-duration: 0.7s, 0.7s;
+  -webkit-transition-delay: 0s, 0s;
+  -webkit-transition-timing-function: linear, linear;
+}
+
+.left-facing {
+  transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+/*.spellshot.vanished {
+  display: none;
+}*/
+
+/*.damage-popup {
+  position: absolute;
+  top: 0px;
+  left: 18px;
+  width: 0px;
+  height: 0px;
+}*/
+
+#combat-area {
+  height: 100%;
+}
+
+.desert-background {
+  /*background-image: url('http://68.media.tumblr.com/81c221724f7f5b05f8e8b72ea0cf393f/tumblr_o0aurfiKlq1sm9gg5o1_500.png');*/
+  background-image: url('desert.png');
+}
+
+#glyph {
+  margin: 50px auto 0 auto;
+  border-radius: 50%;
+  height: 140px;
+  width: 140px;
+
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(-90deg, violet, cyan); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(-90deg, violet, cyan); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(-90deg, violet, cyan); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(-90deg, violet, cyan); /* Standard syntax */
+}
+
+#progress-bar-back {
+  height: 30px;
+  background-color: navy;
+}
+
+#progress-bar-fill {
+  height: 30px;
+  background-color: blue;
+  width: 0%;
+}
+
+#progress-bar-fill.bet-stage {
+  transition-property: width;
+  transition-timing-function: linear;
+  transition-duration: 5s;
+  width: 71.4%;
+  /*transition-property: width;
+  transition-duration: 5s;
+  transition-timing-function: linear;*/
+/*  -webkit-transition-property: width;
+  -webkit-transition-duration: 3s;
+  -webkit-transition-delay: 0s;
+  -webkit-transition-timing-function: linear;*/
+}
+
+#progress-bar-fill.match-stage {
+  transition-property: width;
+  transition-timing-function: linear;
+  transition-duration: 2s;
+  width: 100%;
+  /*transition-property: width;
+  transition-duration: 2s;
+  transition-timing-function: linear;*/
+/*  -webkit-transition-property: width;
+  -webkit-transition-duration: 3s;
+  -webkit-transition-delay: 0s;
+  -webkit-transition-timing-function: linear;*/
+}
+
+#end-game-report-box {
+  display: none;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  height: 30%;
+  width: 60%;
+  background-color: orange;
+  border: 4px solid red;
+}
+
+#end-game-report-box.show {
+  display: inline;
+}
+
+#end-game-report {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 48px;
+  font-family: Courier;
+}
+
+#continue-button {
+  margin: 0 auto;
+  background-color: sienna;
+  border: 2px solid green;
+  text-align: center;
+}
+
+.spin-1s {
+    /* spin */
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 1000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 1000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 1000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  -o-transition: rotate(360deg);
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+/* spin keyframes */
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+
+/* ghost CSS sprite */
+
+.sprite.wizard.fainted {
+    /*width: 50px;
+    height: 72px;*/
+    /*width: 33px;
+    height: 30px;
+    background-image: url("ghosts.png");*/
+    width: 30px;
+    height: 33px;
+    margin-bottom: 7px;
+    background: url('ghosts.png') left top;
+    background-position: 0px -72px;
+    
+/*    -webkit-animation: play .8s steps(3) infinite;
+       -moz-animation: play .8s steps(3) infinite;
+        -ms-animation: play .8s steps(3) infinite;
+         -o-animation: play .8s steps(3) infinite;*/
+            animation: playghost .8s steps(3) infinite;
+}
+
+/*@-webkit-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}
+@-moz-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}
+@-ms-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}
+@-o-keyframes play {
+   from { background-position-x:    0px; }
+     to { background-position-x: -30px; }
+}*/
+@keyframes playghost {
+   from { background-position-x:    0px; }
+     to { background-position-x: -96px; }
+}
