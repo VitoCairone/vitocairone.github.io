@@ -2,9 +2,13 @@
 
 To run the game, just type `open index.html` in the terminal.
 
+There is also a live (if obscure) version available at http://tinyurl.com/mkxxxba
+This version runs off of github.io and is pushed at liberty, not automatically synced.
+Last push to live was on Apr 26, 2016
+
 CSS animations at this time target only recent versions of Chrome and are not yet implemented across browsers.
 
-All animations and graphics are CSS except the mana.
+All animations and graphics are CSS except the mana, which is done in Pixi.js. It was previously
 
 The mana animation is presently done in canvas, which has poor performance especially on mobile. WebGL should be used instead, likely via Pixi.JS, to provide good mobile performance. However, since pages served from the filesystem cannot access lower level browser features, it will be necessary to run a webserver when developing with Pixi.JS.
 

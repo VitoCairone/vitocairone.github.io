@@ -174,6 +174,9 @@ Magnetic = new function() {
   }
 
   this.reset = function () {
+    for (var i = 0; i < particles.length; i++) {
+      graphics[particles[i].id].visible = false;
+    }
     particles.length = 0;
     magnets.length = 0;
     maxMarkedParticles = 0;
