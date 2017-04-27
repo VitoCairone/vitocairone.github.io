@@ -7,6 +7,14 @@ body {
   background-size: 180px 180px;
 }
 
+#phone-box {
+  display: none;
+  position: absolute; 
+  border: 5px solid blue; 
+  width: 310px; 
+  height: 470px;
+}
+
 
 #allyTeamBox {
   position: absolute;
