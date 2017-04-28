@@ -63,7 +63,11 @@ Magnetic = new function() {
     }
     magnet.markedParticles += 1;
     magnet.particles[particleIdx].betGlowFrames = 30;
-    magnet.particles[particleIdx].innerColorStop = 'rgba(256,0,0,1.0)';
+    var id = magnet.particles[particleIdx].id;
+    graphics[id].visible = false;
+    graphics[id] = graphics[id].glowyVersion;
+    graphics[id].visible = true;
+
     if (magnet.markedParticles > maxMarkedParticles) {
       maxMarkedParticles = magnet.markedParticles;
     }
@@ -81,7 +85,10 @@ Magnetic = new function() {
       magnets[i].markedParticles = 0;
     }
     for (var i = 0; i < particles.length; i++) {
-      particles[i].innerColorStop = 'rgba(256,256,256,1.0)';
+      var id = particles[i].id;
+      graphics[id].visible = false;
+      graphics[id] = graphics[id].normalVersion;
+      graphics[id].visible = true;
     }
     maxMarkedParticles = 0;
   }
@@ -168,6 +175,7 @@ Magnetic = new function() {
         particles.push(originalParticles[i]);
       } else {
         graphics[id].visible = false;
+        graphics[id] = graphics[id].normalVersion;
         freeParticleIds.push(id)
       }
     }
@@ -268,40 +276,94 @@ Magnetic = new function() {
       var graphic = new PIXI.Graphics();
 
       // don't do this! use generateTextures()
+      // maybe? performance on mobile with this method is fine actually
 
-      graphic.beginFill(0x000040);
-      graphic.drawCircle(0, 0, 7);   //(x,y,radius)
+      graphic.beginFill(0xFFFFFF, 0.017);
+      graphic.drawCircle(0, 0, 45);   //(x,y,radius)
       graphic.endFill();
 
-      graphic.beginFill(0x0000A0);
-      graphic.drawCircle(0, 0, 4);   //(x,y,radius)
+      graphic.beginFill(0x9999FF, 0.025);
+      graphic.drawCircle(0, 0, 20);   //(x,y,radius)
       graphic.endFill();
 
-      graphic.beginFill(0xFFFFFF);
-      graphic.drawCircle(0, 0, 2);   //(x,y,radius)
+      graphic.beginFill(0x9977FF, 0.8);
+      graphic.drawCircle(0, 0, 6);   //(x,y,radius)
       graphic.endFill();
 
-      // var size = 3;
-      // var glowRad = size * 1.5;
-      // var gradientFill = graphic.createRadialGradient(10, 10, 0, 10, 10, glowRad);
-      // gradientFill.addColorStop(0, particle.innerColorStop);
-      // gradientFill.addColorStop(1, 'rgba(0,0,256,0.0)');
-    
-      // // draw the glow
-      // graphic.beginPath();
-      // graphic.fillStyle = gradientFill;
-      // graphic.arc(10, 10, glowRad, 0, Math.PI*2, true);
-      // graphic.fill();
-    
-      // // draw the center
-      // graphic.beginPath();
-      // graphic.fillStyle = '#ffffff';
-      // graphic.arc(10, 10, size/2, 0, Math.PI*2, true);
-      // graphic.fill();
+      graphic.beginFill(0xFFFFFF, 1);
+      graphic.drawCircle(0, 0, 3);   //(x,y,radius)
+      graphic.endFill();
 
       graphic.visible = false;
-      graphics.push(graphic);
+
+      var redG = new PIXI.Graphics();
+
+      redG.beginFill(0xFFFFFF, 0.017);
+      redG.drawCircle(0, 0, 45);   //(x,y,radius)
+      redG.endFill();
+
+      redG.beginFill(0xFF9999, 0.025);
+      redG.drawCircle(0, 0, 20);   //(x,y,radius)
+      redG.endFill();
+
+      redG.beginFill(0xFF7799, 0.8);
+      redG.drawCircle(0, 0, 6);   //(x,y,radius)
+      redG.endFill();
+
+      redG.beginFill(0xFFFFFF, 1);
+      redG.drawCircle(0, 0, 3);   //(x,y,radius)
+      redG.endFill();
+
+      redG.visible = false;
+
+      var glowy = new PIXI.Graphics();
+
+      glowy.beginFill(0xFFFFFF, 0.03);
+      glowy.drawCircle(0, 0, 45);   //(x,y,radius)
+      glowy.endFill();
+
+      glowy.beginFill(0xFFFF99, 0.05);
+      glowy.drawCircle(0, 0, 20);   //(x,y,radius)
+      glowy.endFill();
+
+      glowy.beginFill(0xFFFF77, 0.5);
+      glowy.drawCircle(0, 0, 8);   //(x,y,radius)
+      glowy.endFill();
+
+      glowy.beginFill(0xFFFF77, 0.3);
+      glowy.drawCircle(0, 0, 5);   //(x,y,radius)
+      glowy.endFill();      
+
+      glowy.beginFill(0xFFFFDD, 1);
+      glowy.drawCircle(0, 0, 3);   //(x,y,radius)
+      glowy.endFill();
+
+      glowy.visible = false;
+
+      graphic.normalVersion = graphic;
+      graphic.redVersion = redG;
+      graphic.glowyVersion = glowy;
+
+      redG.normalVersion = graphic;
+      redG.redVersion = redG;
+      redG.glowyVersion = glowy;
+
+      glowy.normalVersion = graphic;
+      glowy.redVersion = redG;
+      glowy.glowyVersion = glowy;
+
+      // if (Math.random() < 0.7) {
+      // } else if (Math.random() < 0.7) {
+        // graphics.push(graphic.redVersion);
+      // } else {
+        // graphics.push(graphic.glowyVersion);
+      // }
+
       this.stage.addChild(graphic);
+      this.stage.addChild(redG);
+      this.stage.addChild(glowy);
+
+      graphics.push(graphic);
     }
   }
 
@@ -383,6 +445,10 @@ Magnetic = new function() {
           particle.orbitPush = 0.95 * particle.orbitPush + 0.05 * orbitPushTarget;
         }
         var orbitPush = particle.orbitPush;
+
+        // orbitVariance is applied after pull to the magnet's orbit,
+        // so it then applies to that matched orbit
+        orbitPush *= particle.orbitVariance;
 
         
         // Rotation
@@ -551,7 +617,7 @@ function Particle() {
   this.position = { x: 0, y: 0 };
   this.shift = { x: 0, y: 0 };
   this.angle = 0;
-  this.speed = 0.02 + 0.1 * Math.random() + this.size * 0.004;
+  this.speed = 0.015 + 0.05 * (Math.random() + Math.random()); // + this.size * 0.004;
   this.force = 2.1 + Math.random() * 0.2; // 1.5 + Math.random() * 1.5;
   this.color = '#ddddff';
   this.innerColorStop = 'rgba(256,256,256,1.0)';
@@ -561,6 +627,7 @@ function Particle() {
   this.betGlowFrames = 0;
   this.timeToArrival = 0;
   this.orbitPush = 1;
+  this.orbitVariance = ((2 * 0.85) + Math.random() * 0.3 + Math.random() * 0.3) / 2;
 }
 
 function Magnet() {
