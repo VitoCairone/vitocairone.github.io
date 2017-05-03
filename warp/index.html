@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="styles.css" />
 
 <TITLE>
-  Warpstones !!
+  Warpstones @
 </TITLE>
 
 <script src="pixi.js"></script>
@@ -17,6 +17,7 @@
 
   <SCRIPT>
     pressFold = new function () {};
+    pressMatch = new function () {};
     pressBet = new function () {};
     pressSpellLock = new function () {};
     pressContinue = new function () {};
@@ -151,20 +152,32 @@
 
       <div id="actionButtons">
         <div id="foldButton" class="action-button fold-button" onclick="pressFold()">
-          <div id="defend-overlay">
-          </div>
+          <!-- <div id="defend-overlay">
+          </div> -->
           <div class="center-text">
             DEFEND
           </div>
         </div>
-        <!-- <div id="callButton" style="display: inline-block; border-radius: 50%; height: 64px; width: 64px; background-color: yellow;" onclick="meet()"></div> -->
-        <div id="raiseButton" class="action-button raise-button" onclick="pressBet()">
+
+        <div id="matchButton" class="action-button match-button" onclick="pressMatch()">
+          <!-- <div id="match-overlay">
+          </div> -->
+          <div id="match-text" class="center-text">
+            MATCH
+          </div>
+          <div id="check-text" class="center-text">
+            CHECK
+          </div>
+        </div>        
+
+        <div id="betButton" class="action-button bet-button" onclick="pressBet()">
           <div id="bet-count-overlay">
           </div>
           <div class="center-text">
             BET
           </div>
         </div>
+      </div>
 
       <div id="spellButtons">
         <div id="signature-spell-button" class="spell-button signature">
@@ -184,9 +197,9 @@
       <div id="healthReadout">
       </div>
 
-    </div>
+    </div> <!-- /control-area -->
 
-  </div> <!-- /control-area -->
+  </div> <!-- /outermost -->
 
   <!-- Piximags should never need to call anything from Game -->
   <script src="piximags.js" type="text/javascript"></script>
@@ -280,6 +293,7 @@
     })();
 
     pressFold = Game.pressFold;
+    pressMatch = Game.pressMatch;
     pressBet = Game.pressBet;
     pressSpellLock = Game.pressSpellLock;
     pressContinue = Game.pressContinue;

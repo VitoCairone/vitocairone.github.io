@@ -1,0 +1,17 @@
+run_results.txt
+
+Apr 28 -- 1/3 spend vs 2/3 spend
+###### baseDamageMod set to 5.54
+###### team1 win record 1615-1655 (.506)
+
+Apr 28 -- 1/3 spend vs 2/3 spend
+###### baseDamageMod set to 5.46
+###### team1 win record 1694-1849 (.521)
+
+Apr 28 -- 1/3 spend vs 2/3 spend; 
+###### baseDamageMod set to 5.52
+###### team1 win record 2041-2154 (.513)
+
+Apr 28 -- 1/3 spend vs 2/3 spend & 1.2x dam; 
+###### baseDamageMod set to 4.71
+###### team1 win record 505-857 (.629)

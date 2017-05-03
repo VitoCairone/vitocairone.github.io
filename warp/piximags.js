@@ -43,7 +43,9 @@ Magnetic = new function() {
       
     window.addEventListener('resize', windowResizeHandler, false);
     windowResizeHandler();
-      
+  }
+
+  this.begin = function() {
     requestAnimationFrame( loop );
   }
 
@@ -119,10 +121,6 @@ Magnetic = new function() {
     var amounts = winnings.concat([]);
     var from = 0;
     var magnet = magnets[from];
-
-    console.log("amounts = " + amounts);
-    console.log("potParticles = " + magnet.particles.length);
-    // alert('paused');
 
     winner = 1;
     while (magnet.particles.length > 0) {
@@ -252,7 +250,7 @@ Magnetic = new function() {
   }
 
   function createMagnetAndParticles( position ) {
-    console.log("creating magnet at " + JSON.stringify(position))
+    // console.log("creating magnet at " + JSON.stringify(position))
     var m = new Magnet();
     m.position.x = position.x;
     m.position.y = position.y;
@@ -278,8 +276,8 @@ Magnetic = new function() {
       // don't do this! use generateTextures()
       // maybe? performance on mobile with this method is fine actually
 
-      graphic.beginFill(0xFFFFFF, 0.017);
-      graphic.drawCircle(0, 0, 45);   //(x,y,radius)
+      graphic.beginFill(0xFFFFFF, 0.01);
+      graphic.drawCircle(0, 0, 35);   //(x,y,radius)
       graphic.endFill();
 
       graphic.beginFill(0x9999FF, 0.025);
@@ -298,8 +296,8 @@ Magnetic = new function() {
 
       var redG = new PIXI.Graphics();
 
-      redG.beginFill(0xFFFFFF, 0.017);
-      redG.drawCircle(0, 0, 45);   //(x,y,radius)
+      redG.beginFill(0xFFFFFF, 0.01);
+      redG.drawCircle(0, 0, 35);   //(x,y,radius)
       redG.endFill();
 
       redG.beginFill(0xFF9999, 0.025);
@@ -318,8 +316,8 @@ Magnetic = new function() {
 
       var glowy = new PIXI.Graphics();
 
-      glowy.beginFill(0xFFFFFF, 0.03);
-      glowy.drawCircle(0, 0, 45);   //(x,y,radius)
+      glowy.beginFill(0xFFFFFF, 0.022);
+      glowy.drawCircle(0, 0, 40);   //(x,y,radius)
       glowy.endFill();
 
       glowy.beginFill(0xFFFF99, 0.05);
@@ -379,7 +377,7 @@ Magnetic = new function() {
       } else {
         p.id = particles.length;
       }
-      console.log("created particle " + p.id);
+      // console.log("created particle " + p.id);
       p.position.x = position.x;
       p.position.y = position.y;
       p.shift.x = position.x;

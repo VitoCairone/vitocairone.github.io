@@ -19,3 +19,19 @@ Wed 4-26 (Day 9) 10:00p-11:20 (1h20m)
 
 Thu 4-27 (Day 10) 10:51p-11:54p (1h03m)
   create better mana graphics with Pixi API
+
+Fri 4-28 (Day 11) 11:33a-1:33p (2h00m)
+  set up for fastrun mode
+
+Sat 4-29 (Day 12) 7:24p-7:57p (0h33m)
+  added middle button & separator
+
+Sun 4-30 (Day 13) 9:16p-10:00p (0h44m)
+  timing and visual fixes
+
+Mon 5-1 (Day 14) 10:58-11:43 (0h46m)
+  work on action button interface
+
+Mon 5-2 (Day 15) 12:00p-1:02 (1h02m)
+  refine specs for action buttons
+  implement most button styling

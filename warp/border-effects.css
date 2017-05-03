@@ -1,0 +1,115 @@
+/*
+
+via https://codepen.io/giana/pen/yYBpVY
+
+//Colors
+$background: #fefefe;
+$text: #4b507a;
+
+$cyan: #60daaa;
+$yellow: #fbca67;
+$orange: #ff8a30;
+$red: #f45e61;
+$purple: #6477b9;
+$blue: #0eb7da;
+
+// Basic styles*/
+
+button {
+  background: none;
+  border: 0;
+  box-sizing: border-box;
+  margin: 1em;
+  padding: 1em 2em;
+  
+  /*Using inset box-shadow instead of border for sizing simplicity*/
+  box-shadow: inset 0 0 0 2px #f45e61;
+  color: #f45e61;
+  font-size: inherit;
+  font-weight: 700;
+
+  /*Required, since we're setting absolute on pseudo-elements*/
+  position: relative;
+  vertical-align: middle;
+
+  &::before,
+  &::after {
+    box-sizing: inherit;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.draw {
+    transition: color 0.25s;
+
+  &::before,
+  &::after {
+    /* Set border to invisible, so we don't see a 4px border on a 0x0 element before the transition starts */
+    border: 2px solid transparent;
+    width: 0;
+    height: 0;
+  }
+
+  /*// This covers the top & right borders (expands right, then down)*/
+  &::before {
+    top: 0;
+    left: 0;
+  }
+
+  /*// And this the bottom & left borders (expands left, then up)*/
+  &::after {
+    bottom: 0;
+    right: 0;
+  }
+  
+  &:hover {
+    color: #60daaa;
+  }
+
+  /*// Hover styles*/
+  &:hover::before,
+  &:hover::after {
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover::before {
+    border-top-color: #60daaa; /* Make borders visible */
+    border-right-color: #60daaa;
+    transition:
+      width 0.25s ease-out, /*// Width expands first*/
+      height 0.25s ease-out 0.25s; /*// And then height*/
+  }
+
+  &:hover::after {
+    border-bottom-color: #60daaa; /*// Make borders visible*/
+    border-left-color: #60daaa;
+    transition:
+      border-color 0s ease-out 0.5s, /*// Wait for ::before to finish before showing border*/
+      width 0.25s ease-out 0.5s, /*// And then exanding width*/
+      height 0.25s ease-out 0.75s; /*// And finally height*/
+  }
+}
+
+/* Page styling */
+
+html {
+  background: $background;
+}
+
+body {
+  background: $background;
+  color: $text;
+  font: 300 24px/1.5 Lato, sans-serif;
+  margin: 1em auto;
+  max-width: 36em;
+  padding: 1em 1em 2em;
+  text-align: center;
+}
+
+.buttons {
+  isolation: isolate;
+}
