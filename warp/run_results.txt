@@ -1,5 +1,3 @@
-run_results.txt
-
 Apr 28 -- 1/3 spend vs 2/3 spend
 ###### baseDamageMod set to 5.54
 ###### team1 win record 1615-1655 (.506)
@@ -15,3 +13,15 @@ Apr 28 -- 1/3 spend vs 2/3 spend;
 Apr 28 -- 1/3 spend vs 2/3 spend & 1.2x dam; 
 ###### baseDamageMod set to 4.71
 ###### team1 win record 505-857 (.629)
+
+// May 5
+// seed 7, always all-in: -.003, 2k-2k
+// seed 99, always all-in: -.021, 2k-2k
+// seed 10012, always all-in, shuffle-player-action: -0.011 at 3k-3k
+// seed 7, always all-in, shuffle-act&spell: +.008 at 3k-3k
+// seed 99, always all-in, shuffle-act&spell: +.003 at 4k-4k
+// seed 99, always all-in, shuffle-act&spell&sendTo: -.002 at 2k-2k
+// seed 7, deciding, shuffle-act&spell&sendTo: -.001 at 2k-2k
+// seed 99, deciding, shuffle-act&spell&sendTo: -.002 at 2k-2k
+
+// seed 7, 2/3 blast vs 1/3 blast: +.022 at 4k-4k

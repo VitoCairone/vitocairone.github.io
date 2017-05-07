@@ -8,6 +8,8 @@ Mon 4-24 (Day 7) 10:00p-11:05p (1h05m)
   monteCarlo for predictive odds, all stages and scenarios
   + Pixi1, show orbs from mags.js
 
+** week 1 total: unknown
+
 Tue 4-25 (Day 8) 9:36a-10:41a (1h05m)
   Pixi1, show orbs at proper positions on transparent back
   
@@ -32,6 +34,22 @@ Sun 4-30 (Day 13) 9:16p-10:00p (0h44m)
 Mon 5-1 (Day 14) 10:58-11:43 (0h46m)
   work on action button interface
 
-Mon 5-2 (Day 15) 12:00p-1:02 (1h02m)
+** week 2 total: 7h31m
+
+Tue 5-2 (Day 15) 12:00p-1:02 (1h02m)
   refine specs for action buttons
   implement most button styling
+
+Wed 5-3 (Day 16) unknown (01m)
+  push update to github pages only
+
+Thu 5-4 (Day 17) 11:41a-1:14 (1h33m)
+  lookup testing -- see Mocha, PhantomJS, Selenium
+  set new priority issues
+  check button display states
+  bias debugging
+
+Fri 5-5 (Day 18) 11:53-1:53 (2h00m)
+  resolved mystery bias around -.03 to +/- .002
+
+Sat 5-6 (Day 19) 6:14p-7:24p (1h10m)

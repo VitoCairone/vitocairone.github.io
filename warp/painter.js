@@ -3,7 +3,14 @@ var Painter = new function () {
   this.manaDraw = Magnetic;
 
   this.animateAllIn = function (pNum) {
-    return;
+    if (pNum == 1) {
+      document.getElementById('foldButton').classList.add('disabled');
+      document.getElementById('matchButton').classList.add('disabled');
+    }
+  }
+
+  this.animateCheck = function () {
+    document.getElementById('matchButton').classList.add('activated');
   }
 
   this.animateDamage = function (pNum, amount) {
@@ -71,6 +78,7 @@ var Painter = new function () {
   }
 
   this.showMatchButton = function () {
+    document.getElementById('matchButton').classList.remove('disabled', 'activated');
     document.getElementById('actionButtons').classList.add('match-phase');
   }
 

@@ -286,21 +286,10 @@ actual sizing seems off probably because of the borders
   border: 1px solid orange;
 }
 
-/*#pers-element-1 {
-  position: absolute;
-  top: 100px;
-}
-
-#pers-element-2 {
-  position: absolute;
-  top: 100px;
-  left: 22px;
-}*/
-
 .pers-el {
-  /* should be 15px, sprites are shortened... */
   position: absolute;
-  margin-top: 7px;
+  margin-top: 7px; /* should be 15px, sprites are shortened... */
+  z-index: 90;
 }
 
 #player-element-1 {

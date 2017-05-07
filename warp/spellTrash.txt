@@ -1,0 +1,104 @@
+## MAIN LINE
+
+FORMULA: l2 *
+NAME: HEAL
+COST: 14
+Heal the lowest member of your team by 50
+
+FORMULA: l3 *
+NAME: REGEN
+COST: 7
+Transform 7 self mana into Light mana
+
+FORMULA: l4 *
+NAME: CURE
+COST: 30
+Heal the lowest member of your team by 135
+
+FORMULA: l6 *
+NAME: INVINCIBLE
+COST: 21
+All damage taken is reduced to 0 on this round and the next
+
+FORMULA: l7
+NAME: GRACE
+COST: 120
+Heal all team members by 200
+
+FORMULA: d2 *
+NAME: BLAST
+COST: 1/3
+
+FORMULA: d3 *
+NAME: CORRUPT
+COST: 7
+Transform 7 enemy mana into Dark mana
+
+FORMULA: d4 *
+NAME: DRAIN
+COST: 40
+Deal 100 damage and heal yourself by all damage dealt
+
+FORMULA: d7
+NAME: DEATH
+COST: 140
+Deal 700 damage to target enemy, reduced to 0 if the enemy is not KOd.
+
+FORMULA: a2
+NAME: BOLT
+COST: 50
+Deal 250 damage to one enemy
+
+FORMULA: a3
+NAME: VORTEX
+COST: 7
+Transform 7 mana into Air mana
+
+FORMULA: a4
+NAME: TORNADO
+COST: 50
+Deal 70 damage to all enemies
+
+FORMULA: a7
+NAME: SPEED
+COST: 21
+For the next 7 rounds, you can always cast a spell at the showdown
+if you have enough mana
+
+FORMULA: w2
+NAME: SOAK
+COST: 14
+Deal 50 damage to an enemy and convert 7 of their mana to Water
+
+FORMULA: w3
+NAME: RAIN
+COST: 21
+Heal all allies by 30 and convert 7 mana each to Water
+
+FORMULA: w5
+NAME: REFLECT
+COST: 30
+You will reflect any spell cast on you this round
+If reflect does not activate this round,
+it has a 1/7 chance until triggered or 6 more rounds have passed
+
+FORMULA: f5
+NAME: INFERNO
+COST: 140
+Deal 400 damage to everything on both sides
+
+FORMULA: f7
+NAME: HELLFIRE
+COST: 240
+Deal 300 damage to all enemies
+
+## others
+
+FORMULA: v2 d3
+NAME: ROULETTE
+KO one player selected at random from any team
+
+FORMULA: l5 e2
+NAME: UNDYING
+COST: 21
+Your health cannot be reduced below 1 on this round or the next 2
