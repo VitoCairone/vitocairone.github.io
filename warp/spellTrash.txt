@@ -15,6 +15,11 @@ NAME: CURE
 COST: 30
 Heal the lowest member of your team by 135
 
+FORMULA: l5 e2
+NAME: UNDYING
+COST: 21
+Your health cannot be reduced below 1 on this round or the next 2
+
 FORMULA: l6 *
 NAME: INVINCIBLE
 COST: 21
@@ -38,6 +43,11 @@ FORMULA: d4 *
 NAME: DRAIN
 COST: 40
 Deal 100 damage and heal yourself by all damage dealt
+
+FORMULA: d6 *
+NAME: DOOM
+COST: 200
+Convert Convert 200 total mana to Dark over all enemies
 
 FORMULA: d7
 NAME: DEATH
@@ -65,10 +75,25 @@ COST: 21
 For the next 7 rounds, you can always cast a spell at the showdown
 if you have enough mana
 
+FORMULA: e2
+NAME: SHIELD
+COST: 7
+Transform 21 of your mana into Earth mana
+
+FORMULA: e3
+NAME: BOULDER
+COST: 21
+Deal 110 damage to one enemy with power +30, aim -30
+
+FORMULA: f4
+NAME: PROTECT
+COST: 49
+Transform all allies mana into Earth mana
+
 FORMULA: w2
 NAME: SOAK
 COST: 14
-Deal 50 damage to an enemy and convert 7 of their mana to Water
+Deal 50 damage to one enemy and convert 7 of their mana to Water
 
 FORMULA: w3
 NAME: RAIN
@@ -82,23 +107,52 @@ You will reflect any spell cast on you this round
 If reflect does not activate this round,
 it has a 1/7 chance until triggered or 6 more rounds have passed
 
-FORMULA: f5
+FORMULA: f2 *
+NAME: SINGE
+COST: 7
+Convert 21 target mana to Fire mana
+
+FORMULA: f3 *
+NAME: FIRE
+COST: 21
+Deal 110 damage to one enemy
+
+FORMULA: f5 *
 NAME: INFERNO
 COST: 140
 Deal 400 damage to everything on both sides
 
-FORMULA: f7
+FORMULA: f7 *
 NAME: HELLFIRE
 COST: 240
 Deal 300 damage to all enemies
 
+FORMULA: i2 *
+NAME: FROST
+COST: 7
+Convert 21 target mana to Ice mana
+
+FORMULA: i3 *
+NAME: ICE
+COST: 21
+Deal 110 damage to one enemy
+
+FORMULA: f7 *
+NAME: DEEP FREEZE
+COST: 120
+Convert all enemy mana to Ice
+
 ## others
 
-FORMULA: v2 d3
+FORMULA: v2 d3 *
 NAME: ROULETTE
-KO one player selected at random from any team
+KO one live player selected at random
 
-FORMULA: l5 e2
-NAME: UNDYING
-COST: 21
-Your health cannot be reduced below 1 on this round or the next 2
+FORMULA: v2 d5
+NAME: ELMINATION
+KO one live player selected at random
+on this round and each of the next 2 rounds
+
+FORMULA: v2 l3 *
+NAME: GIFTS
+Fully heal 3 live players selected a random from both times

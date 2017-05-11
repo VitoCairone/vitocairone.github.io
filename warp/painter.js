@@ -5,12 +5,9 @@ var Painter = new function () {
   this.animateAllIn = function (pNum) {
     if (pNum == 1) {
       document.getElementById('foldButton').classList.add('disabled');
-      document.getElementById('matchButton').classList.add('disabled');
+      document.getElementById('betButton').classList.add('activated');
+      document.getElementById('bet-text').innerHTML = 'ALL IN';
     }
-  }
-
-  this.animateCheck = function () {
-    document.getElementById('matchButton').classList.add('activated');
   }
 
   this.animateDamage = function (pNum, amount) {
@@ -49,10 +46,14 @@ var Painter = new function () {
     ;
   }
 
+
   this.animateMeet = function (pNum) {
+    // it is the CALLER's responsibility not to call animateMeet when
+    // the player goes All-In
     if (pNum == 1) {
-      // document.getElementById('match-overlay').classList.add('matched');
-      document.getElementById('matchButton').classList.add('activated');
+      document.getElementById('foldButton').classList.add('disabled');
+      document.getElementById('betButton').classList.add('activated');
+      document.getElementById('bet-text').innerHTML = 'MATCHED';
     }
   }
 
@@ -72,23 +73,33 @@ var Painter = new function () {
     }, 50)
   }
 
-  this.showCheckButton = function () {
+  this.showBetButton = function (isAllIn) {
     document.getElementById('actionButtons').classList.remove('match-phase');
-    document.getElementById('matchButton').classList.remove('activated');
+    if (!isAllIn) {
+      document.getElementById('bet-text').innerHTML = "BET";
+    }
   }
 
-  this.showMatchButton = function () {
-    document.getElementById('matchButton').classList.remove('disabled', 'activated');
+  this.showMatchButton = function (isMatched, isAllIn, matchAmountPercent) {
     document.getElementById('actionButtons').classList.add('match-phase');
+    if (!isAllIn) {
+      if (isMatched) {
+        document.getElementById('bet-text').innerHTML = "MATCHED";
+      } else {
+        document.getElementById('bet-text').innerHTML = "MATCH";
+        document.getElementById('match-overlay').style.height = matchAmountPercent + '%';
+      }
+    } 
   }
 
   this.animateMatchTimerBar = function () {
     document.getElementById('progress-bar-fill').classList.add('match-stage');
   }
 
-  this.animateBet = function (pNum, betCount, betSize) {
-    if (pNum == 1 && betCount > 0) {
-      document.getElementById('bet-count-overlay').classList.add('count-' + betCount);
+  this.animateBet = function (pNum, newWagerPercent, betSize) {
+    if (pNum == 1 && newWagerPercent > 0) {
+       document.getElementById('bet-count-overlay').style.height = newWagerPercent + "%";
+      // document.getElementById('bet-count-overlay').classList.add('count-' + betCount);
     }
     Magnetic.hiliteMagnetParticles(pNum, betSize);
   }
@@ -125,7 +136,6 @@ var Painter = new function () {
       // document.getElementById('defend-overlay').classList.add('defend');
       document.getElementById('foldButton').classList.add('activated');
       document.getElementById('betButton').classList.add('disabled');
-      document.getElementById('matchButton').classList.add('disabled');
     }
     Magnetic.contractParticles(pNum);
   }
@@ -134,6 +144,10 @@ var Painter = new function () {
     var el = document.getElementById('spellshot' + pNum);
     el.classList.add('inflight');
     el.classList.add('target' + targNum);
+  }
+
+  this.animateMatch = function (pNum) {
+    
   }
 
   this.destructParticles = function (pNum, loss) {
@@ -223,16 +237,18 @@ var Painter = new function () {
     document.getElementById('healthReadout').innerHTML = readout;
   }
 
-  this.zeroBetOverlay = function () {
-    document.getElementById('bet-count-overlay').className = "";
-    // document.getElementById('defend-overlay').className = "";
-    // document.getElementById('match-overlay').className = "";
-
-    var btnEls = ['foldButton', 'matchButton', 'betButton']
+  this.stageStartEnableButtons = function () {
+    var btnEls = ['foldButton', 'betButton']
     for (var i = 0; i < btnEls.length; i++) {
       document.getElementById(btnEls[i]).classList.remove('disabled', 'activated');
     }
-    
+  }
+
+  this.zeroBetOverlay = function () {
+    // document.getElementById('bet-count-overlay').className = "";
+    document.getElementById('bet-count-overlay').style.height = "0%";
+    document.getElementById('match-overlay').style.height = "0%";
+    // document.getElementById('bet-text').innerHTML = 'BET';
   }
 
   function revealElements(nums, cards) {

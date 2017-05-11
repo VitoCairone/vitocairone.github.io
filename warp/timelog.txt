@@ -25,13 +25,13 @@ Thu 4-27 (Day 10) 10:51p-11:54p (1h03m)
 Fri 4-28 (Day 11) 11:33a-1:33p (2h00m)
   set up for fastrun mode
 
-Sat 4-29 (Day 12) 7:24p-7:57p (0h33m)
+Sat 4-29 (Day 12) 7:24p-7:57p (33m)
   added middle button & separator
 
-Sun 4-30 (Day 13) 9:16p-10:00p (0h44m)
+Sun 4-30 (Day 13) 9:16p-10:00p (44m)
   timing and visual fixes
 
-Mon 5-1 (Day 14) 10:58-11:43 (0h46m)
+Mon 5-1 (Day 14) 10:58-11:43 (46m)
   work on action button interface
 
 ** week 2 total: 7h31m
@@ -53,3 +53,21 @@ Fri 5-5 (Day 18) 11:53-1:53 (2h00m)
   resolved mystery bias around -.03 to +/- .002
 
 Sat 5-6 (Day 19) 6:14p-7:24p (1h10m)
+  timing control and linting
+
+Sun 5-7 (Day 20) 8:40p-9:35 (55m)
+  move images to folder
+  improve button style behavior
+
+Mon 5-8 (Day 21) 11:15-11:30 (15m)
+  set all-in text and disable buttons on all-in
+
+** week 3 total: 5h56m
+
+Tue 5-9 (Day 22) 10:07a-10:42a (35m)
+  build some two-button behaviors
+
+Wed 5-10 (Day 23) 10:47p-11:28p (41m)
+  move all match button behaviors to bet button
+  make text unselectable
+

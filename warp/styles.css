@@ -3,8 +3,19 @@
 }
 
 body {
-  background-image: url('star-background.jpg');
+  background-image: url('images/star-background.jpg');
   background-size: 180px 180px;
+
+  /* no text at all on the page should be selectable */
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+
+  /* also never change to text-select cursor */
+  cursor: default;
 }
 
 #phone-box {
@@ -38,11 +49,11 @@ body {
 
 .action-button {
   position: absolute;
-  top: 38px;
+  top: 48px;
   border-radius: 13%; 
   border: 2px solid blue;
   height: 64px; 
-  width: 30%;
+  width: 35%;
   margin: 0;
   background-color: navy;
 }
@@ -63,15 +74,11 @@ actual sizing seems off probably because of the borders
 */
 
 .fold-button {
-  left: 1.75%;
-}
-
-.match-button {
-  left: 35%;
+  left: 10%;
 }
 
 .bet-button {
-  left: 68.25%;
+  left: 55%;
 }
 
 /*.action-button:active {
@@ -81,17 +88,17 @@ actual sizing seems off probably because of the borders
 .center-text {
   position: absolute; 
   left: 0; 
-  top: 22px; 
+  top: 14px; 
   width: 100%; 
   text-align: center; 
-  font-size: 18px;
+  font-size: 32px;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .action-button.disabled .center-text {
   color: darkred;
-  font-size: 19px;
+  font-size: 33px;
   text-shadow: none;
 }
 
@@ -113,17 +120,25 @@ actual sizing seems off probably because of the borders
   height: 0%;
   width: 100%;
   bottom: 0px;
-  border-radius: 13% 13% 13% 13%
+  border-radius: 13% 13% 13% 13%;
 }
 
-/*
+
 #match-overlay {
   position: absolute;
-  background-color: navy;
+  background-color: orange;
   height: 0%;
   width: 100%;
   bottom: 0px;
-  border-radius: 13% 13% 13% 13% 
+  border-radius: 13% 13% 13% 13%;
+}
+
+.activated #match-overlay {
+  background-color: deepskyblue;
+}
+
+.disabled #match-overlay {
+  background-color: silver;
 }
 
 #defend-overlay {
@@ -132,50 +147,22 @@ actual sizing seems off probably because of the borders
   height: 0%;
   width: 100%;
   bottom: 0px;
-  border-radius: 13% 13% 13% 13% 
+  border-radius: 13% 13% 13% 13%;
 }
-*/
+
 
 #defend-overlay.defend {
   height: 100%;
 }
 
-#match-overlay.matched {
-  height: 100%;
-}
-
-#bet-count-overlay.count-1 {
-  height: 14.2%;
-}
-
-#bet-count-overlay.count-2 {
-  height: 28.5%;
-}
-
-#bet-count-overlay.count-3 {
-  height: 42.8%;
-}
-
-#bet-count-overlay.count-4 {
-  height: 57.1%;
-}
-
-#bet-count-overlay.count-5 {
-  height: 71.4%;
-}
-
-#bet-count-overlay.count-6 {
-  height: 85.7%;
-}
-
-#bet-count-overlay.count-7 {
-  height: 100%;
+.disabled #bet-count-overlay {
+  background-color: silver;
 }
 
 .spell-button {
   position: absolute;
   border-radius: 13%;
-  top: 120px;
+  top: 135px;
   height: 60px;
   width: 20%;
   margin: 0;
@@ -361,7 +348,7 @@ actual sizing seems off probably because of the borders
   position: absolute;
   height: 31px;
   width: 30px;
-  background: url('piskel3.png') left center;
+  background: url('images/piskel3.png') left center;
   /*background-size: 30px 40px;*/
   background-position: 0px, 0px;
   /*background-color: blue;*/
@@ -467,7 +454,7 @@ actual sizing seems off probably because of the borders
   visibility: hidden;
   width: 33px;
   height: 30px;
-  background: url('piskel2.gif') left center;
+  background: url('images/piskel2.gif') left center;
   background-position: -100px -10px;
 }
 
@@ -594,7 +581,7 @@ by the left edge? */
 
 .desert-background {
   /*background-image: url('http://68.media.tumblr.com/81c221724f7f5b05f8e8b72ea0cf393f/tumblr_o0aurfiKlq1sm9gg5o1_500.png');*/
-  background-image: url('desert.png');
+  background-image: url('images/desert.png');
 }
 
 #glyph {
@@ -729,7 +716,7 @@ right now these values are NOT overriden */
     width: 30px;
     height: 33px;
     margin-bottom: 7px;
-    background: url('ghosts.png') left top;
+    background: url('images/ghosts.png') left top;
     background-position: 0px -72px;
     
 /*    -webkit-animation: play .8s steps(3) infinite;

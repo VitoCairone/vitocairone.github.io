@@ -25,7 +25,7 @@ var Game = new function () {
       betStage: 3500,
       transitionPhase: 200,
       matchStage: 1500,
-      spellLocking: 2000,
+      spellLocking: 200,
       spellCasting: 2000,
       manaMove: 0,
       manaSpend: 0,
@@ -103,17 +103,11 @@ var Game = new function () {
     fold(1);
   }
 
-  this.pressMatch = function () {
-    if (game.inputPhase == "match") {
-      meet(1);
-    } else if (game.inputPhase == "bet") {
-      check(1);
-    }
-  };
-
   this.pressBet = function () {
     if (game.inputPhase == "bet") {
       bet(1);
+    } else if (game.inputPhase == "match") {
+      meet(1);
     }
   }
 
@@ -173,7 +167,7 @@ var Game = new function () {
       betSize = game.forceEndBetSize;
     }
 
-    // seventh bet should generally be all-in
+    // seventh bet should be all-in
     if ((player.betCount + 1 >= 7) && (player.motes.length <= game.forceEndBetSize)) {
       betSize = player.motes.length;
     }
@@ -199,7 +193,8 @@ var Game = new function () {
     }
 
     if (game.render) {
-      game.painter.animateBet(pNum, player.betCount, betSize);
+      var newWagerPercent = 100 * player.wager / game.roundStartMana[pNum];
+      game.painter.animateBet(pNum, newWagerPercent, betSize);
     }
 
     return 1;
@@ -212,6 +207,10 @@ var Game = new function () {
         spellCast(winnerIdx);
       }
     });
+  }
+
+  function canPlayerOneAct() {
+    return (!game.players[1].allIn && !game.players[1].folded);
   }
 
   // check is the action of the 'middle button'
@@ -614,10 +613,6 @@ var Game = new function () {
       return 0;
     }
 
-    if (game.render) {
-      game.painter.animateMeet(pNum);
-    }
-
     var amount = diff;
     if (player.motes.length < amount) {
       amount = player.motes.length;
@@ -625,15 +620,20 @@ var Game = new function () {
 
     player.wager += amount;
     sendMotesToWarp(pNum, amount);
-    var betCount = (player.motes.length == 0 ? 7 : 0)
+
     if (game.render) {
-      game.painter.animateBet(pNum, betCount, amount);
+      if (pNum == 1 && player.motes.length > 0) {
+        // animateMeet draws the button change
+        game.painter.animateMeet(pNum);
+      }
+
+      // animateBet draws the bet button overlay size change
+      var newWagerPercent = 100 * player.wager / game.roundStartMana[pNum];
+      game.painter.animateBet(pNum, newWagerPercent, amount);
     }
 
-    // console.log(player.name + " calls " + amount + " @meet with " + player.motes.length + " remaining.");
-
     if (player.motes.length == 0) {
-      // console.log("set " + pNum + " " + game.players[pNum].name  + " all-in @meet.")
+      // setAllIn will render its own button state change
       setAllIn(pNum);
       checkForCapture();
     }
@@ -953,7 +953,7 @@ var Game = new function () {
     if (game.render) {
       game.painter.animateBetTimerBar();
       game.painter.resetMaxMarked();
-      game.painter.showCheckButton();
+      game.painter.showBetButton(game.players[1].allIn);
     }
 
     game.maxWager = 0;
@@ -1008,13 +1008,6 @@ var Game = new function () {
 
     game.inputPhase = "match";
 
-    if (game.render) {
-      game.painter.animateMatchTimerBar();
-      if (!(game.players[1].folded || game.players[1].allIn)) {
-        game.painter.showMatchButton();
-      }
-    }
-
     var players = game.players;
 
     var maxWager = 0;
@@ -1024,6 +1017,20 @@ var Game = new function () {
       }
     }
     game.maxWager = maxWager;
+
+    if (game.render) {
+      game.painter.animateMatchTimerBar();
+
+      var matchAmountPercent = 100 * game.maxWager / game.roundStartMana[1];
+      if (matchAmountPercent > 100) {
+        matchAmountPercent = 100;
+      }
+      game.painter.showMatchButton(
+        (game.players[1].wager == maxWager),
+        game.players[1].allIn,
+        matchAmountPercent
+      );
+    }
 
     triggerByClock(endMatchStage, game.clock.matchStage);
   }
@@ -1115,6 +1122,7 @@ var Game = new function () {
         }
         shuffleCards();
         if (game.render) {
+          game.painter.stageStartEnableButtons();
           game.painter.zeroBetOverlay();
           game.painter.showPersonalCardsFor([1], game.cards);
           game.painter.showFlopCards(game.cards);
@@ -1125,6 +1133,9 @@ var Game = new function () {
       case 1:
         // turn
         if (game.render) {
+          if (canPlayerOneAct()) {
+            game.painter.stageStartEnableButtons();
+          }
           game.painter.showTurnCards(game.cards);
         }
         startBetStage();
@@ -1133,6 +1144,9 @@ var Game = new function () {
       case 2:
         // river
         if (game.render) {
+          if (canPlayerOneAct()) {
+            game.painter.stageStartEnableButtons();
+          }
           game.painter.showRiverCard(game.cards);
         }
         startBetStage();
