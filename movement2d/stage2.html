@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<div id="canvas-container">
+	<!-- supposedly this doesn't work for IE; however, don't care about IE -->
+	<canvas id="watcher-canvas" width="800" height="400"></canvas>
+
+	<canvas id="meter-canvas" width="300" height="300"></canvas>
+
+	<script src="watcher.js"></script>
+
+	<script type="text/javascript">
+
+		var c=document.getElementById("watcher-canvas");
+		var ctx=c.getContext("2d");
+
+		var background = new Image();
+		background.src = "./slashStage.png";
+
+		// Make sure the image is loaded first otherwise nothing will draw.
+		background.onload = function(){
+		    ctx.drawImage(background,0,0);   
+
+		 //    ctx.beginPath();
+			// ctx.moveTo(0,0);
+			// ctx.lineTo(800,400);
+			// ctx.stroke();
+			ctx.lineWidth = 0;
+			ctx.strokeStyle = "#FF0000";
+			var across = 49;
+			var down = 13;
+			for (var i = 0; i < across; i++) {
+				ctx.strokeRect(5 + i * 16, 24,          16,        16 * down);
+			}
+			for (var j = 0; j < down; j++) {
+				ctx.strokeRect(5,          24 + j * 16, 16 * across, 16);
+			}
+		}
+
+		var myRepeater = setInterval(function () { 
+			if (!World.paused) {
+				World.tick++;
+				if(World.tick % 30 == 0) {
+					console.log("tick " + World.tick / 30);
+				}
+				// advanceWorld();
+			}
+		}, 1000 / 30);
+	// 	var myRepeater = setInterval(function () { 
+	// 	World.tick++;
+	// 	if(World.tick % 60 == 0) {
+	// 		console.log("tick " + World.tick / 60);
+	// 	}
+
+	//   for (var i = 0; i < World.bodies.length; i++) {
+	//   	var body = World.bodies[i];
+	//   	applyGravity(body);
+	//   	//applyButtons(body);
+	//     moveBody(body);
+	//   }
+
+	//   redraw();
+
+	//   //After moving and drawing everything,
+	//   //have robots decide what they want to do in the next tick
+	//   for (var i = 0; i < World.bodies.length; i++) {
+	//   	var body = World.bodies[i];
+	//   	if (body.robot) {
+	//   		setButtonInput(body, undefined);
+	//   		Robot.enact(body, Robot.decide(body));
+	//   	}
+	//   }
+
+	//   // Phasic particles can leave the bounding area, and need to be
+	//   // destroyed. Non-phasic particles shouldn't have a way out,
+	//   // so catch their exit as an error. Iterate ideally over a list
+	//   // of bodies that actually moved rather than all of them, since
+	//   // a body must move in order to escape.
+	//   // This logic doesn't belong in Go, make it a function in the
+	//   // general engine
+	//   var worldMaxX = World.tileCount.i * 16;
+	//   var worldMaxY = World.tileCount.j * 16;
+	//   for (var i = 0; i < World.bodies.length; i++) {
+	//   	var body = World.bodies[i];
+	//   	if (body.x + body.halfWidth < 0 || body.y + body.halfHeight < 0 ||
+	//   		body.x - body.halfWidth > worldMaxX || body.y - body.halfHeight > worldMaxY) {
+	//   		if (body.onDestroy != undefined) {
+	//   			body.onDestroy(body, 'stage-exit');
+	//   		}
+	//   		World.bodies.splice(i, 1);
+	//   		//since this body is removed, the slot indexed i
+	//   		//is now occupied by the next body.
+	//   		//Decrement i to avoid skipping over that body.
+	//   		i--;
+	//   	}
+	//   }
+	// }, 1000 / 60);
+
+	</script>
+</div>
+
+</body>
+</html>
