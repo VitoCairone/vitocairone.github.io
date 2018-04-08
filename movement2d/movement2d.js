@@ -166,6 +166,7 @@ var createBody = function(name, size, startPosition, options) {
 
 	World.maxBodyId++;
 	body.id = World.maxBodyId;
+	World.idBodyMap[body.id] = body;
 	World.bodies.push(body);
 	return body;
 };
@@ -195,15 +196,19 @@ var moveBody = function (body) {
 	var collisions = getWorldwideMoverCollisions();
 	var impacts = getFirstImpacts(collisions);
 
+	// console.log("!!");
+	// console.log(collisions);
+	// console.log(impacts);
+
 	if (body.velocity.x != 0) {
 		body.blocked = false;
-		stepMoveBodyX(body, collisions);
+		stepMoveBodyX(body, impacts[body.id]);
 		moved = true;
 	}
 
 	if (body.velocity.y != 0) {
 		body.grounded = false;
-		stepMoveBodyY(body, collisions);
+		stepMoveBodyY(body, impacts[body.id]);
 		moved = true;
 	}
 
@@ -447,6 +452,7 @@ var getWorldwideMoverCollisions = function() {
 
 var getFirstImpacts = function (collisions) {
 	var firstImpacts = {};
+
 	for (var i = 0; i < World.bodies.length; i++) {
 		var body = World.bodies[i];
 		if (body.terrain) {
@@ -455,13 +461,13 @@ var getFirstImpacts = function (collisions) {
 		var id = body.id;
 		var colliders = collisions[id];
 		if (!colliders || colliders.length == 0) {
-			return;
+			continue;
 		}
 
 		var minSubtick = 1.01;
 		var firstImpact = undefined;
 		for (var i2 = 0; i2 < colliders.length; i2++) {
-			impact = getImpact(id, colliders[i2]);
+			impact = getImpact([id, colliders[i2]]);
 			if (impact.subtick < minSubtick) {
 				minSubtick = impact.subtick;
 				firstImpact = impact;
@@ -485,8 +491,11 @@ var getImpact = function (colliderIdPair) {
 	// two spans do not overlap iff one span's min is above the
 	// other span's max
 
-	var bodyA = World.bodies[colliderIdPair[0]];
-	var bodyB = World.bodies[colliderIdPair[1]];
+	console.log("!!!");
+	console.log(colliderIdPair);
+
+	var bodyA = World.idBodyMap[colliderIdPair[0]];
+	var bodyB = World.idBodyMap[colliderIdPair[1]];
 
 	var gapX = bodyA.position.x > bodyB.position.x ? 
 		(bodyA.position.x - bodyA.halfWidth) - (bodyB.position.x + bodyB.halfWidth)
@@ -505,48 +514,50 @@ var getImpact = function (colliderIdPair) {
 		subtick = gapY / Math.abs(bodyA.velocity.y - bodyB.velocity.y);
 	}
 
-	console.log("Impact subtick = " + subtick);
-
-	return {
+	var impact = {
 		dtype: 'impact',
 		axisX: axisX,
 		axisY: axisY,
 		subtick: subtick
-	}
+	};
+
+	console.log("Impact: ");
+	console.log(impact);
+	return impact;
 }
 
-var getBodyCollideArrivalX = function (body, colliderIds) {
-	if (colliderIds.length == 0) {
-		console.log("ERROR: Entered getBodyCollideArrivalX with no colliders");
-		return NaN;
-	}
-	// var xMovingSign = (body.velocity.x >= 0 ? 1 : -1);
+// var getBodyCollideArrivalX = function (body, colliderIds) {
+// 	if (colliderIds.length == 0) {
+// 		console.log("ERROR: Entered getBodyCollideArrivalX with no colliders");
+// 		return NaN;
+// 	}
+// 	// var xMovingSign = (body.velocity.x >= 0 ? 1 : -1);
 
-	// lazy version: assume only one actual collideBody, replace aribtrarily
-	// if there are several
-	var collider = World.bodies[colliderIds[0]];
-	// var blockingX = collider.position.x - collider.halfWidth * xMovingSign;
-	// var blockedBodyX = blockingX - body.halfWidth * xMovingSign;
+// 	// lazy version: assume only one actual collideBody, replace aribtrarily
+// 	// if there are several
+// 	var collider = World.bodies[colliderIds[0]];
+// 	// var blockingX = collider.position.x - collider.halfWidth * xMovingSign;
+// 	// var blockedBodyX = blockingX - body.halfWidth * xMovingSign;
 
-	return body.position.x + getImpact([body.id, colliderIds[0]]).subtick * body.velocity.x;
-};
+// 	return body.position.x + getImpact([body.id, colliderIds[0]]).subtick * body.velocity.x;
+// };
 
-var getBodyCollideArrivalY = function (body, colliderIds) {
-	if (colliderIds.length == 0) {
-		console.log("ERROR: Entered getBodyCollideArrivalY with no colliders");
-		return NaN;
-	}
-	var yMovingSign = (body.velocity.y >= 0 ? 1 : -1)
+// var getBodyCollideArrivalY = function (body, colliderIds) {
+// 	if (colliderIds.length == 0) {
+// 		console.log("ERROR: Entered getBodyCollideArrivalY with no colliders");
+// 		return NaN;
+// 	}
+// 	var yMovingSign = (body.velocity.y >= 0 ? 1 : -1)
 
-	// lazy version: assume only one actual collideBody, replace aribtrarily
-	// if there are several
-	var collider = World.bodies[colliderIds[0]];
-	// var blockingY = collider.position.y - collider.halfHeight * yMovingSign;
-	// var blockedBodyY = blockingY - body.halfHeight * yMovingSign;
+// 	// lazy version: assume only one actual collideBody, replace aribtrarily
+// 	// if there are several
+// 	var collider = World.bodies[colliderIds[0]];
+// 	// var blockingY = collider.position.y - collider.halfHeight * yMovingSign;
+// 	// var blockedBodyY = blockingY - body.halfHeight * yMovingSign;
 
-	// return blockedBodyY;
-	return body.position.y + getImpact([body.id, colliderIds[0]]).subtick * body.velocity.y;
-};
+// 	// return blockedBodyY;
+// 	return body.position.y + getImpact([body.id, colliderIds[0]]).subtick * body.velocity.y;
+// };
 
 // PHASE 5
 // The actual movement of the body is the minimum between the intended
@@ -868,22 +879,19 @@ var getBodyArrivalY = function (body) {
 
 // PHASE 6
 // Move the body to the actual position
-var stepMoveBodyX = function (body, collisions) {
-	var soleMoverArrivalX = getBodyArrivalX(body);
-	var arrivalX = soleMoverArrivalX;
-	if (collisions[body.id] && collisions[body.id].length > 0) {
-		arrivalX = getBodyCollideArrivalX(body, collisions[body.id]);
-		console.log("Going to x = " + arrivalX);
-		console.log("From x = " + body.position.x);
+var stepMoveBodyX = function (body, impact) {
+	var arrivalX = getBodyArrivalX(body);
+	if (impact) {
+		arrivalX = body.position.x + body.velocity.x * impact.subtick;
 	}
 	body.position.x = arrivalX;
 	return true;
 };
 
-var stepMoveBodyY = function (body, collisions) {
+var stepMoveBodyY = function (body, impact) {
 	var arrivalY = getBodyArrivalY(body);
-	if (collisions[body.id] && collisions[body.id].length > 0) {
-		arrivalY = getBodyCollideArrivalY(body, collisions[body.id]);
+	if (impact) {
+		arrivalY = body.position.y + body.velocity.y * impact.subtick;
 	}
 	body.position.y = arrivalY;
 	return true;

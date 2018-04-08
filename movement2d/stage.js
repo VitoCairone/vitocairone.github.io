@@ -1,4 +1,4 @@
-var World = World || { bodies: [], tick: 0, maxBodyId: -1 };
+var World = World || { bodies: [], tick: 0, maxBodyId: -1, idBodyMap: {} };
 World.stage = [
  "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 ,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
