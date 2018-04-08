@@ -1,54 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="stage.js"></script>
+	<script src="movement2d.js"></script>
+
+	<!-- scene.js -->
+	<script type="text/javascript">
+
+	createTiles();
+
+	// in this example the billiardBalls array isn't really used, but
+	// gives us a handy way to modify the balls later if desired.
+	// The actual store used internally for moving bodies is World.bodies
+
+	var billiardBalls = [];
+	var names = ["A", "B", "C", "D", "E"];
+
+	for (var i = 0; i < 5; i++) {
+		var body = createBody(
+			names[i],
+			{dtype: 'size', width: 8, height: 8},
+			{dtype: 'position', x: 100 + i * 16, y: 100 + i * 8},
+			{dtype: 'options', terrainBounce: 1.0}
+		)
+		body.velocity = {dtype: 'vector', x: 1, y: 1};
+		billiardBalls.push(body);
+	}
+
+	</script>
+
 </head>
 <body>
 
 <div id="canvas-container">
 	<!-- supposedly this doesn't work for IE; however, don't care about IE -->
-	<canvas id="watcher-canvas" width="800" height="400"></canvas>
+	<canvas id="watcher-canvas" style="background-image: url('./slashStage.png');" width="1028" height="206"></canvas>
 
 	<canvas id="meter-canvas" width="300" height="300"></canvas>
 
 	<script src="watcher.js"></script>
+
+	<script src="movement2d.js"></script>
 
 	<script type="text/javascript">
 
 		var c=document.getElementById("watcher-canvas");
 		var ctx=c.getContext("2d");
 
-		var background = new Image();
-		background.src = "./slashStage.png";
+		// var background = new Image();
+		// background.src = "./slashStage.png";
 
-		// Make sure the image is loaded first otherwise nothing will draw.
-		background.onload = function(){
-		    ctx.drawImage(background,0,0);   
+		// background.onload = function(){
+		//     ctx.drawImage(background,0,0);   
 
-		 //    ctx.beginPath();
-			// ctx.moveTo(0,0);
-			// ctx.lineTo(800,400);
-			// ctx.stroke();
-			ctx.lineWidth = 0;
-			ctx.strokeStyle = "#FF0000";
-			var across = 49;
-			var down = 13;
-			for (var i = 0; i < across; i++) {
-				ctx.strokeRect(5 + i * 16, 24,          16,        16 * down);
-			}
-			for (var j = 0; j < down; j++) {
-				ctx.strokeRect(5,          24 + j * 16, 16 * across, 16);
-			}
-		}
+		// 	var drawTileOverlay = true;
+		// 	if (drawTileOverlay) {
+		// 		ctx.strokeStyle = "#FF0000";
+		// 		var across = 64;
+		// 		var down = 13;
+		// 		for (var i = 0; i < across; i++) {
+		// 			ctx.strokeRect(i * 16, 0, 16, 16 * down);
+		// 		}
+		// 		for (var j = 0; j < down; j++) {
+		// 			ctx.strokeRect(0, j * 16, 16 * across, 16);
+		// 		}
+		// 	}
+		// }
 
 		var myRepeater = setInterval(function () { 
 			if (!World.paused) {
 				World.tick++;
-				if(World.tick % 30 == 0) {
-					console.log("tick " + World.tick / 30);
+				if(World.tick % 60 == 0) {
+					console.log("tick " + World.tick / 60);
 				}
-				// advanceWorld();
-			}
-		}, 1000 / 30);
+			
+				// make this advanceWorld();
+				for (var i = 0; i < World.bodies.length; i++) {
+			  		var body = World.bodies[i];
+	  				applyGravity(body);
+	  				//applyButtons(body);
+	    			moveBody(body);
+	    		}
+
+	    		redraw();
+	 		}
+		}, 1000 / 60);
 	// 	var myRepeater = setInterval(function () { 
 	// 	World.tick++;
 	// 	if(World.tick % 60 == 0) {

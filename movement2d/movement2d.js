@@ -65,11 +65,11 @@ var Convert = {
     var ratio = 1.0 / this.getSpeedForMetersPerSecond(1.0);
     return joules * (ratio * ratio);
   },
-  getJoulesForEnergy: function (energy) {
+  getJoulesForEnergy: function (ergons) {
     // energy is in units of kgs * pixels2/tick2
     // possibly flip this around, maybe unneeded division ?
     var ratio = 1.0 / this.getSpeedForMetersPerSecond(1.0);
-    return nativeE / (ratio * ratio);
+    return ergons / (ratio * ratio);
   },
   getSpeedForMilesPerHour: function(mph) {
     return this.getSpeedForMetersPerSecond(mph * 0.44704);
@@ -86,7 +86,7 @@ var Convert = {
 World.Gravity = Convert.getSpeedForMetersPerSecond(9.8) / 60.0;
 
 var createTiles = function() {
-	var stage = World.stage1;
+	var stage = World.stage;
 	var nj = stage.length;
 	var ni = stage[0].length;
 	var tiles = [];
@@ -119,6 +119,7 @@ var createBody = function(name, size, startPosition, options) {
 	body.runspeed = Convert.getSpeedForMilesPerHour(8.0);
 	body.velocity = {dtype: 'vector', x: 0, y: 0};
 	body.xFacingSign = 1;
+	body.options = options;
 
 	//These values are for Battlerun Robots which we presume
 	//are most objects actually being made right now. Everything
@@ -579,7 +580,7 @@ var getTerrainBlock = function (location) {
 			'terrain' + i + "_" + j
 			,{dtype: 'size', width: 16, height: 16}
 			,{dtype: 'position', x: i * 16 + 8, y: j * 16 + 8}
-			,{dtype: 'options', terrain: 'true'}
+			,{dtype: 'options', terrain: true, noRender: true}
 		);
 		block.mass = 10000;
 		TerrainCache[i + "_" + j] = block;
@@ -691,7 +692,7 @@ var getBodyArrivalX = function (body) {
 	var terrainLocation = firstTerrainObstacleForBodyInX(body);
 	if (terrainLocation == null) {
 		console.log("WARNING: infinite free path in X");
-		debugger;
+		// debugger;
 	} else {
 		var blockingX = getBlockingXForTerrainLocation(body, terrainLocation);
 		var xMovingSign = (body.velocity.x > 0 ? 1 : -1);

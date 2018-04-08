@@ -4,34 +4,37 @@ var ctx = canvas.getContext("2d");
 var ctx4Meters = canvas4Meters.getContext("2d");
 
 function drawTerrain(ctx) {
-	var row, c, x, y;
+	// var row, c, x, y;
 
-	for (var j=0; j < World.tiles.length; j++) {
-		row = World.tiles[j];
-		y = j * 16;
-		for (var i=0; i < row.length; i++) {
-			x = i * 16;
-			c = row[i].char;
-			if (c == 'T') {
-				ctx.fillStyle="#222222";
-			} else if (c == 'A') {
-				ctx.fillStyle="#F7F7FA";
-			} else if (c == 'S') {
-				ctx.fillStyle="#EE1111";
-			} else if (c == 'E') {
-				ctx.fillStyle="#1111EE";
-			} else {
-				ctx.fillStyle="#FFFFFF";
-			}
-			ctx.fillRect(x, y, 16, 16);
-		}
-	}
+	// for (var j=0; j < World.tiles.length; j++) {
+	// 	row = World.tiles[j];
+	// 	y = j * 16;
+	// 	for (var i=0; i < row.length; i++) {
+	// 		x = i * 16;
+	// 		c = row[i].char;
+	// 		if (c == 'T') {
+	// 			ctx.fillStyle="#222222";
+	// 		} else if (c == 'A') {
+	// 			ctx.fillStyle="#F7F7FA";
+	// 		} else if (c == 'S') {
+	// 			ctx.fillStyle="#EE1111";
+	// 		} else if (c == 'E') {
+	// 			ctx.fillStyle="#1111EE";
+	// 		} else {
+	// 			ctx.fillStyle="#FFFFFF";
+	// 		}
+	// 		ctx.fillRect(x, y, 16, 16);
+	// 	}
+	// }
 }
 
 function drawBodies(ctx) {
 	var body;
 	for (var i = 0; i < World.bodies.length; i++) {
 		body = World.bodies[i];
+		if (body.options.noRender) {
+			continue;
+		}
 		if (i == 0) {
 			ctx.fillStyle = "#00FF00"; //green
 		} else if (i < 10) {
@@ -172,11 +175,12 @@ function drawMeters(ctx) {
 
 function redraw() {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+  // DO NOT DO THIS when using the stage background!
 
   // This is currently inefficient and silly - the whole terrain is being redrawn
   // each step. TODO: Draw it once to a background canvas and keep it there
   // until disrupted.
-	drawTerrain(ctx);
+	// drawTerrain(ctx);
 
 	// Although our other layers SHOULD be set up to faithfully send animate messages,
 	// our renderer right now mostly ignores those messages
