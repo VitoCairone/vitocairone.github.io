@@ -3,17 +3,18 @@
 // http://higherorderfun.com/blog/2012/05/20/the-guide-to-implementing-2d-platformers/
 
 // the character, and every moving body of interest, is an AABB.
-// this is the vital difference that reduces our complexity enormously.
-// character sprites are often larger than their AABB,
+// this is the vital difference that reduces our complexity enormously
+// versus a general physics or movement engine like Matter.js
+// character sprites may be larger than their AABB,
 // which is a fairly uniform size not exceeding 1 across x 2 high.
 
 // MOVEMENT:
 // PHASE 1
-// Decomposegj movement into X and Y axes, step one at a time, X first then Y
+// Decompose movement into X and Y axes, step one at a time, X first then Y
 // note to self: this is for slopes and assumes X is the major heading
 //
 // PHASE 2
-// Get coordinate of forward-facing X
+// Get coordinate of forward-moving edge in the axis
 //
 // PHASE 3
 // Figure out which lines of tiles the AABB's forward-face intersects with.
@@ -43,7 +44,8 @@
 // Now step the other coordinate if not yet done.
 // Note that we are here formally moving every piece as
 // a Chess Knight, and so bodies moving extremely fast on diagonals
-// will collide entirely wrong.
+// will collide entirely wrong, unless the 'forward edge' is increased
+// in length to account for the movement in the opposite axis
 //
 // FUTURE !!!: After building out a small set of test features,
 // switch to calculate all AABBs according to their proper actual velocities,
@@ -181,6 +183,12 @@ var renderMovement = function(body, oldPosition, newPosition) {
 var moveBody = function (body) {
 	var oldPosition = {dtype: 'position', x: body.position.x, y: body.position.y};
 	var moved = false;
+
+	// because step 4B is done for all bodies at once, in both axises,
+	// while terrain-collisions are determined one axis at a time,
+	// get the collisions list here first before proceeding into step 2
+
+	var collisions = getWorldwideMoverCollisions();
 
 	if (body.velocity.x != 0) {
 		body.blocked = false;
@@ -362,7 +370,7 @@ var getWorldwideMoverCollisions = function() {
 	var min = function(a, b) { return a <= b ? a : b };
 	var max = function(a, b) { return a >= b ? a : b };
 	var getVelocity = function(x) { return x.velocity };
-	var sweepRectanglesOverlaps = function(sweepA, sweepB) {
+	var sweepRectanglesOverlap = function(sweepA, sweepB) {
 		var aMin = sweepA.rectangle[0];
 		var aMax = sweepA.rectangle[1];
 		var bMin = sweepB.rectangle[0];
@@ -379,7 +387,7 @@ var getWorldwideMoverCollisions = function() {
 	var sweeps = [];
 	var collisions = [];
 
-	// The proper way is to, instead of using pos + vel, constrain
+	// Possible revision: instead of using pos + vel, constrain
 	// the movement by terrain and use a startPos and endPos passed by
 	// such a constraint.
 
@@ -400,7 +408,7 @@ var getWorldwideMoverCollisions = function() {
 		}
 
 		var thisSweep = {
-			dtype: bodySweep
+			dtype: 'bodySweep'
 			,body: body
 			,rectangle: [loCoords, hiCoords]
 		};
@@ -416,10 +424,10 @@ var getWorldwideMoverCollisions = function() {
 		}
 	}
 
-	// this is where we should fine-tune our actual sweeps
+	// TODO: this is where we should fine-tune our actual sweeps
 	// to avoid incorrect collisions in the case of e.g. the six-sided
-	// sweeps for any AABB moving in both X and Y - currently TODO
-
+	// sweeps for any AABB moving in both X and Y, right now the detection
+	// is only correct for bodies moving cardinally
 	return collisions;
 }
 
