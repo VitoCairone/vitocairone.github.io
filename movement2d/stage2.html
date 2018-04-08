@@ -67,9 +67,12 @@
 		// 	}
 		// }
 
+		World.paused = true;
+
 		var myRepeater = setInterval(function () { 
-			if (!World.paused) {
+			if (!World.paused || World.stepAdvance) {
 				World.tick++;
+				World.stepAdvance = false;
 				if(World.tick % 60 == 0) {
 					console.log("tick " + World.tick / 60);
 				}
@@ -85,6 +88,26 @@
 	    		redraw();
 	 		}
 		}, 1000 / 60);
+
+		document.body.addEventListener("keyup", function(event) {
+			// console.log("Got keyup event");
+			// console.log(event);
+			switch (event.code) {
+				case 'KeyS':  				// left-button
+					World.stepAdvance = true;
+					break;
+			}
+		});
+
+		document.body.addEventListener("keydown", function(event) {
+			// console.log("Got keyup event");
+			// console.log(event);
+			switch (event.code) {
+				case 'KeyG':  				// left-button
+					World.stepAdvance = true;
+					break;
+			}
+		});
 	// 	var myRepeater = setInterval(function () { 
 	// 	World.tick++;
 	// 	if(World.tick % 60 == 0) {

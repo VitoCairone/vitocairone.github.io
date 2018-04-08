@@ -164,6 +164,8 @@ var createBody = function(name, size, startPosition, options) {
 		body.estores = options.estores;
 	}
 
+	World.maxBodyId++;
+	body.id = World.maxBodyId;
 	World.bodies.push(body);
 	return body;
 };
@@ -186,19 +188,22 @@ var moveBody = function (body) {
 
 	// because step 4B is done for all bodies at once, in both axises,
 	// while terrain-collisions are determined one axis at a time,
-	// get the collisions list here first before proceeding into step 2
+	// get the collisions list here first before proceeding into step 2.
+	// The information we need from worldwide mover collisions is just
+	// the subtick (time-to-collide) and ids of the first impact pair.
 
 	var collisions = getWorldwideMoverCollisions();
+	var impacts = getFirstImpacts(collisions);
 
 	if (body.velocity.x != 0) {
 		body.blocked = false;
-		stepMoveBodyX(body);
+		stepMoveBodyX(body, collisions);
 		moved = true;
 	}
 
 	if (body.velocity.y != 0) {
 		body.grounded = false;
-		stepMoveBodyY(body);
+		stepMoveBodyY(body, collisions);
 		moved = true;
 	}
 
@@ -331,7 +336,7 @@ var firstTerrainObstacleForBodyInY = function (body) {
 	var thisJ = null;
 	var firstJsI = null;
 	var iForFirstJ = null;
-	var yMovingSign = (body.velocity.y > 0 ? 1 : -1);
+	var yMovingSign = (body.velocity.y >= 0 ? 1 : -1);
 	for (var i = iRange.min; i <= iRange.max; i++) {
 		thisJ = findFirstTerrainObstacleJ(
 			{ dtype: 'location', i: i, j: jLoc }
@@ -370,6 +375,7 @@ var getWorldwideMoverCollisions = function() {
 	var min = function(a, b) { return a <= b ? a : b };
 	var max = function(a, b) { return a >= b ? a : b };
 	var getVelocity = function(x) { return x.velocity };
+
 	var sweepRectanglesOverlap = function(sweepA, sweepB) {
 		var aMin = sweepA.rectangle[0];
 		var aMax = sweepA.rectangle[1];
@@ -384,8 +390,8 @@ var getWorldwideMoverCollisions = function() {
 		);
 	};
 
-	var sweeps = [];
-	var collisions = [];
+	var sweeps = {};
+	var collisions = {};
 
 	// Possible revision: instead of using pos + vel, constrain
 	// the movement by terrain and use a startPos and endPos passed by
@@ -393,6 +399,10 @@ var getWorldwideMoverCollisions = function() {
 
 	for (var i = 0; i < bodies.length; i++) {
 		var body = bodies[i];
+		var id = body.id;
+		if (body.terrain) {
+			continue;
+		}
 
 		var pos = body.position;
 		var vel = getVelocity(body);
@@ -413,13 +423,17 @@ var getWorldwideMoverCollisions = function() {
 			,rectangle: [loCoords, hiCoords]
 		};
 
-		sweeps.push(thisSweep);
+		sweeps[id] = thisSweep;
 
 		// Here is the n2 part where we compare against
 		// all the others
 		for (var i2 = 0; i2 < i; i2++) {
-			if (sweepRectanglesOverlap(thisSweep, sweeps[i2])) {
-				collisions.push([i, i2]);
+			var id2 = bodies[i2].id;
+			if (!bodies[i2].terrain && sweepRectanglesOverlap(thisSweep, sweeps[id2])) {
+				collisions[id] = collisions[id] || [];
+				collisions[id2] = collisions[id2] || [];
+				collisions[id].push(id2);
+				collisions[id2].push(id);
 			}
 		}
 	}
@@ -430,6 +444,109 @@ var getWorldwideMoverCollisions = function() {
 	// is only correct for bodies moving cardinally
 	return collisions;
 }
+
+var getFirstImpacts = function (collisions) {
+	var firstImpacts = {};
+	for (var i = 0; i < World.bodies.length; i++) {
+		var body = World.bodies[i];
+		if (body.terrain) {
+			continue;
+		}
+		var id = body.id;
+		var colliders = collisions[id];
+		if (!colliders || colliders.length == 0) {
+			return;
+		}
+
+		var minSubtick = 1.01;
+		var firstImpact = undefined;
+		for (var i2 = 0; i2 < colliders.length; i2++) {
+			impact = getImpact(id, colliders[i2]);
+			if (impact.subtick < minSubtick) {
+				minSubtick = impact.subtick;
+				firstImpact = impact;
+			}
+		}
+
+		firstImpacts[id] = firstImpact;
+	}
+
+	return firstImpacts;
+}
+
+var getImpact = function (colliderIdPair) {
+	var axisX = false;
+	var axisY = false;
+	var subtick = 0;
+
+	// the axis of impact is the axis in which the bodies did NOT
+	// already overlap at the start; this method extends to 3D
+
+	// two spans do not overlap iff one span's min is above the
+	// other span's max
+
+	var bodyA = World.bodies[colliderIdPair[0]];
+	var bodyB = World.bodies[colliderIdPair[1]];
+
+	var gapX = bodyA.position.x > bodyB.position.x ? 
+		(bodyA.position.x - bodyA.halfWidth) - (bodyB.position.x + bodyB.halfWidth)
+		: (bodyB.position.x - bodyB.halfWidth) - (bodyA.position.x + bodyA.halfWidth);
+
+	var gapY = bodyA.position.y > bodyB.position.y ? 
+		(bodyA.position.y - bodyA.halfHeight) - (bodyB.position.y + bodyB.halfHeight)
+		: (bodyB.position.y - bodyB.halfHeight) - (bodyA.position.y + bodyA.halfHeight);
+
+	axisX = (gapX > 0);
+	axisY = (gapY > 0);
+
+	if (axisX) {
+		subtick = gapX / Math.abs(bodyA.velocity.x - bodyB.velocity.x);
+	} else {
+		subtick = gapY / Math.abs(bodyA.velocity.y - bodyB.velocity.y);
+	}
+
+	console.log("Impact subtick = " + subtick);
+
+	return {
+		dtype: 'impact',
+		axisX: axisX,
+		axisY: axisY,
+		subtick: subtick
+	}
+}
+
+var getBodyCollideArrivalX = function (body, colliderIds) {
+	if (colliderIds.length == 0) {
+		console.log("ERROR: Entered getBodyCollideArrivalX with no colliders");
+		return NaN;
+	}
+	// var xMovingSign = (body.velocity.x >= 0 ? 1 : -1);
+
+	// lazy version: assume only one actual collideBody, replace aribtrarily
+	// if there are several
+	var collider = World.bodies[colliderIds[0]];
+	// var blockingX = collider.position.x - collider.halfWidth * xMovingSign;
+	// var blockedBodyX = blockingX - body.halfWidth * xMovingSign;
+
+	return body.position.x + getImpact([body.id, colliderIds[0]]).subtick * body.velocity.x;
+};
+
+var getBodyCollideArrivalY = function (body, colliderIds) {
+	if (colliderIds.length == 0) {
+		console.log("ERROR: Entered getBodyCollideArrivalY with no colliders");
+		return NaN;
+	}
+	var yMovingSign = (body.velocity.y >= 0 ? 1 : -1)
+
+	// lazy version: assume only one actual collideBody, replace aribtrarily
+	// if there are several
+	var collider = World.bodies[colliderIds[0]];
+	// var blockingY = collider.position.y - collider.halfHeight * yMovingSign;
+	// var blockedBodyY = blockingY - body.halfHeight * yMovingSign;
+
+	// return blockedBodyY;
+	return body.position.y + getImpact([body.id, colliderIds[0]]).subtick * body.velocity.y;
+};
 
 // PHASE 5
 // The actual movement of the body is the minimum between the intended
@@ -597,26 +714,26 @@ var getTerrainBlock = function (location) {
 };
 
 
-function getKineticEnergyInX(body) {
-	return body.velocity.x * body.velocity.x * body.mass;
-}
+// function getKineticEnergyInX(body) {
+// 	return body.velocity.x * body.velocity.x * body.mass;
+// }
 
-function getKineticEnergyInY(body) {
-	return body.velocity.y * body.velocity.y * body.mass;
-}
+// function getKineticEnergyInY(body) {
+// 	return body.velocity.y * body.velocity.y * body.mass;
+// }
 
 var collideX = function (body, terrainLocation) {
-	var vx = body.velocity.x;
-	var xSpeedSquared = vx * vx;
-	var kE = body.mass * xSpeedSquared;
-	var transfer = 'movement-kinetic';
-	var other = getTerrainBlock(terrainLocation);
-	Energy.transfer(body, other, kE, transfer);
+	// var vx = body.velocity.x;
+	// var xSpeedSquared = vx * vx;
+	// var kE = body.mass * xSpeedSquared;
+	// var transfer = 'movement-kinetic';
+	// var other = getTerrainBlock(terrainLocation);
+	// Energy.transfer(body, other, kE, transfer);
 	body.velocity.x = 0;
 	body.blocked = true;
-	if (true) {
-		console.log(body.name + " has collided in X at kE = " + kE);
-	}
+	// if (true) {
+	// 	console.log(body.name + " has collided in X at kE = " + kE);
+	// }
 };
 
 //TODO: how to best keep pose logic decoupled from movement logic...?
@@ -657,31 +774,31 @@ var collideY = function (body, terrainLocation) {
 	//as a direct energy donation via bracing with minimum transformation
 	//to an accepting reciever of the original form.
 
-	var isFalling = (body.velocity.y > 0);
-	if (isFalling) {
-		body.grounded = true;
-		if (body.pose != undefined && hasPoseType(body, 'aerial')) {
-			//land is a special pose some robots have when coming out of jump
-			//if a robot has no land pose, it will go to stand pose instead
-			forcePose(body, 'land');
-		} else if (body.velocity.y <= World.Gravity * 1.05) {
-			//this is a body which isn't jumping and has a single
-			//gravitic impartation or less of downward force. Ignore
-			//the energy transfer (FOR NOW, eventually a body should
-			//be in continuous negotiation with gravitic support)
-			//and drain the velocity for free.
-			body.velocity.y = 0;
-			return;
-		}
-	}
+	// var isFalling = (body.velocity.y > 0);
+	// if (isFalling) {
+	// 	body.grounded = true;
+	// 	if (body.pose != undefined && hasPoseType(body, 'aerial')) {
+	// 		//land is a special pose some robots have when coming out of jump
+	// 		//if a robot has no land pose, it will go to stand pose instead
+	// 		forcePose(body, 'land');
+	// 	} else if (body.velocity.y <= World.Gravity * 1.05) {
+	// 		//this is a body which isn't jumping and has a single
+	// 		//gravitic impartation or less of downward force. Ignore
+	// 		//the energy transfer (FOR NOW, eventually a body should
+	// 		//be in continuous negotiation with gravitic support)
+	// 		//and drain the velocity for free.
+	// 		body.velocity.y = 0;
+	// 		return;
+	// 	}
+	// }
 
-	var vy = body.velocity.y;
-	var ySpeedSquared = vy * vy;
-	var kE = body.mass * ySpeedSquared;
+	// var vy = body.velocity.y;
+	// var ySpeedSquared = vy * vy;
+	// var kE = body.mass * ySpeedSquared;
 
-	var transfer = 'movement-kinetic';
-	var other = getTerrainBlock(terrainLocation);
-	Energy.transfer(body, other, kE, transfer);
+	// var transfer = 'movement-kinetic';
+	// var other = getTerrainBlock(terrainLocation);
+	// Energy.transfer(body, other, kE, transfer);
 	body.velocity.y = 0;
 }
 
@@ -731,7 +848,7 @@ var getBodyArrivalY = function (body) {
 	var terrainLocation = firstTerrainObstacleForBodyInY(body);
 	if (terrainLocation == null) {
 		console.log("WARNING: infinite free path in Y");
-		debugger;
+		// debugger;
 	} else {
 		var blockingY = getBlockingYForTerrainLocation(body, terrainLocation);
 		var yMovingSign = (body.velocity.y > 0 ? 1 : -1);
@@ -751,13 +868,24 @@ var getBodyArrivalY = function (body) {
 
 // PHASE 6
 // Move the body to the actual position
-var stepMoveBodyX = function (body) {
-	body.position.x = getBodyArrivalX(body);
+var stepMoveBodyX = function (body, collisions) {
+	var soleMoverArrivalX = getBodyArrivalX(body);
+	var arrivalX = soleMoverArrivalX;
+	if (collisions[body.id] && collisions[body.id].length > 0) {
+		arrivalX = getBodyCollideArrivalX(body, collisions[body.id]);
+		console.log("Going to x = " + arrivalX);
+		console.log("From x = " + body.position.x);
+	}
+	body.position.x = arrivalX;
 	return true;
 };
 
-var stepMoveBodyY = function (body) {
-	body.position.y = getBodyArrivalY(body);
+var stepMoveBodyY = function (body, collisions) {
+	var arrivalY = getBodyArrivalY(body);
+	if (collisions[body.id] && collisions[body.id].length > 0) {
+		arrivalY = getBodyCollideArrivalY(body, collisions[body.id]);
+	}
+	body.position.y = arrivalY;
 	return true;
 };
 
@@ -767,51 +895,51 @@ var applyGravity = function (body) {
 	}
 }
 
-var attemptVelocity = function (body, aspiredVel) {
-	var hasX = (aspiredVel.x != undefined)
-	var hasY = (aspiredVel.y != undefined)
-	if (!hasX && !hasY) {
-		console.log("Error: Bad velocity input to attemptVelocity.")
-		return;
-	}
+// var attemptVelocity = function (body, aspiredVel) {
+// 	var hasX = (aspiredVel.x != undefined)
+// 	var hasY = (aspiredVel.y != undefined)
+// 	if (!hasX && !hasY) {
+// 		console.log("Error: Bad velocity input to attemptVelocity.")
+// 		return;
+// 	}
 
-	if (hasX) {
-		//It's tricky to first determine how much enegy we're spending
-		//and then add this energy properly as velocity. Instead,
-		//try to set the velocity, and if we come up short on energy,
-		//curtail the impartation accordingly.
-		//This should be more numerically stable.
+// 	if (hasX) {
+// 		//It's tricky to first determine how much enegy we're spending
+// 		//and then add this energy properly as velocity. Instead,
+// 		//try to set the velocity, and if we come up short on energy,
+// 		//curtail the impartation accordingly.
+// 		//This should be more numerically stable.
 
-		var currentVel = {x: body.velocity.x};
-		var currentE = getKineticEnergyInX(body);
-		var targetE = body.mass * aspiredVel.x * aspiredVel.x;
+// 		var currentVel = {x: body.velocity.x};
+// 		var currentE = getKineticEnergyInX(body);
+// 		var targetE = body.mass * aspiredVel.x * aspiredVel.x;
 
-		var neededE = Math.abs(targetE - currentE); //signed scalar
-		// check for an attempt to reverse direction
-		var signsMatch = ((currentVel.x >= 0) == (aspiredVel.x >= 0))
-		if (!signsMatch) {
-			neededE += currentE * 2;
-		}
+// 		var neededE = Math.abs(targetE - currentE); //signed scalar
+// 		// check for an attempt to reverse direction
+// 		var signsMatch = ((currentVel.x >= 0) == (aspiredVel.x >= 0))
+// 		if (!signsMatch) {
+// 			neededE += currentE * 2;
+// 		}
 
-		var roundNeededE = Math.round(neededE);
-		var spentE = Energy.spend(body, 'movement-kinetic', roundNeededE);
-		if (spentE == roundNeededE) {
-			// VELOCITY CHANGE
-			body.velocity.x = aspiredVel.x;
-		} else {
-			//This linear correction formula isn't exactly right.
-			//Need to fix it to actually give the right amount of velocity
-			//on partial spends.
-			var spendFactor = spentE / roundNeededE;
-			var deltaX = aspiredVel.x - currentVel.x;
-			// VELOCITY CHANGE
-			body.velocity.x += deltaX * spendFactor;
-		}
-		//debugger;
-	}
+// 		var roundNeededE = Math.round(neededE);
+// 		var spentE = Energy.spend(body, 'movement-kinetic', roundNeededE);
+// 		if (spentE == roundNeededE) {
+// 			// VELOCITY CHANGE
+// 			body.velocity.x = aspiredVel.x;
+// 		} else {
+// 			//This linear correction formula isn't exactly right.
+// 			//Need to fix it to actually give the right amount of velocity
+// 			//on partial spends.
+// 			var spendFactor = spentE / roundNeededE;
+// 			var deltaX = aspiredVel.x - currentVel.x;
+// 			// VELOCITY CHANGE
+// 			body.velocity.x += deltaX * spendFactor;
+// 		}
+// 		//debugger;
+// 	}
 
-	// hasY NYI
-}
+// 	// hasY NYI
+// }
 
 // Setup
 // ideal: World.tiles = createTilesFromFile('stage.txt');
